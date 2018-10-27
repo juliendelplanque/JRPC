@@ -12,6 +12,13 @@ Class {
 	#category : #'JRPC-Clients'
 }
 
+{ #category : #'instance creation' }
+JRPCHTTPClient class >> url: anObject [
+	^ self new
+		url: anObject;
+		yourself
+]
+
 { #category : #private }
 JRPCHTTPClient >> httpClient [
 	^ ZnClient new
