@@ -16,7 +16,7 @@ JRPCHTTPClient >> httpClient [
 		yourself
 ]
 
-{ #category : #sending }
+{ #category : #'private - sending' }
 JRPCHTTPClient >> sendRequest: aJRPCRequestObject [
 	| result |
 	result := self httpClient

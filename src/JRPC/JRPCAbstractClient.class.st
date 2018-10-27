@@ -4,6 +4,22 @@ Class {
 	#category : #'JRPC-Clients'
 }
 
+{ #category : #api }
+JRPCAbstractClient >> callMethod: aString arguments: anObject withId: anInteger [
+	"Call a method which takes arguments."
+	^ self sendRequest: (JRPCRequestObject new
+								id: anInteger;
+								method: aString;
+								params: anObject;
+								yourself)
+]
+
+{ #category : #api }
+JRPCAbstractClient >> callMethod: aString withId: anInteger [
+	"Call a method which takes no arguments."
+	^ self callMethod: aString arguments: nil withId: anInteger
+]
+
 { #category : #converting }
 JRPCAbstractClient >> convertJRPCDictionaryObjectToJSON: aJRPCDictionaryObject [
 	^ String streamContents: [ :stream |
@@ -32,7 +48,7 @@ JRPCAbstractClient >> parseSupposedJRPCMessageObjectFromString: aString [
 		self parseSupposedJRPCMessageObjectFromStream: stream ]
 ]
 
-{ #category : #sending }
+{ #category : #'private - sending' }
 JRPCAbstractClient >> sendRequest: aJRPCRequestObject [
 	"To be implemented by concrete subclasses.
 	 Sends aJRPCRequestObject to the server to which the client is connected.
