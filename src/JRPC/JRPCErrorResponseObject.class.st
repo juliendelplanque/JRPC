@@ -7,6 +7,12 @@ Class {
 	#category : #'JRPC-Core'
 }
 
+{ #category : #'instance creation' }
+JRPCErrorResponseObject class >> fromDictionary: aDictionary [
+	^ (super fromDictionary: aDictionary)
+		error: (aDictionary at: 'error')
+]
+
 { #category : #'dictionary building' }
 JRPCErrorResponseObject >> buildDictionary: aDictionary [
 	super buildDictionary: aDictionary.
