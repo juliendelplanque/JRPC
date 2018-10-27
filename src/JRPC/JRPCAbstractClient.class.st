@@ -1,3 +1,10 @@
+"
+I am an abstract client for JSON-RPC 2.0.
+
+My subclasses define how to transmit JSON-RPC objects to a server.
+
+To define that, #sendRequest: message should be overriden by my subclasses.
+"
 Class {
 	#name : #JRPCAbstractClient,
 	#superclass : #Object,

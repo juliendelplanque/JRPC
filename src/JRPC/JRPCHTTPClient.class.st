@@ -1,3 +1,8 @@
+"
+I am a client for JSON-RPC 2.0 over HTTP.
+
+Internally, I use Zinc.
+"
 Class {
 	#name : #JRPCHTTPClient,
 	#superclass : #JRPCAbstractClient,
