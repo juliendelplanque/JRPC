@@ -26,7 +26,10 @@ JRPCMessageObject class >> classToInstantiateForDictionary: aDictionary [
 				ifTrue: [ ^ JRPCSuccessResponseObject ].
 			
 			(aDictionary includesKey: 'error')
-				ifTrue: [ ^ JRPCErrorResponseObject ] ].
+				ifTrue: [ ^ JRPCErrorResponseObject ].
+			
+			(aDictionary includesKey: 'method')
+				ifTrue: [ ^ JRPCRequestObject ] ].
 	
 	JRPCIncorrectJSON signal: 'Incorrect JSON, no class to instantiate for it.'
 ]
