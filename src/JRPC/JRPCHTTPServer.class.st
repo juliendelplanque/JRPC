@@ -1,3 +1,8 @@
+"
+I am a JSON-RPC 2.0 server running over the HTTP protocol.
+
+Internally, I use Zinc.
+"
 Class {
 	#name : #JRPCHTTPServer,
 	#superclass : #JRPCAbstractServer,
