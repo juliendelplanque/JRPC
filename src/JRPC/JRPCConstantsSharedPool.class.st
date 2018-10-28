@@ -15,7 +15,7 @@ Class {
 		'MethodNotFound',
 		'ParseError'
 	],
-	#category : #JRPC
+	#category : #'JRPC-Core'
 }
 
 { #category : #initialization }
