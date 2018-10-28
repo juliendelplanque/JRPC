@@ -10,3 +10,8 @@ Class {
 	#superclass : #JRPCError,
 	#category : #'JRPC-Errors'
 }
+
+{ #category : #converting }
+JRPCIncorrectJSON >> asJRPCResponseWithId: anInteger [
+	^ JRPCErrorResponseObject id: anInteger error: JRPCErrorObject invalidRequest
+]

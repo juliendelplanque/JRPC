@@ -10,6 +10,11 @@ Class {
 	#category : #'JRPC-Errors'
 }
 
+{ #category : #converting }
+JRPCNonExistentHandler >> asJRPCResponseWithId: anInteger [
+	^ JRPCErrorResponseObject id: anInteger error: JRPCErrorObject methodNotFound
+]
+
 { #category : #accessing }
 JRPCNonExistentHandler >> handlerName [
 	^ handlerName
