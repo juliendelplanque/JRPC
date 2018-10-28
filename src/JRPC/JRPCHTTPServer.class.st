@@ -19,12 +19,7 @@ JRPCHTTPServer >> defaultPort [
 
 { #category : #'handling - http' }
 JRPCHTTPServer >> handleRequest: aRequest [
-	| jrpcRequest jrpcResponse |
-	jrpcRequest := self parseSupposedJRPCMessageObjectFromString: aRequest contents.
-	jrpcResponse := self handleJRPCRequestObject: jrpcRequest.
-	
-	
-	^ ZnResponse ok: (ZnEntity json: (self convertJRPCDictionaryObjectToJSON: jrpcResponse))
+	^ ZnResponse ok: (ZnEntity json: (self handleJSON: aRequest contents))
 ]
 
 { #category : #initialization }
