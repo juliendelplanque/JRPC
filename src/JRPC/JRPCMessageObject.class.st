@@ -1,3 +1,10 @@
+"
+I am an abstract message object in JSON-RPC 2.0.
+
+I hold:
+- #id : the id allowing to uniquely identify a request and its corresponding response.
+- #jsonrpc : the version of JSON-RPC used (always 2.0 in this framework).
+"
 Class {
 	#name : #JRPCMessageObject,
 	#superclass : #JRPCDictionaryObject,

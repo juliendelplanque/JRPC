@@ -1,3 +1,14 @@
+"
+I model a request sent by a client as defined in JSON-RPC 2.0 spec [1].
+
+I MUST hold:
+- #method : the method to be called.
+
+I MAY hold:
+- #params : the arguments to be given to the handler named #method.
+
+[1]: https://www.jsonrpc.org/specification
+"
 Class {
 	#name : #JRPCRequestObject,
 	#superclass : #JRPCMessageObject,

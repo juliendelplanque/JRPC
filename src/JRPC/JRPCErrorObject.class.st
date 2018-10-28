@@ -1,5 +1,5 @@
 "
-I model an error object as defined in JSONRPC spec [1].
+I model an error object as defined in JSON-RPC 2.0 spec [1].
 
 To be valid, I MUST hold:
 - #code: an Integer which is the code of the error.

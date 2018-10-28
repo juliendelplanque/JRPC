@@ -1,3 +1,11 @@
+"
+I model a unsuccessful response answered to a client by the server as defined in JSON-RPC 2.0 spec [1].
+
+I MUST hold:
+- #error : an instance of JRPCErrorObject which models the error which occured during the handler execution.
+
+[1]: https://www.jsonrpc.org/specification
+"
 Class {
 	#name : #JRPCErrorResponseObject,
 	#superclass : #JRPCMessageObject,

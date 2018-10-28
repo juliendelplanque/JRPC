@@ -1,3 +1,10 @@
+"
+I am an abstract class defining the fact that an object can be converted as a Dictionary.
+
+My subclasses must define:
+- #buildDictionary: which defines how to build a dictionary to represent the object.
+- #fromDictionary: (class-side) which defines how to build an object from a dictionary representing it.
+"
 Class {
 	#name : #JRPCDictionaryObject,
 	#superclass : #Object,

@@ -1,5 +1,5 @@
 "
-I am a shared pool holding constants defined by JSONRPC spec [1].
+I am a shared pool holding constants defined by JSON-RPC 2.0 spec [1].
 
 [1]: https://www.jsonrpc.org/specification
 "
