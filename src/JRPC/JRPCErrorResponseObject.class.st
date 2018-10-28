@@ -13,6 +13,13 @@ JRPCErrorResponseObject class >> fromDictionary: aDictionary [
 		error: (aDictionary at: 'error')
 ]
 
+{ #category : #'instance creation' }
+JRPCErrorResponseObject class >> id: anInteger error: aJRPCErrorObject [
+	^ self new
+		id: anInteger;
+		error: aJRPCErrorObject
+]
+
 { #category : #'dictionary building' }
 JRPCErrorResponseObject >> buildDictionary: aDictionary [
 	super buildDictionary: aDictionary.
