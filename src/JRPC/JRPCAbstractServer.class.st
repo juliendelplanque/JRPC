@@ -15,6 +15,33 @@ JRPCAbstractServer >> addHandlerNamed: aString block: aBlock [
 		at: aString put: aBlock
 ]
 
+{ #category : #checking }
+JRPCAbstractServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject [
+	aJRPCRequestObject params
+		ifNil: [ 
+			handler jrpcParametersCount = 0
+				ifFalse: [ JRPCInvalidParameters signal ] ].
+	
+	aJRPCRequestObject params size = handler jrpcParametersCount
+		ifFalse: [ JRPCInvalidParameters signal ].
+		
+	(aJRPCRequestObject params isDictionary
+		and: [ ((aJRPCRequestObject params keys union: handler jrpcParametersNames) size ~= handler jrpcParametersCount) ])
+			ifTrue: [ JRPCInvalidParameters signal ]
+]
+
+{ #category : #'handling - jrpc' }
+JRPCAbstractServer >> handleJRPCRequestObject: aJRPCRequestObject [
+	[ | handler result |
+		handler := self handlerForName: aJRPCRequestObject method.
+		self checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject.
+		result := handler jrpcExecuteWithParameters: aJRPCRequestObject params.
+		^ JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
+	] on: JRPCError
+	do: [ :jrpcError |
+		^ jrpcError asJRPCResponseWithId: aJRPCRequestObject id ]
+]
+
 { #category : #accessing }
 JRPCAbstractServer >> handlerForName: aString [
 	^ namesToHandlersDict

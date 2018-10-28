@@ -13,6 +13,14 @@ JRPCSuccessResponseObject class >> fromDictionary: aDictionary [
 		result: (aDictionary at: 'result')
 ]
 
+{ #category : #'instance creation' }
+JRPCSuccessResponseObject class >> id: anInteger result: anObject [
+	^ self new
+		id: anInteger;
+		result: anObject;
+		yourself
+]
+
 { #category : #'dictionary building' }
 JRPCSuccessResponseObject >> buildDictionary: aDictionary [
 	super buildDictionary: aDictionary.

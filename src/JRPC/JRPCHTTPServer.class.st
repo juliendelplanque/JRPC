@@ -17,16 +17,6 @@ JRPCHTTPServer >> defaultPort [
 	^ self class defaultPort
 ]
 
-{ #category : #'handling - jrpc' }
-JRPCHTTPServer >> handleJRPCRequestObject: aJRPCRequestObject [
-	[ | handler |
-		handler := self handlerForName: aJRPCRequestObject method.
-		
-	] on: JRPCError
-	do: [ :jrpcError |
-		^ jrpcError asJRPCResponseWithId: aJRPCRequestObject id ]
-]
-
 { #category : #'handling - http' }
 JRPCHTTPServer >> handleRequest: aRequest [
 	| jrpcRequest jrpcResponse |
@@ -34,7 +24,7 @@ JRPCHTTPServer >> handleRequest: aRequest [
 	jrpcResponse := self handleJRPCRequestObject: jrpcRequest.
 	
 	
-	^ ZnResponse ok: (ZnEntity json: (STONJSON toString: jrpcResponse asDictionary))
+	^ ZnResponse ok: (ZnEntity json: (self convertJRPCDictionaryObjectToJSON: jrpcResponse))
 ]
 
 { #category : #initialization }

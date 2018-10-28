@@ -8,6 +8,14 @@ Class {
 	#category : #'JRPC-Core'
 }
 
+{ #category : #'instance creation' }
+JRPCRequestObject class >> fromDictionary: aDictionary [
+	^ (super fromDictionary: aDictionary)
+		method: (aDictionary at: 'method');
+		params: (aDictionary at: 'params');
+		yourself
+]
+
 { #category : #'dictionary building' }
 JRPCRequestObject >> buildDictionary: aDictionary [
 	super buildDictionary: aDictionary.
