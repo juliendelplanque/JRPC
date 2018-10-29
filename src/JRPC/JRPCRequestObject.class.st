@@ -20,8 +20,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-JRPCRequestObject class >> fromDictionary: aDictionary [
-	^ (super fromDictionary: aDictionary)
+JRPCRequestObject class >> fromJRPCJSONObject: aDictionary [
+	^ (super fromJRPCJSONObject: aDictionary)
 		method: (aDictionary at: 'method');
 		params: (aDictionary at: 'params' ifAbsent: [ nil ]);
 		yourself
@@ -41,13 +41,15 @@ JRPCRequestObject class >> id: anInteger method: aString params: anArrayOrDictio
 		yourself
 ]
 
-{ #category : #'dictionary building' }
-JRPCRequestObject >> buildDictionary: aDictionary [
-	super buildDictionary: aDictionary.
-	aDictionary
+{ #category : #converting }
+JRPCRequestObject >> asJRPCJSON [
+	| dict |
+	dict := super asJRPCJSON.
+	dict
 		at: 'method' put: self method.
 	self params ifNotNil: [
-		aDictionary at: 'params' put: self params ]
+		dict at: 'params' put: self params ].
+	^ dict
 ]
 
 { #category : #accessing }

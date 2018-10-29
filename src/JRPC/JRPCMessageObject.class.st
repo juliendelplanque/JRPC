@@ -7,7 +7,7 @@ I hold:
 "
 Class {
 	#name : #JRPCMessageObject,
-	#superclass : #JRPCDictionaryObject,
+	#superclass : #JRPCJsonableObject,
 	#instVars : [
 		'jsonrpc',
 		'id'
@@ -42,18 +42,19 @@ JRPCMessageObject class >> classToInstantiateForDictionary: aDictionary [
 ]
 
 { #category : #'instance creation' }
-JRPCMessageObject class >> fromDictionary: aDictionary [
+JRPCMessageObject class >> fromJRPCJSONObject: aDictionary [
 	^ self new
 		jsonrpc: (aDictionary at: 'jsonrpc');
 		id: (aDictionary at: 'id');
 		yourself
 ]
 
-{ #category : #'dictionary building' }
-JRPCMessageObject >> buildDictionary: aDictionary [
-	aDictionary
+{ #category : #converting }
+JRPCMessageObject >> asJRPCJSON [
+	^ Dictionary new
 		at: 'jsonrpc' put: self jsonrpc;
-		at: 'id' put: self id
+		at: 'id' put: self id;
+		yourself
 ]
 
 { #category : #accessing }

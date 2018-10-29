@@ -16,8 +16,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-JRPCSuccessResponseObject class >> fromDictionary: aDictionary [
-	^ (super fromDictionary: aDictionary)
+JRPCSuccessResponseObject class >> fromJRPCJSONObject: aDictionary [
+	^ (super fromJRPCJSONObject: aDictionary)
 		result: (aDictionary at: 'result')
 ]
 
@@ -29,11 +29,11 @@ JRPCSuccessResponseObject class >> id: anInteger result: anObject [
 		yourself
 ]
 
-{ #category : #'dictionary building' }
-JRPCSuccessResponseObject >> buildDictionary: aDictionary [
-	super buildDictionary: aDictionary.
-	aDictionary
-		at: 'result' put: self result
+{ #category : #converting }
+JRPCSuccessResponseObject >> asJRPCJSON [
+	^ super asJRPCJSON
+		at: 'result' put: self result;
+		yourself
 ]
 
 { #category : #accessing }

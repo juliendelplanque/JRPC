@@ -13,8 +13,8 @@ JRPCParser >> convertJRPCDictionaryObjectToJSON: aJRPCDictionaryObject [
 ]
 
 { #category : #converting }
-JRPCParser >> convertJRPCDictionaryObjectToJSON: aJRPCDictionaryObject on: aStream [
-	STONJSON put: aJRPCDictionaryObject asDictionary onStream: aStream
+JRPCParser >> convertJRPCDictionaryObjectToJSON: aJRPCJsonableObject on: aStream [
+	STONJSON put: aJRPCJsonableObject onStream: aStream
 ]
 
 { #category : #parsing }
@@ -25,7 +25,7 @@ JRPCParser >> parseSupposedJRPCMessageObjectFromStream: aStream [
 	| dictionary |
 	dictionary := STONJSON fromStream: aStream.
 	^ (JRPCMessageObject classToInstantiateForDictionary: dictionary)
-			fromDictionary: dictionary
+			fromJRPCJSONObject: dictionary
 ]
 
 { #category : #parsing }

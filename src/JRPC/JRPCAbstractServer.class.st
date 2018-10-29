@@ -57,7 +57,7 @@ JRPCAbstractServer >> handleJSON: aJSONString [
 	| jrpcRequest jrpcResponse |
 	jrpcRequest := self parseSupposedJRPCMessageObjectFromString: aJSONString.
 	jrpcResponse := self handleJRPCRequestObject: jrpcRequest.
-	^ self convertJRPCDictionaryObjectToJSON: jrpcResponse asDictionary
+	^ self convertJRPCDictionaryObjectToJSON: jrpcResponse asJRPCJSON
 ]
 
 { #category : #accessing }
@@ -79,6 +79,17 @@ JRPCAbstractServer >> initialize [
 { #category : #accessing }
 JRPCAbstractServer >> namesToHandlersDict [
 	^ namesToHandlersDict
+]
+
+{ #category : #parsing }
+JRPCAbstractServer >> parseSupposedJRPCMessageObjectFromStream: aStream [
+	"Try to parse a JRPCDictionaryObject that should be held by aStream
+	 (but we're not sure at this point).
+	 Generate understandable errors if there is a problem."
+	| dictionary |
+	dictionary := STONJSON fromStream: aStream.
+	^ (JRPCMessageObject classToInstantiateForDictionary: dictionary)
+			fromJRPCJSONObject: dictionary
 ]
 
 { #category : #'handlers management' }

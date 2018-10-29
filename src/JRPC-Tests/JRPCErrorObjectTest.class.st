@@ -8,15 +8,15 @@ Class {
 }
 
 { #category : #tests }
-JRPCErrorObjectTest >> testAsDictionary [
+JRPCErrorObjectTest >> testAsJRPCJSON [
 	| dict |
-	dict := JRPCErrorObject internalError asDictionary.
+	dict := JRPCErrorObject internalError asJRPCJSON.
 	
 	self assertCollection: dict keys hasSameElements: #('code' 'message').
 	self assert: (dict at: 'code') equals: InternalError.
 	self assert: (dict at: 'message') equals: (JRPCConstantsSharedPool meaningForError: InternalError).
 	
-	dict := (JRPCErrorObject code: 0 message: 'Error for testing' data: { 'help' -> 'Do not panic, this is just for test.' } asDictionary) asDictionary.
+	dict := (JRPCErrorObject code: 0 message: 'Error for testing' data: { 'help' -> 'Do not panic, this is just for test.' } asDictionary) asJRPCJSON.
 	
 	self assertCollection: dict keys hasSameElements: #('code' 'message' 'data').
 	self assert: (dict at: 'code') equals: 0.

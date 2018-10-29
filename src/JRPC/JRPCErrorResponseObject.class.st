@@ -16,8 +16,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-JRPCErrorResponseObject class >> fromDictionary: aDictionary [
-	^ (super fromDictionary: aDictionary)
+JRPCErrorResponseObject class >> fromJRPCJSONObject: aDictionary [
+	^ (super fromJRPCJSONObject: aDictionary)
 		error: (aDictionary at: 'error')
 ]
 
@@ -28,11 +28,11 @@ JRPCErrorResponseObject class >> id: anInteger error: aJRPCErrorObject [
 		error: aJRPCErrorObject
 ]
 
-{ #category : #'dictionary building' }
-JRPCErrorResponseObject >> buildDictionary: aDictionary [
-	super buildDictionary: aDictionary.
-	aDictionary
-		at: 'error' put: self error asDictionary
+{ #category : #converting }
+JRPCErrorResponseObject >> asJRPCJSON [
+	^ super asJRPCJSON
+		at: 'error' put: self error asJRPCJSON;
+		yourself
 ]
 
 { #category : #accessing }

@@ -12,7 +12,7 @@ Additionally, I can hold additional information in:
 "
 Class {
 	#name : #JRPCErrorObject,
-	#superclass : #JRPCDictionaryObject,
+	#superclass : #JRPCJsonableObject,
 	#instVars : [
 		'code',
 		'message',
@@ -68,12 +68,15 @@ JRPCErrorObject class >> withPredefinedErrorCode: anInteger [
 	^ self code: anInteger message: (ErrorCodesToMeaningDict at: anInteger)
 ]
 
-{ #category : #'dictionary building' }
-JRPCErrorObject >> buildDictionary: aDictionary [
-	aDictionary at: 'code' put: self code.
-	aDictionary at: 'message' put: self message.
+{ #category : #converting }
+JRPCErrorObject >> asJRPCJSON [
+	| dict |
+	dict := Dictionary new.
+	dict at: 'code' put: self code.
+	dict at: 'message' put: self message.
 	(self data isNotNil and: [ self data isDictionary ])
-		ifTrue: [ aDictionary at: 'data' put: self data ].
+		ifTrue: [ dict at: 'data' put: self data ].
+	^ dict
 ]
 
 { #category : #accessing }
