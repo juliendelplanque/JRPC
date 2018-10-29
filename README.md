@@ -13,7 +13,7 @@ Yet another JSON-RPC 2.0 implementation for Pharo Smalltalk
 Given a server using HTTP protocol, listening on port 4000 and exposing `'sqrt'` method which computes the square-root of its single parameter, one can write the following:
 
 ```
-(JRPCHTTPClient url: 'http://localhost:4000')
+(JRPCClient http: 'http://localhost:4000')
 	callMethod: 'sqrt' arguments: #(4) withId: 1
 ```
 
@@ -25,7 +25,25 @@ Ids allow to map responses returned by the server to requests sent by the client
 Ids are managed by the developer using the client.
 
 ### Server
-Soon :-)
+To create a server using HTTP protocol, listening on port 4000 and defining an handler for `'sqrt'` which computes the square-root of its single paramter, one can write the following:
+
+```
+server := JRPCServer http
+		addHandlerNamed: 'sqrt' block: [ :x | x sqrt ];
+		yourself.
+```
+
+To start it, use `#start` method:
+
+```
+server start
+```
+
+To stop it, use `#stop` method:
+
+```
+server stop
+```
 
 ## Version management 
 
