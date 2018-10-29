@@ -46,9 +46,9 @@ JRPCRequestObject >> asJRPCJSON [
 	| dict |
 	dict := super asJRPCJSON.
 	dict
-		at: 'method' put: self method.
+		at: 'method' put: self method asJRPCJSON.
 	self params ifNotNil: [
-		dict at: 'params' put: self params ].
+		dict at: 'params' put: self params asJRPCJSON ].
 	^ dict
 ]
 

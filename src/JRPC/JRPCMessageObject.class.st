@@ -52,8 +52,8 @@ JRPCMessageObject class >> fromJRPCJSONObject: aDictionary [
 { #category : #converting }
 JRPCMessageObject >> asJRPCJSON [
 	^ Dictionary new
-		at: 'jsonrpc' put: self jsonrpc;
-		at: 'id' put: self id;
+		at: 'jsonrpc' put: self jsonrpc asJRPCJSON;
+		at: 'id' put: self id asJRPCJSON;
 		yourself
 ]
 

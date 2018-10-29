@@ -32,7 +32,7 @@ JRPCSuccessResponseObject class >> id: anInteger result: anObject [
 { #category : #converting }
 JRPCSuccessResponseObject >> asJRPCJSON [
 	^ super asJRPCJSON
-		at: 'result' put: self result;
+		at: 'result' put: self result asJRPCJSON;
 		yourself
 ]
 

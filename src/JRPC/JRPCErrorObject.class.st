@@ -72,10 +72,10 @@ JRPCErrorObject class >> withPredefinedErrorCode: anInteger [
 JRPCErrorObject >> asJRPCJSON [
 	| dict |
 	dict := Dictionary new.
-	dict at: 'code' put: self code.
-	dict at: 'message' put: self message.
-	(self data isNotNil and: [ self data isDictionary ])
-		ifTrue: [ dict at: 'data' put: self data ].
+	dict at: 'code' put: self code asJRPCJSON.
+	dict at: 'message' put: self message asJRPCJSON.
+	self data 
+		ifNotNil: [ dict at: 'data' put: self data asJRPCJSON ].
 	^ dict
 ]
 
