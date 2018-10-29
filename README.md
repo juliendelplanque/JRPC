@@ -29,6 +29,7 @@ To create a server using HTTP protocol, listening on port 4000 and defining an h
 
 ```
 server := JRPCServer http
+		port: 4000;
 		addHandlerNamed: 'sqrt' block: [ :x | x sqrt ];
 		yourself.
 ```
