@@ -1,5 +1,5 @@
 Class {
-	#name : #JRPCAbstractServerTest,
+	#name : #JRPCServerTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'server'
@@ -11,16 +11,16 @@ Class {
 }
 
 { #category : #running }
-JRPCAbstractServerTest >> setUp [
+JRPCServerTest >> setUp [
 	super setUp.
-	server := JRPCAbstractServer new.
+	server := JRPCServer new.
 	
 	server
 		addHandlerNamed: 'setUpHandler' block: [ 42 ]
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testAddHandlerNamedBlock [
+JRPCServerTest >> testAddHandlerNamedBlock [
 	| handler |
 	self assert: server namesToHandlersDict size equals: 1.
 	handler := [ :x | x ].
@@ -31,7 +31,7 @@ JRPCAbstractServerTest >> testAddHandlerNamedBlock [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testCheckParamsMatchingForHandlerAndRequest [
+JRPCServerTest >> testCheckParamsMatchingForHandlerAndRequest [
 	self should: [ 
 		server
 			checkParamsMatchingForHandler: [ :x | ]
@@ -67,7 +67,7 @@ JRPCAbstractServerTest >> testCheckParamsMatchingForHandlerAndRequest [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObject [
+JRPCServerTest >> testHandleJRPCRequestObject [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'setUpHandler'.
 	
@@ -78,7 +78,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObject [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObject2 [
+JRPCServerTest >> testHandleJRPCRequestObject2 [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'setUpHandler' params: #().
 	
@@ -89,7 +89,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObject2 [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObject3 [
+JRPCServerTest >> testHandleJRPCRequestObject3 [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'setUpHandler' params: Dictionary new.
 	
@@ -100,7 +100,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObject3 [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams [
+JRPCServerTest >> testHandleJRPCRequestObjectInvalidParams [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'setUpHandler' params: { #x -> 1 } asDictionary.
 	
@@ -113,7 +113,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams2 [
+JRPCServerTest >> testHandleJRPCRequestObjectInvalidParams2 [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'setUpHandler' params: #(1 2).
 	
@@ -126,7 +126,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams2 [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams3 [
+JRPCServerTest >> testHandleJRPCRequestObjectInvalidParams3 [
 	| requestForNonExistentHandler response |
 	server addHandlerNamed: '2params' block: [ :x :y | x + y ].
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: '2params' params: #(1).
@@ -140,7 +140,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams3 [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams4 [
+JRPCServerTest >> testHandleJRPCRequestObjectInvalidParams4 [
 	| requestForNonExistentHandler response |
 	server addHandlerNamed: '2params' block: [ :x :y | x + y ].
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: '2params' params: #(1 2 3).
@@ -154,7 +154,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams4 [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams5 [
+JRPCServerTest >> testHandleJRPCRequestObjectInvalidParams5 [
 	| requestForNonExistentHandler response |
 	server addHandlerNamed: '2params' block: [ :x :y | x + y ].
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: '2params'.
@@ -168,7 +168,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObjectInvalidParams5 [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJRPCRequestObjectNonExistent [
+JRPCServerTest >> testHandleJRPCRequestObjectNonExistent [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'nonExistent'.
 	
@@ -181,7 +181,7 @@ JRPCAbstractServerTest >> testHandleJRPCRequestObjectNonExistent [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandleJSON [
+JRPCServerTest >> testHandleJSON [
 	| jsonResponse |
 	jsonResponse := server handleJSON: '{"jsonrpc" : "2.0", "id" : 41, "method" : "setUpHandler"}'.
 	
@@ -189,7 +189,7 @@ JRPCAbstractServerTest >> testHandleJSON [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testHandlerForName [
+JRPCServerTest >> testHandlerForName [
 	| handler |
 	
 	self should: [ server handlerForName: 'powerOf2' ] raise: JRPCNonExistentHandler.
@@ -202,7 +202,7 @@ JRPCAbstractServerTest >> testHandlerForName [
 ]
 
 { #category : #tests }
-JRPCAbstractServerTest >> testRemoveHandlerNamed [
+JRPCServerTest >> testRemoveHandlerNamed [
 	self assert: server namesToHandlersDict size equals: 1.
 	self assert: server namesToHandlersDict keys first equals: 'setUpHandler'.
 	

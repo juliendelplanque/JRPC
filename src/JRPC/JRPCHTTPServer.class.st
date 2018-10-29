@@ -5,7 +5,7 @@ Internally, I use Zinc.
 "
 Class {
 	#name : #JRPCHTTPServer,
-	#superclass : #JRPCAbstractServer,
+	#superclass : #JRPCServer,
 	#instVars : [
 		'server'
 	],

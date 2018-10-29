@@ -5,7 +5,7 @@ Internally, I use Zinc.
 "
 Class {
 	#name : #JRPCHTTPClient,
-	#superclass : #JRPCAbstractClient,
+	#superclass : #JRPCClient,
 	#instVars : [
 		'url'
 	],

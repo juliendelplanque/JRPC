@@ -1,6 +1,6 @@
 Class {
 	#name : #JRPCTestClient,
-	#superclass : #JRPCAbstractClient,
+	#superclass : #JRPCClient,
 	#instVars : [
 		'server'
 	],
@@ -10,7 +10,7 @@ Class {
 { #category : #initialization }
 JRPCTestClient >> initialize [
 	super initialize.
-	server := JRPCAbstractServer new
+	server := JRPCServer new
 ]
 
 { #category : #'private - sending' }
