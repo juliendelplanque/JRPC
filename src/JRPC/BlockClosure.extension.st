@@ -3,6 +3,8 @@ Extension { #name : #BlockClosure }
 { #category : #'*JRPC' }
 BlockClosure >> jrpcExecuteWithParameters: anArrayOrDictionary [
 	| arguments |
+	anArrayOrDictionary ifNil: [ 
+		^ self value ].
 	anArrayOrDictionary isArray
 		ifTrue: [ ^ self valueWithArguments: anArrayOrDictionary ].
 		

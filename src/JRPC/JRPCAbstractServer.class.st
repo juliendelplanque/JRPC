@@ -16,7 +16,7 @@ Class {
 	#category : #'JRPC-Servers'
 }
 
-{ #category : #adding }
+{ #category : #'handlers management' }
 JRPCAbstractServer >> addHandlerNamed: aString block: aBlock [
 	namesToHandlersDict
 		at: aString put: aBlock
@@ -29,7 +29,7 @@ JRPCAbstractServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRe
 			handler jrpcParametersCount = 0
 				ifFalse: [ JRPCInvalidParameters signal ] ].
 	
-	aJRPCRequestObject params size = handler jrpcParametersCount
+	(aJRPCRequestObject params ifNil: [ #() ]) size = handler jrpcParametersCount
 		ifFalse: [ JRPCInvalidParameters signal ].
 		
 	(aJRPCRequestObject params isDictionary
@@ -74,6 +74,18 @@ JRPCAbstractServer >> handlerForName: aString [
 JRPCAbstractServer >> initialize [
 	super initialize.
 	namesToHandlersDict := Dictionary new
+]
+
+{ #category : #accessing }
+JRPCAbstractServer >> namesToHandlersDict [
+	^ namesToHandlersDict
+]
+
+{ #category : #'handlers management' }
+JRPCAbstractServer >> removeHandlerNamed: aString [
+	namesToHandlersDict
+		removeKey: aString
+		ifAbsent: [ self error: 'Inexistant handler.' ]
 ]
 
 { #category : #starting }

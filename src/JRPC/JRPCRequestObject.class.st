@@ -23,7 +23,21 @@ Class {
 JRPCRequestObject class >> fromDictionary: aDictionary [
 	^ (super fromDictionary: aDictionary)
 		method: (aDictionary at: 'method');
-		params: (aDictionary at: 'params');
+		params: (aDictionary at: 'params' ifAbsent: [ nil ]);
+		yourself
+]
+
+{ #category : #'instance creation' }
+JRPCRequestObject class >> id: anInteger method: aString [
+	^ self id: anInteger method: aString params: nil
+]
+
+{ #category : #'instance creation' }
+JRPCRequestObject class >> id: anInteger method: aString params: anArrayOrDictionary [
+	^ self new
+		id: anInteger;
+		method: aString;
+		params: anArrayOrDictionary;
 		yourself
 ]
 
