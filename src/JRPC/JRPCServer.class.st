@@ -16,6 +16,11 @@ Class {
 	#category : #'JRPC-Servers'
 }
 
+{ #category : #'instance creation' }
+JRPCServer class >> http [
+	^ JRPCHTTPServer new
+]
+
 { #category : #'handlers management' }
 JRPCServer >> addHandlerNamed: aString block: aBlock [
 	namesToHandlersDict

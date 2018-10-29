@@ -13,6 +13,11 @@ Class {
 	#category : #'JRPC-Clients'
 }
 
+{ #category : #'instance creation' }
+JRPCClient class >> http: aString [
+	^ JRPCHTTPClient url: aString
+]
+
 { #category : #api }
 JRPCClient >> callMethod: aString arguments: anObject withId: anInteger [
 	"Call a method which takes arguments."
