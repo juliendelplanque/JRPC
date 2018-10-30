@@ -60,7 +60,7 @@ JRPCClient >> parseSupposedJRPCMessageObjectFromStream: aStream [
 	 Generate understandable errors if there is a problem."
 	| dictionary |
 	dictionary := STONJSON fromStream: aStream.
-	^ (JRPCMessageObject classToInstantiateForDictionary: dictionary)
+	^ (JRPCMessageObject classToInstantiateForJSONObject: dictionary)
 			fromJRPCJSONObject: dictionary
 ]
 

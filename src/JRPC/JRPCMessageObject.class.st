@@ -19,23 +19,23 @@ Class {
 }
 
 { #category : #accessing }
-JRPCMessageObject class >> classToInstantiateForDictionary: aDictionary [
-	"Given aDictionary, returns the right class to instantiate in order to get
+JRPCMessageObject class >> classToInstantiateForJSONObject: aJSONObject [
+	"Given aJSONObject, returns the right class to instantiate in order to get
 	 the model object corresponding.
 	"
-	aDictionary
+	aJSONObject
 		at: 'jsonrpc' "This MUST be in messages."
 		ifPresent: [ :value |
 			value = JSONRPC ifFalse: [ self error: 'Unsupported version of JSON-RPC. I can only handle JSON-RPC 2.0.' ].
-			(aDictionary includesKey: 'id')
+			(aJSONObject includesKey: 'id')
 				ifFalse: [ ^ JRPCNotificationObject ].
-			(aDictionary includesKey: 'result')
+			(aJSONObject includesKey: 'result')
 				ifTrue: [ ^ JRPCSuccessResponseObject ].
 			
-			(aDictionary includesKey: 'error')
+			(aJSONObject includesKey: 'error')
 				ifTrue: [ ^ JRPCErrorResponseObject ].
 			
-			(aDictionary includesKey: 'method')
+			(aJSONObject includesKey: 'method')
 				ifTrue: [ ^ JRPCRequestObject ] ].
 	
 	JRPCIncorrectJSON signal: 'Incorrect JSON, no class to instantiate for it.'
