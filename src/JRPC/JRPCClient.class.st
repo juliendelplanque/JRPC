@@ -34,6 +34,19 @@ JRPCClient >> callMethod: aString withId: anInteger [
 	^ self callMethod: aString arguments: nil withId: anInteger
 ]
 
+{ #category : #api }
+JRPCClient >> notifyMethod: aString [ 
+	self notifyMethod: aString arguments: nil
+]
+
+{ #category : #api }
+JRPCClient >> notifyMethod: aString arguments: anArrayOrString [
+	self sendNotification: (JRPCNotificationObject new
+									method: aString;
+									params: anArrayOrString;
+									yourself)
+]
+
 { #category : #parsing }
 JRPCClient >> parseSupposedJRPCMessageObjectFromStream: aStream [
 	"Try to parse a JRPCDictionaryObject that should be held by aStream
@@ -43,6 +56,14 @@ JRPCClient >> parseSupposedJRPCMessageObjectFromStream: aStream [
 	dictionary := STONJSON fromStream: aStream.
 	^ (JRPCMessageObject classToInstantiateForDictionary: dictionary)
 			fromJRPCJSONObject: dictionary
+]
+
+{ #category : #'private - sending' }
+JRPCClient >> sendNotification: aJRPCNotificationObject [
+	"When a notification is sent to the server, we do not expect an answer."
+	[ 
+		self sendRequest: aJRPCNotificationObject
+	] on: JRPCIncorrectJSON do: [ "Does nothing on purpose." ]
 ]
 
 { #category : #'private - sending' }

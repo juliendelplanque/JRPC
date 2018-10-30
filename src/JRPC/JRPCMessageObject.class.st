@@ -27,8 +27,8 @@ JRPCMessageObject class >> classToInstantiateForDictionary: aDictionary [
 		at: 'jsonrpc' "This MUST be in messages."
 		ifPresent: [ :value |
 			value = JSONRPC ifFalse: [ self error: 'Unsupported version of JSON-RPC. I can only handle JSON-RPC 2.0.' ].
-			
-			"Determine if JRPCErrorResponseObject or JRPCSuccessResponseObject"
+			(aDictionary includesKey: 'id')
+				ifFalse: [ ^ JRPCNotificationObject ].
 			(aDictionary includesKey: 'result')
 				ifTrue: [ ^ JRPCSuccessResponseObject ].
 			
