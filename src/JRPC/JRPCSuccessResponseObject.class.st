@@ -8,7 +8,7 @@ I MUST hold:
 "
 Class {
 	#name : #JRPCSuccessResponseObject,
-	#superclass : #JRPCMessageObject,
+	#superclass : #JRPCResponseObject,
 	#instVars : [
 		'result'
 	],

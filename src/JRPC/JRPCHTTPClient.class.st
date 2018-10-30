@@ -35,7 +35,7 @@ JRPCHTTPClient >> sendRequest: aJRPCRequestObject [
 		contents: (self convertJRPCDictionaryObjectToJSON: aJRPCRequestObject);
 		get.
 		
-	^ self parseSupposedJRPCMessageObjectFromString: result contents.
+	^ self parseSupposedJRPCMessageObjectFromString: (result ifNil: [ '' ] ifNotNil: #contents).
 ]
 
 { #category : #accessing }

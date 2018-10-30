@@ -63,7 +63,7 @@ JRPCClient >> sendNotification: aJRPCNotificationObject [
 	"When a notification is sent to the server, we do not expect an answer."
 	[ 
 		self sendRequest: aJRPCNotificationObject
-	] on: JRPCIncorrectJSON do: [ "Does nothing on purpose." ]
+	] on: JRPCIncorrectJSON, STONReaderError do: [ "Does nothing on purpose." ]
 ]
 
 { #category : #'private - sending' }

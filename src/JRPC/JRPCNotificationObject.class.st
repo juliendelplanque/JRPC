@@ -29,3 +29,14 @@ JRPCNotificationObject >> asJRPCJSON [
 	dict removeKey: 'id'.
 	^ dict
 ]
+
+{ #category : #'server handling' }
+JRPCNotificationObject >> beHandledByServer: aJRPCServer [
+	super beHandledByServer: aJRPCServer.
+	^ JRPCEmptyResponseObject new
+]
+
+{ #category : #'server handling' }
+JRPCNotificationObject >> convertErrorToResponse: jrpcError [
+	^ JRPCEmptyResponseObject new
+]
