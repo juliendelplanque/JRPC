@@ -42,6 +42,12 @@ JRPCServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObj
 			ifTrue: [ JRPCInvalidParameters signal ]
 ]
 
+{ #category : #converting }
+JRPCServer >> convertJRPCJsonableObjectToJSON: aJRPCJsonableObject [
+	^ String streamContents: [ :stream |
+		self convertJRPCJsonableObjectToJSON: aJRPCJsonableObject asJRPCJSON on: stream ]
+]
+
 { #category : #'handling - jrpc' }
 JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 	[ | handler result |

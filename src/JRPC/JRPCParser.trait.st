@@ -7,13 +7,13 @@ Trait {
 }
 
 { #category : #converting }
-JRPCParser >> convertJRPCDictionaryObjectToJSON: aJRPCJsonableObject [
+JRPCParser >> convertJRPCJsonableObjectToJSON: aJRPCJsonableObject [
 	^ String streamContents: [ :stream |
-		self convertJRPCDictionaryObjectToJSON: aJRPCJsonableObject asJRPCJSON on: stream ]
+		self convertJRPCJsonableObjectToJSON: aJRPCJsonableObject asJRPCJSON on: stream ]
 ]
 
 { #category : #converting }
-JRPCParser >> convertJRPCDictionaryObjectToJSON: aJRPCJsonableObject on: aStream [
+JRPCParser >> convertJRPCJsonableObjectToJSON: aJRPCJsonableObject on: aStream [
 	STONJSON put: aJRPCJsonableObject onStream: aStream
 ]
 

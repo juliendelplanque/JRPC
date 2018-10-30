@@ -34,6 +34,12 @@ JRPCClient >> callMethod: aString withId: anInteger [
 	^ self callMethod: aString arguments: nil withId: anInteger
 ]
 
+{ #category : #converting }
+JRPCClient >> convertJRPCJsonableObjectToJSON: aJRPCJsonableObject [
+	^ String streamContents: [ :stream |
+		self convertJRPCJsonableObjectToJSON: aJRPCJsonableObject asJRPCJSON on: stream ]
+]
+
 { #category : #api }
 JRPCClient >> notifyMethod: aString [ 
 	self notifyMethod: aString arguments: nil

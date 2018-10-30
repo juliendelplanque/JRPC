@@ -9,5 +9,5 @@ Class {
 
 { #category : #'server conversion' }
 JRPCResponseObject >> beConvertedBy: aJRPCServer [
-	^ aJRPCServer convertJRPCDictionaryObjectToJSON: self asJRPCJSON
+	^ aJRPCServer convertJRPCJsonableObjectToJSON: self asJRPCJSON
 ]

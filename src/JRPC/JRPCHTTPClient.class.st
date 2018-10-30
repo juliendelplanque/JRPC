@@ -32,7 +32,7 @@ JRPCHTTPClient >> httpClient [
 JRPCHTTPClient >> sendRequest: aJRPCRequestObject [
 	| result |
 	result := self httpClient
-		contents: (self convertJRPCDictionaryObjectToJSON: aJRPCRequestObject);
+		contents: (self convertJRPCJsonableObjectToJSON: aJRPCRequestObject);
 		get.
 		
 	^ self parseSupposedJRPCMessageObjectFromString: (result ifNil: [ '' ] ifNotNil: #contents).
