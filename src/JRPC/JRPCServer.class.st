@@ -71,7 +71,7 @@ JRPCServer >> handleJSON: aJSONString [
 		jrpcRequestOrNotification := self parseSupposedJRPCMessageObjectFromString: aJSONString.
 		jrpcResponse := jrpcRequestOrNotification beHandledByServer: self
 	] on: STONReaderError do: [
-		JRPCErrorResponseObject error: JRPCErrorObject parseError
+		jrpcResponse := JRPCErrorResponseObject id: nil error: JRPCErrorObject parseError
 	].
 	
 	^ jrpcResponse beConvertedBy: self

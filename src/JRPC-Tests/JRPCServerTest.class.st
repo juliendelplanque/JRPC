@@ -185,7 +185,11 @@ JRPCServerTest >> testHandleJSON [
 	| jsonResponse |
 	jsonResponse := server handleJSON: '{"jsonrpc" : "2.0", "id" : 41, "method" : "setUpHandler"}'.
 	
-	self assert: jsonResponse equals: '{"jsonrpc":"2.0","result":42,"id":41}'
+	self assert: jsonResponse equals: '{"jsonrpc":"2.0","result":42,"id":41}'.
+	
+	jsonResponse := server handleJSON: '{'.
+	
+	self assert: jsonResponse equals: '{"jsonrpc":"2.0","id":null,"error":{"message":"Invalid JSON was received by the server.","code":-32700}}'
 ]
 
 { #category : #tests }
