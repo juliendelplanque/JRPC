@@ -98,17 +98,6 @@ JRPCServer >> namesToHandlersDict [
 	^ namesToHandlersDict
 ]
 
-{ #category : #parsing }
-JRPCServer >> parseSupposedJRPCMessageObjectFromStream: aStream [
-	"Try to parse a JRPCDictionaryObject that should be held by aStream
-	 (but we're not sure at this point).
-	 Generate understandable errors if there is a problem."
-	| dictionary |
-	dictionary := STONJSON fromStream: aStream.
-	^ (JRPCMessageObject classToInstantiateForJSONObject: dictionary)
-			fromJRPCJSONObject: dictionary
-]
-
 { #category : #'handlers management' }
 JRPCServer >> removeHandlerNamed: aString [
 	namesToHandlersDict

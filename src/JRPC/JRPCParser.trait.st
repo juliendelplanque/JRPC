@@ -22,10 +22,10 @@ JRPCParser >> parseSupposedJRPCMessageObjectFromStream: aStream [
 	"Try to parse a JRPCDictionaryObject that should be held by aStream
 	 (but we're not sure at this point).
 	 Generate understandable errors if there is a problem."
-	| dictionary |
-	dictionary := STONJSON fromStream: aStream.
-	^ (JRPCMessageObject classToInstantiateForJSONObject: dictionary)
-			fromJRPCJSONObject: dictionary
+	| jsonObject |
+	jsonObject := STONJSON fromStream: aStream.
+	^ (JRPCMessageObject classToInstantiateForJSONObject: jsonObject)
+			fromJRPCJSONObject: jsonObject
 ]
 
 { #category : #parsing }
