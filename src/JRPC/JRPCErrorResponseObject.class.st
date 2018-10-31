@@ -55,3 +55,8 @@ JRPCErrorResponseObject >> error: anObject [
 JRPCErrorResponseObject >> isError [
 	^ true
 ]
+
+{ #category : #testing }
+JRPCErrorResponseObject >> isInvalidRequest [
+	^ self error code = InvalidRequest
+]

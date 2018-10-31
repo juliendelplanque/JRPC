@@ -15,3 +15,8 @@ Class {
 JRPCIncorrectJSON >> asJRPCResponseWithId: anInteger [
 	^ JRPCErrorResponseObject id: anInteger error: JRPCErrorObject invalidRequest
 ]
+
+{ #category : #testing }
+JRPCIncorrectJSON >> isIncorrectJSON [
+	^ true
+]
