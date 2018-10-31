@@ -40,6 +40,12 @@ JRPCClient >> convertJRPCJsonableObjectToJSON: aJRPCJsonableObject [
 		self convertJRPCJsonableObjectToJSON: aJRPCJsonableObject asJRPCJSON on: stream ]
 ]
 
+{ #category : #testing }
+JRPCClient >> isClient [
+	"Returns true if the trait is used in the context of a client, false in the context of a server."
+	^ true
+]
+
 { #category : #api }
 JRPCClient >> notifyMethod: aString [ 
 	self notifyMethod: aString arguments: nil

@@ -1,3 +1,8 @@
+"
+I model a batch of requests sent by a client.
+
+I hold an array of requests or notifications.
+"
 Class {
 	#name : #JRPCBatchRequestsObject,
 	#superclass : #JRPCJsonableObject,
@@ -14,7 +19,7 @@ JRPCBatchRequestsObject class >> fromJRPCJSONObject: aJSONObject [
 		
 	^ self new
 		requests: (aJSONObject collect: [ :json | 
-			(JRPCMessageObject classToInstantiateForJSONObject: json)
+			(JRPCMessageObject classToInstantiateForJSONObject: json forClient: false)
 				fromJRPCJSONObject: json ]);
 		yourself
 ]
@@ -22,6 +27,14 @@ JRPCBatchRequestsObject class >> fromJRPCJSONObject: aJSONObject [
 { #category : #converting }
 JRPCBatchRequestsObject >> asJRPCJSON [
 	^ self requests collect: #asJRPCJSON
+]
+
+{ #category : #'server handling' }
+JRPCBatchRequestsObject >> beHandledByServer: aJRPCHTTPServer [ 
+	^ JRPCBatchResponseObject new
+		responses: (self requests collect: [ :req |
+						req beHandledByServer: aJRPCHTTPServer ]);
+		yourself
 ]
 
 { #category : #accessing }

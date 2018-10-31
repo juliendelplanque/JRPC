@@ -93,6 +93,12 @@ JRPCServer >> initialize [
 	namesToHandlersDict := Dictionary new
 ]
 
+{ #category : #testing }
+JRPCServer >> isClient [
+	"Returns true if the trait is used in the context of a client, false in the context of a server."
+	^ false
+]
+
 { #category : #accessing }
 JRPCServer >> namesToHandlersDict [
 	^ namesToHandlersDict

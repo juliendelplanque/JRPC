@@ -17,6 +17,12 @@ JRPCParser >> convertJRPCJsonableObjectToJSON: aJRPCJsonableObject on: aStream [
 	STONJSON put: aJRPCJsonableObject onStream: aStream
 ]
 
+{ #category : #testing }
+JRPCParser >> isClient [
+	"Returns true if the trait is used in the context of a client, false in the context of a server."
+	^ self explicitRequirement
+]
+
 { #category : #parsing }
 JRPCParser >> parseSupposedJRPCMessageObjectFromStream: aStream [
 	"Try to parse a JRPCDictionaryObject that should be held by aStream
@@ -24,7 +30,7 @@ JRPCParser >> parseSupposedJRPCMessageObjectFromStream: aStream [
 	 Generate understandable errors if there is a problem."
 	| jsonObject |
 	jsonObject := STONJSON fromStream: aStream.
-	^ (JRPCMessageObject classToInstantiateForJSONObject: jsonObject)
+	^ (JRPCMessageObject classToInstantiateForJSONObject: jsonObject forClient: self isClient)
 			fromJRPCJSONObject: jsonObject
 ]
 

@@ -19,10 +19,19 @@ Class {
 }
 
 { #category : #accessing }
-JRPCMessageObject class >> classToInstantiateForJSONObject: aJSONObject [
+JRPCMessageObject class >> classToInstantiateForJSONObject: aJSONObject forClient: isClient [
 	"Given aJSONObject, returns the right class to instantiate in order to get
 	 the model object corresponding.
 	"
+	aJSONObject isArray
+		ifTrue: [ 
+			^ isClient
+				ifTrue: [ JRPCBatchResponseObject ]
+				ifFalse: [ JRPCBatchRequestsObject ] ].
+	
+	"Else this must be a dictionary."
+	aJSONObject isDictionary
+		ifFalse: [ JRPCIncorrectJSON signal: 'Incorrect JSON, should be a Dictionary or an Array.' ].
 	aJSONObject
 		at: 'jsonrpc' "This MUST be in messages."
 		ifPresent: [ :value |
