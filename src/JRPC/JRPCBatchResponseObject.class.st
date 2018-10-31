@@ -34,7 +34,10 @@ JRPCBatchResponseObject >> asJRPCJSON [
 
 { #category : #'server conversion' }
 JRPCBatchResponseObject >> beConvertedBy: aJRPCServer [
-	^ aJRPCServer convertJRPCJsonableObjectToJSON: self asJRPCJSON
+	| jsonObject |
+	jsonObject := self asJRPCJSON.
+	jsonObject ifEmpty: [ ^ '' ].
+	^ aJRPCServer convertJRPCJsonableObjectToJSON: jsonObject
 ]
 
 { #category : #accessing }
