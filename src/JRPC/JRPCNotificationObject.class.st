@@ -10,6 +10,9 @@ The server silently process the notification without returning a response to the
 Class {
 	#name : #JRPCNotificationObject,
 	#superclass : #JRPCRequestObject,
+	#pools : [
+		'JRPCConstantsSharedPool'
+	],
 	#category : #'JRPC-Core'
 }
 
@@ -32,11 +35,18 @@ JRPCNotificationObject >> asJRPCJSON [
 
 { #category : #'server handling' }
 JRPCNotificationObject >> beHandledByServer: aJRPCServer [
-	super beHandledByServer: aJRPCServer.
+	| response |
+	response := super beHandledByServer: aJRPCServer.
+	(response isError and: [ response error code = InvalidRequest ])
+		ifTrue: [ ^ response ].
+		
 	^ JRPCEmptyResponseObject new
 ]
 
 { #category : #'server handling' }
 JRPCNotificationObject >> convertErrorToResponse: jrpcError [
+	jrpcError class = JRPCIncorrectJSON
+		ifTrue: [ ^ jrpcError asJRPCResponseWithId: self id ].
+	
 	^ JRPCEmptyResponseObject new
 ]

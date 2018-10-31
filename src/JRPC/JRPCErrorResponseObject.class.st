@@ -44,3 +44,8 @@ JRPCErrorResponseObject >> error [
 JRPCErrorResponseObject >> error: anObject [
 	error := anObject
 ]
+
+{ #category : #testing }
+JRPCErrorResponseObject >> isError [
+	^ true
+]

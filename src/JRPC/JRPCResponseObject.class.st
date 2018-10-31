@@ -11,3 +11,8 @@ Class {
 JRPCResponseObject >> beConvertedBy: aJRPCServer [
 	^ aJRPCServer convertJRPCJsonableObjectToJSON: self asJRPCJSON
 ]
+
+{ #category : #testing }
+JRPCResponseObject >> isError [
+	^ false
+]

@@ -25,6 +25,8 @@ JRPCMessageObject class >> classToInstantiateForJSONObject: aJSONObject forClien
 	"
 	aJSONObject isArray
 		ifTrue: [ 
+			aJSONObject isEmpty
+				ifTrue: [ JRPCIncorrectJSON signal: 'Empty batch.' ].
 			^ isClient
 				ifTrue: [ JRPCBatchResponseObject ]
 				ifFalse: [ JRPCBatchRequestsObject ] ].
