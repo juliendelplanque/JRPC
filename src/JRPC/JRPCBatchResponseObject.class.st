@@ -5,7 +5,7 @@ I hold an array of JRPCEmptyResponseObject / JRPCErrorResponseObject / JRPCSucce
 "
 Class {
 	#name : #JRPCBatchResponseObject,
-	#superclass : #JRPCResponseObject,
+	#superclass : #JRPCJsonableObject,
 	#instVars : [
 		'responses'
 	],
@@ -30,6 +30,11 @@ JRPCBatchResponseObject >> asJRPCJSON [
 		collect: #asJRPCJSON
 		"JRPCEmptyResponseObjects will generate nil and should be removed from the JSON object"
 		thenReject: #isNil
+]
+
+{ #category : #'server conversion' }
+JRPCBatchResponseObject >> beConvertedBy: aJRPCServer [
+	^ aJRPCServer convertJRPCJsonableObjectToJSON: self asJRPCJSON
 ]
 
 { #category : #accessing }
