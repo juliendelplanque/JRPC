@@ -22,7 +22,7 @@ JRPCBatchRequestsObject class >> fromJRPCJSONObject: aJSONObject [
 			[ (JRPCMessageObject classToInstantiateForJSONObject: json forClient: false)
 				fromJRPCJSONObject: json
 			] on: JRPCIncorrectJSON do: [ :error |
-				JRPCErrorResponseObject id: nil error: JRPCErrorObject invalidRequest ] ]);
+				error asJRPCResponse ] ]);
 		yourself
 ]
 
