@@ -17,7 +17,9 @@ JRPCServerScenarioTest >> setUp [
 	
 	server
 		addHandlerNamed: 'subtract' block: [ :minuend :subtrahend | minuend - subtrahend ];
-		addHandlerNamed: 'update' block: [ :a :b :c :d :e | nil ]
+		addHandlerNamed: 'update' block: [ :a :b :c :d :e | nil ];
+		addHandlerNamed: 'sum' block: [ :a :b :c | a + b + c ];
+		addHandlerNamed: 'get_data' block: [ #('hello' 5) ]
 ]
 
 { #category : #tests }

@@ -19,8 +19,10 @@ JRPCBatchRequestsObject class >> fromJRPCJSONObject: aJSONObject [
 		
 	^ self new
 		requests: (aJSONObject collect: [ :json | 
-			(JRPCMessageObject classToInstantiateForJSONObject: json forClient: false)
-				fromJRPCJSONObject: json ]);
+			[ (JRPCMessageObject classToInstantiateForJSONObject: json forClient: false)
+				fromJRPCJSONObject: json
+			] on: JRPCIncorrectJSON do: [ :error |
+				JRPCErrorResponseObject id: nil error: JRPCErrorObject invalidRequest ] ]);
 		yourself
 ]
 
@@ -30,10 +32,10 @@ JRPCBatchRequestsObject >> asJRPCJSON [
 ]
 
 { #category : #'server handling' }
-JRPCBatchRequestsObject >> beHandledByServer: aJRPCHTTPServer [ 
+JRPCBatchRequestsObject >> beHandledByServer: aJRPCServer [
 	^ JRPCBatchResponseObject new
 		responses: (self requests collect: [ :req |
-						req beHandledByServer: aJRPCHTTPServer ]);
+						req beHandledByServer: aJRPCServer ]);
 		yourself
 ]
 
