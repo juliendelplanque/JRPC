@@ -1,0 +1,15 @@
+SmalltalkCISpec {
+    #loading : [
+        SCIMetacelloLoadSpec {
+            #baseline : 'JRPC',
+            #directory : 'src',
+            #platforms : [ #pharo ]
+        }
+    ],
+    #testing : {
+        #categories : [ 'JRPC-Tests' ],
+        #coverage : {
+            #categories : [ 'JRPC-Tests' ]
+    }
+  }
+}
