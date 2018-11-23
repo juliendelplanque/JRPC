@@ -1,6 +1,13 @@
 # JRPC [![Build Status](https://travis-ci.org/juliendelplanque/JRPC.svg?branch=master)](https://travis-ci.org/juliendelplanque/JRPC)
 Yet another JSON-RPC 2.0 implementation for Pharo Smalltalk
 
+* [Features](#features)
+* [Examples](#examples)
+	+ [Client](#client)
+	+ [Server](#server)
+* [Version management](#version-management)
+* [Install](#install)
+
 ## Features
 - Client and Server support for JSON-RPC 2.0.
 - Only depends on Pharo's built-in packages.
