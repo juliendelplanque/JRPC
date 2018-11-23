@@ -1,12 +1,13 @@
 # JRPC [![Build Status](https://travis-ci.org/juliendelplanque/JRPC.svg?branch=master)](https://travis-ci.org/juliendelplanque/JRPC)
 Yet another JSON-RPC 2.0 implementation for Pharo Smalltalk
 
-* [Features](#features)
-* [Examples](#examples)
-	+ [Client](#client)
-	+ [Server](#server)
-* [Version management](#version-management)
-* [Install](#install)
+- [Features](#features)
+- [Examples](#examples)
+  * [Client](#client)
+  * [Server](#server)
+- [Version management](#version-management)
+- [Install](#install)
+- [JRPC v.s. others](#jrpc-vs-others)
 
 ## Features
 - Client and Server support for JSON-RPC 2.0.
@@ -53,15 +54,15 @@ To stop it, use `#stop` method:
 server stop
 ```
 
-## Version management 
+## Version management
 
-This project use semantic versionning to define the releases. This mean that each stable release of the project will get associate a version number of the form `vX.Y.Z`. 
+This project use semantic versionning to define the releases. This mean that each stable release of the project will get associate a version number of the form `vX.Y.Z`.
 
 - **X** define the major version number
-- **Y** define the minor version number 
+- **Y** define the minor version number
 - **Z** define the patch version number
 
-When a release contains only bug fixes, the patch number increase. When the release contains new features backward compatibles, the minor version increase. When the release contains breaking changes, the major version increase. 
+When a release contains only bug fixes, the patch number increase. When the release contains new features backward compatibles, the minor version increase. When the release contains breaking changes, the major version increase.
 
 Thus, it should be safe to depend on a fixed major version and moving minor version of this project.
 
@@ -73,3 +74,12 @@ Metacello new
     baseline: 'JRPC';
     load
 ```
+
+## JRPC v.s. others
+
+| Property     | JSONRPC            | LtJsonRpc          | NeoJSONRPC         |
+|--------------|--------------------|--------------------|--------------------|
+| Server       | :white_check_mark: | :white_check_mark: | :x:                |
+| Client       | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| JSON backend | STONJSON           | Json               | NeoJSON            |
+| Tests        | :white_check_mark: | :x:                | :x:                |
