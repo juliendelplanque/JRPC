@@ -12,7 +12,7 @@ Yet another JSON-RPC 2.0 implementation for Pharo Smalltalk
 ### Client
 Given a server using HTTP protocol, listening on port 4000 and exposing `'sqrt'` method which computes the square-root of its single parameter, one can write the following:
 
-```
+```Smalltalk
 (JRPCClient http: 'http://localhost:4000')
 	callMethod: 'sqrt' arguments: #(4) withId: 1
 ```
@@ -27,7 +27,7 @@ Ids are managed by the developer using the client.
 ### Server
 To create a server using HTTP protocol, listening on port 4000 and defining an handler for `'sqrt'` which computes the square-root of its single paramter, one can write the following:
 
-```
+```Smalltalk
 server := JRPCServer http
 		port: 4000;
 		addHandlerNamed: 'sqrt' block: [ :x | x sqrt ];
@@ -36,13 +36,13 @@ server := JRPCServer http
 
 To start it, use `#start` method:
 
-```
+```Smalltalk
 server start
 ```
 
 To stop it, use `#stop` method:
 
-```
+```Smalltalk
 server stop
 ```
 
@@ -57,3 +57,12 @@ This project use semantic versionning to define the releases. This mean that eac
 When a release contains only bug fixes, the patch number increase. When the release contains new features backward compatibles, the minor version increase. When the release contains breaking changes, the major version increase. 
 
 Thus, it should be safe to depend on a fixed major version and moving minor version of this project.
+
+## Install
+To install this project, run the following code snippet:
+```Smalltalk
+Metacello new
+    repository: 'github://JulienDelplanque/JRPC/src';
+    baseline: 'JRPC';
+    load
+```
