@@ -36,6 +36,7 @@ JRPCParser >> parseSupposedJRPCMessageObjectFromStream: aStream [
 
 { #category : #parsing }
 JRPCParser >> parseSupposedJRPCMessageObjectFromString: aString [
-	^ aString readStreamDo: [ :stream |
-		self parseSupposedJRPCMessageObjectFromStream: stream ]
+	| readStream |
+	readStream := aString readStream.
+	[ ^ self parseSupposedJRPCMessageObjectFromStream: readStream ] ensure: [ readStream close ]
 ]
