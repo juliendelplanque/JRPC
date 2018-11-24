@@ -49,7 +49,7 @@ JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 		self checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject.
 		result := handler jrpcExecuteWithParameters: aJRPCRequestObject params.
 		^ JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
-	] on: JRPCError
+	] on: Error
 	do: [ :jrpcError |
 		^ aJRPCRequestObject
 				convertErrorToResponse: jrpcError ]
@@ -64,7 +64,7 @@ JRPCServer >> handleJSON: aJSONString [
 	[
 		jrpcRequestOrNotification := self parseSupposedJRPCMessageObjectFromString: aJSONString.
 		jrpcResponse := jrpcRequestOrNotification beHandledByServer: self
-	] on: STONReaderError, JRPCIncorrectJSON do: [ :error |
+	] on: Error do: [ :error |
 		jrpcResponse := error asJRPCResponse
 	].
 	^ jrpcResponse beConvertedBy: self
