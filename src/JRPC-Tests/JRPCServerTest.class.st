@@ -207,7 +207,7 @@ JRPCServerTest >> testHandlerForName [
 
 { #category : #tests }
 JRPCServerTest >> testInternalError [
-	| requestForInternalError response |
+	| requestForInternalError response data |
 	server addHandlerNamed: 'divide' block: [ :x :y | x / y ].
 	
 	requestForInternalError := JRPCRequestObject id: 1 method: 'divide' params: #(1 0).
@@ -217,7 +217,16 @@ JRPCServerTest >> testInternalError [
 	self assert: response class equals: JRPCErrorResponseObject.
 	self assert: response error code equals: InternalError.
 	self assert: response error message equals: (JRPCConstantsSharedPool meaningForError: InternalError).
-	self assert: response error data isNil.
+	self assert: response error data isNotNil.
+	
+	data := response error data.
+	self assertCollection: data equals: { 
+		'errorClass' -> 'ZeroDivide'.
+		'messageText' -> ''.
+		'tag' -> ''.
+		'signaler' -> '1'.
+		'signalerContext' -> 'SmallInteger>>/'
+	} asDictionary
 ]
 
 { #category : #tests }
