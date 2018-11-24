@@ -60,25 +60,25 @@ server stop
 [JSON-RPC 2.0 specification](https://www.jsonrpc.org/specification) specifies that in error messages, a `data` field can optionally be set to provide additional information about the error. However, this field structure is specified by the server. This section describes what the current implementation stores in the `data` field.
 
 To do that, let's take the following configuration. We have a server defined as follow:
-```
+```Smalltalk
 server := JRPCServer http
-				port: 4000;
-				addHandlerNamed: 'divide' block: [ :x :y | x / y ];
-				yourself.
+  port: 4000;
+  addHandlerNamed: 'divide' block: [ :x :y | x / y ];
+  yourself.
 
 server start.
 ```
 
 This server has a handler implenting a the division of `x` by `y`. In Pharo, dividing a `Number` by `0` results in a `ZeroDivide` error. Thus, the following code:
 
-```
+```Smalltalk
 (JRPCClient http: 'http://localhost:4000')
 	callMethod: 'divide' arguments: #(1 0) withId: 1.
 ```
 
 Will results in a JSON-RPC error for which the error looks like this in JSON format:
 
-```
+```Smalltalk
 {
 	"jsonrpc" : "2.0",
 	"id" : 1,
