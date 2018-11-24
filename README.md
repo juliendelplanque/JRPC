@@ -1,10 +1,11 @@
 # JRPC [![Build Status](https://travis-ci.org/juliendelplanque/JRPC.svg?branch=master)](https://travis-ci.org/juliendelplanque/JRPC)
-Yet another JSON-RPC 2.0 implementation for Pharo Smalltalk
+Yet another [JSON-RPC 2.0](https://www.jsonrpc.org/specification) implementation for Pharo Smalltalk
 
 - [Features](#features)
 - [Examples](#examples)
   * [Client](#client)
   * [Server](#server)
+- [Additional data provided in error messages](#additional-data-provided-in-error-messages)
 - [Version management](#version-management)
 - [Install](#install)
 - [JRPC v.s. others](#jrpc-vs-others)
@@ -15,6 +16,7 @@ Yet another JSON-RPC 2.0 implementation for Pharo Smalltalk
 - Uses STONJSON to parse JSON internally.
 - Transport agnostic (like JSON-RPC 2.0 spec claims).
 - Can currently be used over HTTP but easily extendable.
+- Additional `data` when an error occured in the `error` object.
 
 ## Examples
 ### Client
@@ -52,6 +54,59 @@ To stop it, use `#stop` method:
 
 ```Smalltalk
 server stop
+```
+
+## Additional data provided in error messages
+[JSON-RPC 2.0 specification](https://www.jsonrpc.org/specification) specifies that in error messages, a `data` field can optionally be set to provide additional information about the error. However, this field structure is specified by the server. This section describes what the current implementation stores in the `data` field.
+
+To do that, let's take the following configuration. We have a server defined as follow:
+```
+server := JRPCServer http
+				port: 4000;
+				addHandlerNamed: 'divide' block: [ :x :y | x / y ];
+				yourself.
+
+server start.
+```
+
+This server has a handler implenting a the division of `x` by `y`. In Pharo, dividing a `Number` by `0` results in a `ZeroDivide` error. Thus, the following code:
+
+```
+(JRPCClient http: 'http://localhost:4000')
+	callMethod: 'divide' arguments: #(1 0) withId: 1.
+```
+
+Will results in a JSON-RPC error for which the error looks like this in JSON format:
+
+```
+{
+	"jsonrpc" : "2.0",
+	"id" : 1,
+	"error" : {
+		"data" : {
+			"tag" : "",
+			"errorClass" : "ZeroDivide",
+			"signalerContext" : "SmallInteger>>/",
+			"messageText" : "",
+			"signaler" : "1"
+		},
+		"message" : "Internal JSON-RPC error.",
+		"code" : -32603
+	}
+}
+```
+
+Mind the `data` sub-field inside `error` error field. It contains additional data about the error for which the structure is defined by this particular implementation.
+
+The structure is the following:
+```
+{
+  "errorClass" : String, // The class of the Pharo error.
+  "signaler" : String, // The object to which the message was sent when the error occured.
+  "signalerContext" : String, // The method in which error was raised formatted as Class>>method
+  "messageText" : String, // The message the Pharo error hold.
+  "tag" : String // The tag of the Pharo error.
+}
 ```
 
 ## Version management
