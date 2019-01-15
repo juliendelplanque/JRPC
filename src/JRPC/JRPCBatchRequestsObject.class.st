@@ -26,6 +26,13 @@ JRPCBatchRequestsObject class >> fromJRPCJSONObject: aJSONObject [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+JRPCBatchRequestsObject class >> requests: anObject [
+	^ self new
+		requests: anObject;
+		yourself
+]
+
 { #category : #converting }
 JRPCBatchRequestsObject >> asJRPCJSON [
 	^ self requests collect: #asJRPCJSON
