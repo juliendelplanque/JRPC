@@ -93,3 +93,13 @@ JRPCMessageObject >> jsonrpc [
 JRPCMessageObject >> jsonrpc: anObject [
 	jsonrpc := anObject
 ]
+
+{ #category : #printing }
+JRPCMessageObject >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		nextPutAll: 'id=';
+		nextPutAll: self id asString;
+		nextPut: $)
+]
