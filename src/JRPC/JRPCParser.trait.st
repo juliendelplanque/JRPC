@@ -9,7 +9,7 @@ Trait {
 { #category : #converting }
 JRPCParser >> convertJRPCJsonableObjectToJSON: aJRPCJsonableObject [
 	^ String streamContents: [ :stream |
-		self convertJRPCJsonableObjectToJSON: aJRPCJsonableObject asJRPCJSON on: stream ]
+		self convertJRPCJsonableObjectToJSON: aJRPCJsonableObject on: stream ]
 ]
 
 { #category : #converting }
