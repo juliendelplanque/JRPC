@@ -39,8 +39,10 @@ baseline: spec
 
 ## Provided groups
 - `Server-Deployment` will load all the packages needed to deploy a JSON RPC Server
-- `Client-Deployemnt` will load all the packages needed to deploy a JSON RPC Client
+- `Client-Deployment` will load all the packages needed to deploy a JSON RPC Client
 - `Deployment` will load all the packages needed to deploy both a JSON RPC Client and Server
 - `Tests` will load the test cases
 - `CI` is the group loaded in the continuous integration setup
 - `Development` will load all the needed packages to develop and contribute to the project
+
+> Not specifying any group is equivalent to load `Development` group.
