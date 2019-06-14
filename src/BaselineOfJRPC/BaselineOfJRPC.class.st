@@ -32,7 +32,7 @@ BaselineOfJRPC >> setUpPackages: spec [
 		group: 'Server-Deployment' with: 'JRPC-Server'.
 	spec
 		package: 'JRPC-Client' with: [ spec requires: 'JRPC-Common' ];
-		group: 'Client-Deployment' with: 'JRPC-Common'.
+		group: 'Client-Deployment' with: 'JRPC-Client'.
 	spec group: 'Deployment' with: #('Server-Deployment' 'Client-Deployment').
 
 	spec
