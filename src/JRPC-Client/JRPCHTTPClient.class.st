@@ -7,7 +7,6 @@ Class {
 	#name : #JRPCHTTPClient,
 	#superclass : #JRPCClient,
 	#instVars : [
-		'url',
 		'httpClient'
 	],
 	#category : #'JRPC-Client'
