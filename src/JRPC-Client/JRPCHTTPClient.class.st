@@ -7,7 +7,8 @@ Class {
 	#name : #JRPCHTTPClient,
 	#superclass : #JRPCClient,
 	#instVars : [
-		'url'
+		'url',
+		'httpClient'
 	],
 	#category : #'JRPC-Client'
 }
@@ -19,31 +20,36 @@ JRPCHTTPClient class >> url: anObject [
 		yourself
 ]
 
-{ #category : #private }
-JRPCHTTPClient >> httpClient [
-	^ ZnClient new
+{ #category : #options }
+JRPCHTTPClient >> ifFail: block [
+
+	httpClient ifFail: block
+]
+
+{ #category : #initialization }
+JRPCHTTPClient >> initialize [
+
+	super initialize.
+	httpClient := ZnClient new
 		systemPolicy;
 		http;
-		url: self url;
 		yourself
 ]
 
 { #category : #'private - sending' }
 JRPCHTTPClient >> sendRequest: aJRPCRequestObject [
-	| result |
-	result := self httpClient
-		contents: (self convertJRPCJsonableObjectToJSON: aJRPCRequestObject asJRPCJSON);
-		get.
-		
-	^ self parseSupposedJRPCMessageObjectFromString: (result ifNil: [ '' ] ifNotNil: #contents).
-]
 
-{ #category : #accessing }
-JRPCHTTPClient >> url [
-	^ url
+	| result |
+
+	result := httpClient
+		contents: ( self convertJRPCJsonableObjectToJSON: aJRPCRequestObject asJRPCJSON );
+		post.
+
+	^ self parseSupposedJRPCMessageObjectFromString: ( result ifNil: [ '' ] ifNotNil: #contents )
 ]
 
 { #category : #accessing }
 JRPCHTTPClient >> url: anObject [
-	url := anObject asZnUrl
+
+	httpClient url: anObject asZnUrl
 ]
