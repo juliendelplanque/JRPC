@@ -31,11 +31,19 @@ BaselineOfJRPC >> setUpPackages: spec [
 		package: 'JRPC-Server' with: [ spec requires: 'JRPC-Common' ];
 		group: 'Server-Deployment' with: 'JRPC-Server'.
 	spec
+		for: #'pharo6.x'
+		do: [ spec
+				package: 'JRPC-Server-Pharo6';
+				group: 'Server-Deployment' with: 'JRPC-Server-Pharo6'
+	].	
+	spec
 		package: 'JRPC-Client' with: [ spec requires: 'JRPC-Common' ];
 		group: 'Client-Deployment' with: 'JRPC-Client'.
 	spec group: 'Deployment' with: #('Server-Deployment' 'Client-Deployment').
 
 	spec
 		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
-		group: 'Tests' with: 'JRPC-Tests'
+		group: 'Tests' with: 'JRPC-Tests'.
+		
+
 ]
