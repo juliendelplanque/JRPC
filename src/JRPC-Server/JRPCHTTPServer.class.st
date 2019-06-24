@@ -22,19 +22,18 @@ JRPCHTTPServer >> defaultPort [
 	^ self class defaultPort
 ]
 
-{ #category : #'handling - http' }
-JRPCHTTPServer >> handleRequest: aRequest [
-	^ ZnResponse ok: (ZnEntity json: (self handleJSON: aRequest contents))
-]
-
 { #category : #initialization }
 JRPCHTTPServer >> initialize [
+
 	super initialize.
 	server := ZnServer defaultServerClass new.
-	
+
 	server
 		port: self defaultPort;
-		delegate: self
+		delegate:
+			( ZnDispatcherDelegate new
+				map: '/'
+				to: [ :request :response | response entity: ( ZnEntity json: ( self handleJSON: request contents ) ) ] )
 ]
 
 { #category : #accessing }
