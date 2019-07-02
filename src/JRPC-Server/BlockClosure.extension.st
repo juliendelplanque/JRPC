@@ -1,6 +1,6 @@
 Extension { #name : #BlockClosure }
 
-{ #category : #'*JRPC-Common' }
+{ #category : #'*JRPC-Server' }
 BlockClosure >> jrpcExecuteWithParameters: anArrayOrDictionary [
 	| arguments |
 	anArrayOrDictionary ifNil: [ 
@@ -15,12 +15,12 @@ BlockClosure >> jrpcExecuteWithParameters: anArrayOrDictionary [
 	^ self valueWithArguments: arguments
 ]
 
-{ #category : #'*JRPC-Common' }
+{ #category : #'*JRPC-Server' }
 BlockClosure >> jrpcParametersCount [
 	^ self argumentCount
 ]
 
-{ #category : #'*JRPC-Common' }
+{ #category : #'*JRPC-Server' }
 BlockClosure >> jrpcParametersNames [
 	^ self argumentNames asSet
 ]

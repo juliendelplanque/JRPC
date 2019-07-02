@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'handlerName'
 	],
-	#category : #'JRPC-Common-Errors'
+	#category : #'JRPC-Server'
 }
 
 { #category : #converting }

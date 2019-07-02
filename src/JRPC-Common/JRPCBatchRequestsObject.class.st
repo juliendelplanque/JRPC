@@ -38,14 +38,6 @@ JRPCBatchRequestsObject >> asJRPCJSON [
 	^ self requests collect: #asJRPCJSON
 ]
 
-{ #category : #'server handling' }
-JRPCBatchRequestsObject >> beHandledByServer: aJRPCServer [
-	^ JRPCBatchResponseObject new
-		responses: (self requests collect: [ :req |
-						req beHandledByServer: aJRPCServer ]);
-		yourself
-]
-
 { #category : #accessing }
 JRPCBatchRequestsObject >> requests [
 	^ requests

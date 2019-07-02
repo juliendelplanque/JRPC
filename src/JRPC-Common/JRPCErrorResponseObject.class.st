@@ -35,12 +35,6 @@ JRPCErrorResponseObject >> asJRPCJSON [
 		yourself
 ]
 
-{ #category : #'server handling' }
-JRPCErrorResponseObject >> beHandledByServer: aJRPCServer [
-	"Returns self, this method is executed when a request inside a batch generated an error."
-	^ self
-]
-
 { #category : #accessing }
 JRPCErrorResponseObject >> error [
 	^ error
