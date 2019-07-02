@@ -17,13 +17,12 @@ JRPCBatchRequestsObject class >> fromJRPCJSONObject: aJSONObject [
 	aJSONObject isArray
 		ifFalse: [ JRPCIncorrectJSON signal ].
 		
-	^ self new
+	^ self 
 		requests: (aJSONObject collect: [ :json | 
 			[ (JRPCMessageObject classToInstantiateForJSONObject: json forClient: false)
 				fromJRPCJSONObject: json
 			] on: JRPCIncorrectJSON do: [ :error |
-				error asJRPCResponse ] ]);
-		yourself
+				error asJRPCResponse ] ])
 ]
 
 { #category : #'instance creation' }
