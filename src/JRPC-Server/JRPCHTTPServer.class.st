@@ -37,11 +37,6 @@ JRPCHTTPServer >> initialize [
 ]
 
 { #category : #accessing }
-JRPCHTTPServer >> port [
-	^ server port
-]
-
-{ #category : #accessing }
 JRPCHTTPServer >> port: anInteger [
 	server port: anInteger
 ]
