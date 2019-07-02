@@ -38,7 +38,12 @@ JRPCHttpServerTest >> setUp [
 	super setUp.
 	self checkPortAvailability.
 	server := JRPCServer http.
-	server port: self port.
+	server
+		port: self port;
+		debugMode: true.
+	self
+		assert: server port equals: self port;
+		assert: server debugMode.
 	server start
 ]
 
