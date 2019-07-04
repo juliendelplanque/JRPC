@@ -32,22 +32,3 @@ JRPCNotificationObject >> asJRPCJSON [
 	dict removeKey: 'id'.
 	^ dict
 ]
-
-{ #category : #'server handling' }
-JRPCNotificationObject >> beHandledByServer: aJRPCServer [
-	| response |
-	response := super beHandledByServer: aJRPCServer.
-	"If the response is an error invalid request, it should be returned even if the request was a notification."
-	(response isError and: [ response isInvalidRequest ])
-		ifTrue: [ ^ response ].
-		
-	^ JRPCEmptyResponseObject new
-]
-
-{ #category : #'server handling' }
-JRPCNotificationObject >> convertErrorToResponse: jrpcError [
-	jrpcError isIncorrectJSON
-		ifTrue: [ ^ jrpcError asJRPCResponseWithId: self id ].
-	
-	^ JRPCEmptyResponseObject new
-]

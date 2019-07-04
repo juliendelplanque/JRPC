@@ -17,6 +17,18 @@ JRPCHTTPServer class >> defaultPort [
 	^ 4000
 ]
 
+{ #category : #accessing }
+JRPCHTTPServer >> debugMode [
+
+	^ server debugMode
+]
+
+{ #category : #accessing }
+JRPCHTTPServer >> debugMode: boolean [
+
+	server debugMode: boolean
+]
+
 { #category : #defaults }
 JRPCHTTPServer >> defaultPort [
 	^ self class defaultPort
@@ -38,6 +50,7 @@ JRPCHTTPServer >> initialize [
 
 { #category : #accessing }
 JRPCHTTPServer >> port [
+
 	^ server port
 ]
 

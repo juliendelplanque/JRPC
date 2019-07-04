@@ -52,16 +52,6 @@ JRPCRequestObject >> asJRPCJSON [
 	^ dict
 ]
 
-{ #category : #'server handling' }
-JRPCRequestObject >> beHandledByServer: aJRPCServer [
-	^ aJRPCServer handleJRPCRequestObject: self
-]
-
-{ #category : #'server handling' }
-JRPCRequestObject >> convertErrorToResponse: jrpcError [
-	^ jrpcError asJRPCResponseWithId: self id
-]
-
 { #category : #accessing }
 JRPCRequestObject >> method [
 	^ method

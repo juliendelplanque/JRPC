@@ -19,6 +19,14 @@ JRPCHttpServerTest >> checkPortAvailability [
 ]
 
 { #category : #private }
+JRPCHttpServerTest >> newJRPCClient [
+
+	^ ( JRPCClient http: ( 'http://localhost' asUrl port: self port ) )
+		ifFail: [ self fail ];
+		yourself
+]
+
+{ #category : #private }
 JRPCHttpServerTest >> port [
 
 	^ 7777
@@ -30,7 +38,12 @@ JRPCHttpServerTest >> setUp [
 	super setUp.
 	self checkPortAvailability.
 	server := JRPCServer http.
-	server port: self port.
+	server
+		port: self port;
+		debugMode: true.
+	self
+		assert: server port equals: self port;
+		assert: server debugMode.
 	server start
 ]
 
@@ -40,6 +53,32 @@ JRPCHttpServerTest >> tearDown [
 	server ifNotNil: [ server stop ].
 	server := nil.
 	super tearDown
+]
+
+{ #category : #accessing }
+JRPCHttpServerTest >> testNotification [
+
+	| notificationCount |
+
+	notificationCount := 0.
+	server addHandlerNamed: 'mail_sent' block: [ notificationCount := notificationCount + 1 ].
+
+	self newJRPCClient notifyMethod: 'mail_sent'.
+
+	self assert: notificationCount equals: 1
+]
+
+{ #category : #accessing }
+JRPCHttpServerTest >> testNotificationWithInvalidMethod [
+
+	| notificationCount |
+
+	notificationCount := 0.
+	server addHandlerNamed: 'mail_sent' block: [ notificationCount := notificationCount + 1 ].
+
+	self newJRPCClient notifyMethod: 'invalid'.
+
+	self assert: notificationCount equals: 0
 ]
 
 { #category : #accessing }
@@ -62,13 +101,17 @@ JRPCHttpServerTest >> testRequestOnInvalidEndpoint [
 ]
 
 { #category : #accessing }
-JRPCHttpServerTest >> testValidRequest [
+JRPCHttpServerTest >> testRequestWithoutParameters [
 
-	| httpClient |
+	server addHandlerNamed: 'zero' block: [ 0 ].
+
+	self assert: ( self newJRPCClient callMethod: 'zero' withId: 3 ) result equals: 0
+]
+
+{ #category : #accessing }
+JRPCHttpServerTest >> testValidRequest [
 
 	server addHandlerNamed: 'sum' block: [ :a :b | a + b ].
 
-	httpClient := JRPCClient http: ( 'http://localhost' asUrl port: self port ).
-
-	self assert: ( httpClient callMethod: 'sum' arguments: #(1 3) withId: 1 ) result equals: 4
+	self assert: ( self newJRPCClient callMethod: 'sum' arguments: #(1 3) withId: 1 ) result equals: 4
 ]
