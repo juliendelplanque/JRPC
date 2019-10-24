@@ -27,23 +27,33 @@ JRPCServer class >> tcp [
 ]
 
 { #category : #'handlers management' }
-JRPCServer >> addHandlerNamed: aString block: aBlock [
+JRPCServer >> addHandler: aJRPCHandler [
 	namesToHandlersDict
-		at: aString put: aBlock
+		at: aJRPCHandler methodName put: aJRPCHandler.
+		
+	aJRPCHandler server: self
+]
+
+{ #category : #'handlers management' }
+JRPCServer >> addHandlerNamed: aString block: aBlock [
+	self addHandler: (JRPCBlockHandler new
+								methodName: aString;
+								block: aBlock;
+								yourself)
 ]
 
 { #category : #checking }
 JRPCServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject [
 	aJRPCRequestObject params
 		ifNil: [ 
-			handler jrpcParametersCount = 0
+			handler parametersCount = 0
 				ifFalse: [ JRPCInvalidParameters signal ] ].
 	
-	(aJRPCRequestObject params ifNil: [ #() ]) size = handler jrpcParametersCount
+	(aJRPCRequestObject params ifNil: [ #() ]) size = handler parametersCount
 		ifFalse: [ JRPCInvalidParameters signal ].
 		
 	(aJRPCRequestObject params isDictionary
-		and: [ ((aJRPCRequestObject params keys union: handler jrpcParametersNames) size ~= handler jrpcParametersCount) ])
+		and: [ ((aJRPCRequestObject params keys union: handler parametersNames) size ~= handler parametersCount) ])
 			ifTrue: [ JRPCInvalidParameters signal ]
 ]
 
@@ -52,7 +62,7 @@ JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 	[ | handler result |
 		handler := self handlerForName: aJRPCRequestObject method.
 		self checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject.
-		result := handler jrpcExecuteWithParameters: aJRPCRequestObject params.
+		result := handler executeWithArguments: aJRPCRequestObject params.
 		^ JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
 	] on: Error
 	do: [ :jrpcError |

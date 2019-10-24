@@ -21,48 +21,49 @@ JRPCServerTest >> setUp [
 
 { #category : #tests }
 JRPCServerTest >> testAddHandlerNamedBlock [
-	| handler |
+	| block |
 	self assert: server namesToHandlersDict size equals: 1.
-	handler := [ :x | x ].
-	server addHandlerNamed: 'test' block: handler.
+	block := [ :x | x ].
+	server addHandlerNamed: 'test' block: block.
 	
 	self assert: server namesToHandlersDict size equals: 2.
-	self assert: (server namesToHandlersDict at: 'test') equals: handler
+	self assert: (server namesToHandlersDict at: 'test') methodName equals: 'test'.
+	self assert: (server namesToHandlersDict at: 'test') block equals: block
 ]
 
 { #category : #tests }
 JRPCServerTest >> testCheckParamsMatchingForHandlerAndRequest [
 	self should: [ 
 		server
-			checkParamsMatchingForHandler: [ :x | ]
+			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
 			andRequest: (JRPCRequestObject new)
 	] raise: JRPCInvalidParameters.
 	
 	self should: [ 
 		server
-			checkParamsMatchingForHandler: [ :x | ]
+			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
 			andRequest: (JRPCRequestObject new params: #(1 2); yourself)
 	] raise: JRPCInvalidParameters.
 
 	self should: [ 
 		server
-			checkParamsMatchingForHandler: [ :x | ]
+			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
 			andRequest: (JRPCRequestObject new params: { #x -> 1 . #y -> 2 } asDictionary; yourself)
 	] raise: JRPCInvalidParameters.
 	
 	self should: [ 
 		server
-			checkParamsMatchingForHandler: [ :x | ]
+			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
 			andRequest: (JRPCRequestObject new params: { #y -> 1 } asDictionary; yourself)
 	] raise: JRPCInvalidParameters.
 	
 	"The two next will not raise error."
 	server
-		checkParamsMatchingForHandler: [ :x | ]
+		checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
 		andRequest: (JRPCRequestObject new params: #(1); yourself).
 		
 	server
-		checkParamsMatchingForHandler: [ :x | ]
+		checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
 		andRequest: (JRPCRequestObject new params: { #x -> 1 } asDictionary; yourself)
 ]
 
@@ -194,15 +195,17 @@ JRPCServerTest >> testHandleJSON [
 
 { #category : #tests }
 JRPCServerTest >> testHandlerForName [
-	| handler |
+	| block handler |
 	
 	self should: [ server handlerForName: 'powerOf2' ] raise: JRPCNonExistentHandler.
 	
-	handler := [ :anInteger | anInteger ** 2 ].
+	block := [ :anInteger | anInteger ** 2 ].
 	
-	server addHandlerNamed: 'powerOf2' block: handler.
+	server addHandlerNamed: 'powerOf2' block: block.
+	handler := server handlerForName: 'powerOf2'.
 	
-	self assert: (server handlerForName: 'powerOf2') equals: handler
+	self assert: handler methodName equals: 'powerOf2'.
+	self assert: handler block equals: block
 ]
 
 { #category : #tests }
