@@ -8,7 +8,6 @@ Class {
 	#superclass : #JRPCServer,
 	#instVars : [
 		'port',
-		'debugMode',
 		'tcpServer',
 		'serverLoop',
 		'process'
@@ -21,25 +20,9 @@ JRPCTCPServer class >> defaultPort [
 	^ 4000
 ]
 
-{ #category : #accessing }
-JRPCTCPServer >> debugMode [
-	^ debugMode
-]
-
-{ #category : #accessing }
-JRPCTCPServer >> debugMode: anObject [
-	debugMode := anObject
-]
-
 { #category : #defaults }
 JRPCTCPServer >> defaultPort [
 	^ self class defaultPort
-]
-
-{ #category : #initialization }
-JRPCTCPServer >> initialize [
-	super initialize.
-	self debugMode: false.
 ]
 
 { #category : #accessing }
