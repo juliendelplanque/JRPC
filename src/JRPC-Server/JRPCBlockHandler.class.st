@@ -12,6 +12,14 @@ Class {
 	#category : #'JRPC-Server'
 }
 
+{ #category : #accessing }
+JRPCBlockHandler class >> defaultMethodName [
+	"If this method is called, it means that the user did not set the #methodName of the block handler.
+	 It is mandatory to do it.
+	"
+	^ self error: 'It is mandatory to specify the #methodName of a block handler via #methodName: method on instance side.'
+]
+
 { #category : #'instance creation' }
 JRPCBlockHandler class >> methodName: methodName block: block [
 	"Creates a new handler with the specified methodName and the execution specificied by the #block."

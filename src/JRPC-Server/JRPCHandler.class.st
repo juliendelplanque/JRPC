@@ -15,6 +15,17 @@ Class {
 	#category : #'JRPC-Server'
 }
 
+{ #category : #accessing }
+JRPCHandler class >> defaultMethodName [
+	"Returns the method name that will be set to the handler instance by default."
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+JRPCHandler >> defaultMethodName [
+	^ self class defaultMethodName
+]
+
 { #category : #evaluation }
 JRPCHandler >> executeWithArguments: anArrayOrDictionary [
 	^ self subclassResponsibility
@@ -22,7 +33,7 @@ JRPCHandler >> executeWithArguments: anArrayOrDictionary [
 
 { #category : #accessing }
 JRPCHandler >> methodName [
-	^ methodName
+	^ methodName ifNil: [ methodName := self defaultMethodName ]
 ]
 
 { #category : #accessing }
