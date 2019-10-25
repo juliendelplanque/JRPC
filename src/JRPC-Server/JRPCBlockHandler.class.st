@@ -5,7 +5,7 @@ My #executeWithArguments: method just delegate the execution to my #block inst. 
 "
 Class {
 	#name : #JRPCBlockHandler,
-	#superclass : #JRPCHandler,
+	#superclass : #JRPCAbstractHandler,
 	#instVars : [
 		'block'
 	],

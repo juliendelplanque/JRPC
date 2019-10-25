@@ -6,7 +6,7 @@ My concrete subclasses must override #executeWithArguments: method to define wha
 I also know the #server to which I have been added (if any).
 "
 Class {
-	#name : #JRPCHandler,
+	#name : #JRPCAbstractHandler,
 	#superclass : #Object,
 	#instVars : [
 		'methodName',
@@ -16,49 +16,49 @@ Class {
 }
 
 { #category : #accessing }
-JRPCHandler class >> defaultMethodName [
+JRPCAbstractHandler class >> defaultMethodName [
 	"Returns the method name that will be set to the handler instance by default."
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-JRPCHandler >> defaultMethodName [
+JRPCAbstractHandler >> defaultMethodName [
 	^ self class defaultMethodName
 ]
 
 { #category : #evaluation }
-JRPCHandler >> executeWithArguments: anArrayOrDictionary [
+JRPCAbstractHandler >> executeWithArguments: anArrayOrDictionary [
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-JRPCHandler >> methodName [
+JRPCAbstractHandler >> methodName [
 	^ methodName ifNil: [ methodName := self defaultMethodName ]
 ]
 
 { #category : #accessing }
-JRPCHandler >> methodName: anObject [
+JRPCAbstractHandler >> methodName: anObject [
 	methodName := anObject
 ]
 
 { #category : #accessing }
-JRPCHandler >> parametersCount [
+JRPCAbstractHandler >> parametersCount [
 	"Returns the number of parameters expected by the handler."
 	^ self parametersNames size
 ]
 
 { #category : #accessing }
-JRPCHandler >> parametersNames [
+JRPCAbstractHandler >> parametersNames [
 	"Returns the names of the parameters expected by the handler as a collection."
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-JRPCHandler >> server [
+JRPCAbstractHandler >> server [
 	^ server
 ]
 
 { #category : #accessing }
-JRPCHandler >> server: anObject [
+JRPCAbstractHandler >> server: anObject [
 	server := anObject
 ]
