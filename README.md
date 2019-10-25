@@ -19,7 +19,10 @@ Yet another [JSON-RPC 2.0](https://www.jsonrpc.org/specification) implementation
 - Only depends on Pharo's built-in packages.
 - Uses STONJSON to parse JSON internally.
 - Transport agnostic (like JSON-RPC 2.0 spec claims).
-- Can currently be used over HTTP but easily extendable.
+- Can currently be used over
+  - HTTP
+  - TCP
+- It is easy to add other transport layers.
 - Additional `data` when an error occured in the `error` object.
 
 ## Examples
