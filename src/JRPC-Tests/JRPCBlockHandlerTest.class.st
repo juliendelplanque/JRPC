@@ -28,7 +28,7 @@ JRPCBlockHandlerTest >> testParametersCount [
 	| handler |
 	handler := JRPCBlockHandler methodName: 'test' block: [ :x :y | x + y ].
 	
-	self assertCollection: handler parametersCount equals: 2
+	self assert: handler parametersCount equals: 2
 ]
 
 { #category : #test }

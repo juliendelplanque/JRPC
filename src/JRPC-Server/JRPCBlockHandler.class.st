@@ -5,7 +5,7 @@ My #executeWithArguments: method just delegate the execution to my #block inst. 
 "
 Class {
 	#name : #JRPCBlockHandler,
-	#superclass : #JRPCAbstractHandler,
+	#superclass : #JRPCMessageSendHandler,
 	#instVars : [
 		'block'
 	],
@@ -31,31 +31,31 @@ JRPCBlockHandler class >> methodName: methodName block: block [
 
 { #category : #accessing }
 JRPCBlockHandler >> block [
-	^ block
+	^ self receiver
 ]
 
 { #category : #accessing }
 JRPCBlockHandler >> block: anObject [
-	block := anObject
+	self receiver: anObject
 ]
 
-{ #category : #evaluation }
-JRPCBlockHandler >> executeWithArguments: anArrayOrDictionary [
-	| arguments |
-	anArrayOrDictionary ifNil: [ 
-		^ self block value ].
-	anArrayOrDictionary isArray
-		ifTrue: [ ^ self block valueWithArguments: anArrayOrDictionary ].
-		
-	arguments := (anArrayOrDictionary associations sorted: [ :a :b |
-		(self parametersNames indexOf: a key) < (self parametersNames indexOf: b key) ])
-			collect: #value.
-	
-	^ self block valueWithArguments: arguments
+{ #category : #accessing }
+JRPCBlockHandler >> messageSelector [
+	^ #valueWithArguments:
+]
+
+{ #category : #accessing }
+JRPCBlockHandler >> messageSelector: anObject [
+	self error: 'Can not set the message selector manually, this is deteminated depending on the #block to execute.'
 ]
 
 { #category : #accessing }
 JRPCBlockHandler >> parametersNames [
 	"Returns the names of the parameters expected by the handler as a collection."
 	^ self block argumentNames
+]
+
+{ #category : #private }
+JRPCBlockHandler >> send: aSelector to: aBlock with: arguments [
+	^ super send: aSelector to: aBlock with: (Array with: arguments)
 ]

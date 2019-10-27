@@ -1,7 +1,9 @@
 "
 I am an abstract handler that deal with JRPC request for the #methodName I have.
 
-My concrete subclasses must override #executeWithArguments: method to define what they do.
+I define the common API expected from any handler.
+
+My concrete subclasses must override #executeWithArguments: method to define what they do and #parametersNames returns the name of the parameters I expect.
 
 I also know the #server to which I have been added (if any).
 "
