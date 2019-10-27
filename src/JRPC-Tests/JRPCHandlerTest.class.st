@@ -21,6 +21,14 @@ JRPCHandlerTest >> testExecuteWithArgumentsDictionary [
 ]
 
 { #category : #test }
+JRPCHandlerTest >> testGetMethodSelectorFromPragma [
+	| handler |
+	handler := JRPCMockHandler new.
+	
+	self assert: handler getMethodSelectorFromPragma equals: #add:with:
+]
+
+{ #category : #test }
 JRPCHandlerTest >> testParametersCount [
 	| handler |
 	handler := JRPCMockHandler new.
@@ -34,12 +42,4 @@ JRPCHandlerTest >> testParametersNames [
 	handler := JRPCMockHandler new.
 	
 	self assertCollection: handler parametersNames equals: #(#x #y)
-]
-
-{ #category : #test }
-JRPCHandlerTest >> testSelectorOfMethodToExecute [
-	| handler |
-	handler := JRPCMockHandler new.
-	
-	self assert: handler selectorOfMethodToExecute equals: #add:with:
 ]

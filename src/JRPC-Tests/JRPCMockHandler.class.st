@@ -1,6 +1,6 @@
 Class {
 	#name : #JRPCMockHandler,
-	#superclass : #JRPCHandler,
+	#superclass : #JRPCPragmaHandler,
 	#category : #'JRPC-Tests'
 }
 
