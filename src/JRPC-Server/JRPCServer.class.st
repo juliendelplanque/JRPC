@@ -28,6 +28,11 @@ JRPCServer class >> tcp [
 
 { #category : #'handlers management' }
 JRPCServer >> addHandler: aJRPCHandler [
+
+	namesToHandlersDict
+		at: aJRPCHandler methodName
+		ifPresent: [ JRPCNameOfHandlerIsAlreadyTaken signalForHandler: aJRPCHandler ].
+
 	namesToHandlersDict
 		at: aJRPCHandler methodName put: aJRPCHandler.
 		

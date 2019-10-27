@@ -19,6 +19,27 @@ JRPCServerTest >> setUp [
 		addHandlerNamed: 'setUpHandler' block: [ 42 ]
 ]
 
+{ #category : #test }
+JRPCServerTest >> testAddHandler [
+	| handler |
+	self assert: server namesToHandlersDict size equals: 1.
+	
+	handler := JRPCMockHandler new.
+	server addHandler: handler.
+	
+	self assert: server namesToHandlersDict size equals: 2.
+	self assert: (server namesToHandlersDict at: 'mock') equals: handler.
+]
+
+{ #category : #test }
+JRPCServerTest >> testAddHandlerDuplicated [
+	| handler |
+	handler := JRPCMockHandler new.
+	server addHandler: handler.
+	
+	self should: [ server addHandler: handler ] raise: JRPCNameOfHandlerIsAlreadyTaken withExceptionDo: [ :error | self assert: error handler equals: handler ]
+]
+
 { #category : #tests }
 JRPCServerTest >> testAddHandlerNamedBlock [
 	| block |
