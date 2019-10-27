@@ -48,7 +48,7 @@ JRPCServerTest >> testAddHandlerNamedBlock [
 	server addHandlerNamed: 'test' block: block.
 	
 	self assert: server namesToHandlersDict size equals: 2.
-	self assert: (server namesToHandlersDict at: 'test') methodName equals: 'test'.
+	self assert: (server namesToHandlersDict at: 'test') procedureName equals: 'test'.
 	self assert: (server namesToHandlersDict at: 'test') block equals: block
 ]
 
@@ -237,7 +237,7 @@ JRPCServerTest >> testHandlerForName [
 	server addHandlerNamed: 'powerOf2' block: block.
 	handler := server handlerForName: 'powerOf2'.
 	
-	self assert: handler methodName equals: 'powerOf2'.
+	self assert: handler procedureName equals: 'powerOf2'.
 	self assert: handler block equals: block
 ]
 

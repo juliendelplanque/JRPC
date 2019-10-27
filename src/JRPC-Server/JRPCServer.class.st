@@ -30,11 +30,11 @@ JRPCServer class >> tcp [
 JRPCServer >> addHandler: aJRPCHandler [
 
 	namesToHandlersDict
-		at: aJRPCHandler methodName
+		at: aJRPCHandler procedureName
 		ifPresent: [ JRPCNameOfHandlerIsAlreadyTaken signalForHandler: aJRPCHandler ].
 
 	namesToHandlersDict
-		at: aJRPCHandler methodName put: aJRPCHandler.
+		at: aJRPCHandler procedureName put: aJRPCHandler.
 		
 	aJRPCHandler server: self
 ]
@@ -42,7 +42,7 @@ JRPCServer >> addHandler: aJRPCHandler [
 { #category : #'handlers management' }
 JRPCServer >> addHandlerNamed: aString block: aBlock [
 	self addHandler: (JRPCBlockHandler new
-								methodName: aString;
+								procedureName: aString;
 								block: aBlock;
 								yourself)
 ]
@@ -53,7 +53,7 @@ JRPCServer >> addHandlersFromPragmasIn: anObject [
 		do: [ :pragma |
 			self addHandler: (JRPCMessageSendHandler new
 										receiver: anObject;
-										methodName: pragma arguments first;
+										procedureName: pragma arguments first;
 										messageSelector: pragma methodSelector;
 										yourself) ]
 ]

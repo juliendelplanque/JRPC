@@ -24,7 +24,7 @@ JRPCBlockHandler class >> defaultMethodName [
 JRPCBlockHandler class >> methodName: methodName block: block [
 	"Creates a new handler with the specified methodName and the execution specificied by the #block."
 	^ self new
-		methodName: methodName;
+		procedureName: methodName;
 		block: block;
 		yourself
 ]
