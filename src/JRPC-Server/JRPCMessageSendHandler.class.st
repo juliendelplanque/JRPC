@@ -1,3 +1,16 @@
+"
+I am an handler that, when executed, sends the message with selector #messageSelector to the #receiver.
+
+For example,
+
+JRPCMessageSendHandler new
+	methodName: 'plus';
+	messageSelector: #+;
+	receiver: 1;
+	yourself
+	
+Will the send #+ message to the instance of SmallInteger 1 with the arguments provided.
+"
 Class {
 	#name : #JRPCMessageSendHandler,
 	#superclass : #JRPCAbstractHandler,
