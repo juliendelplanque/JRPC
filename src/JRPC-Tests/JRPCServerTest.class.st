@@ -52,6 +52,18 @@ JRPCServerTest >> testAddHandlerNamedBlock [
 	self assert: (server namesToHandlersDict at: 'test') block equals: block
 ]
 
+{ #category : #test }
+JRPCServerTest >> testAddHandlersFromPragmasIn [
+	| exampleStack |
+	self assert: server namesToHandlersDict size equals: 1.
+	
+	exampleStack := JRPCExampleStack new.
+	server addHandlersFromPragmasIn: exampleStack.
+	
+	self assert: server namesToHandlersDict size equals: 4.
+	self assert: (server namesToHandlersDict keys includesAll: #('stack_top' 'stack_pop' 'stack_push'))
+]
+
 { #category : #tests }
 JRPCServerTest >> testCheckParamsMatchingForHandlerAndRequest [
 	self should: [ 

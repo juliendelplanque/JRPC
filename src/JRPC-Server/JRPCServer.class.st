@@ -47,6 +47,17 @@ JRPCServer >> addHandlerNamed: aString block: aBlock [
 								yourself)
 ]
 
+{ #category : #'handlers management' }
+JRPCServer >> addHandlersFromPragmasIn: anObject [
+	(Pragma allNamed: #jrpc: in: anObject class)
+		do: [ :pragma |
+			self addHandler: (JRPCMessageSendHandler new
+										receiver: anObject;
+										methodName: pragma arguments first;
+										messageSelector: pragma methodSelector;
+										yourself) ]
+]
+
 { #category : #checking }
 JRPCServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject [
 	aJRPCRequestObject params
