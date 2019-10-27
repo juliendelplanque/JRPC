@@ -74,6 +74,35 @@ JRPCServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObj
 ]
 
 { #category : #'handling - jrpc' }
+JRPCServer >> handleJRPCNotificationObject: aJRPCNotificationObject [
+	"A Notification is a Request object without an 'id' member.
+	 A Request object that is a Notification signifies the Client's
+	 lack of interest in the corresponding Response object, and as
+	 such no Response object needs to be returned to the client.
+	 The Server MUST NOT reply to a Notification, including those
+	 that are within a batch request.
+
+	 Notifications are not confirmable by definition, since they do
+	 not have a Response object to be returned. As such, the Client
+	 would not be aware of any errors (like e.g. 'Invalid params'
+	 'Internal error').
+	"
+	|response |
+	response := self handleJRPCRequestObject: aJRPCNotificationObject.
+	
+	"In case the request is invalid, an error is returned to the client
+	 even though what is described in the above comment.
+	 The idea is that, if what was sent by the client is invalid, we are
+	 not sure if it was really a notification or if it was a request.
+	 Thus, an error is returned.
+	"
+	(response isError and: [ response isInvalidRequest ])
+		ifTrue: [ ^ response ].
+
+	^ JRPCEmptyResponseObject new
+]
+
+{ #category : #'handling - jrpc' }
 JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 	[ | handler result |
 		handler := self handlerForName: aJRPCRequestObject method.
