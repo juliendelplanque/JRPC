@@ -65,42 +65,6 @@ JRPCServerTest >> testAddHandlersFromPragmasIn [
 ]
 
 { #category : #tests }
-JRPCServerTest >> testCheckParamsMatchingForHandlerAndRequest [
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
-			andRequest: (JRPCRequestObject new)
-	] raise: JRPCInvalidParameters.
-	
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
-			andRequest: (JRPCRequestObject new params: #(1 2); yourself)
-	] raise: JRPCInvalidParameters.
-
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
-			andRequest: (JRPCRequestObject new params: { #x -> 1 . #y -> 2 } asDictionary; yourself)
-	] raise: JRPCInvalidParameters.
-	
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
-			andRequest: (JRPCRequestObject new params: { #y -> 1 } asDictionary; yourself)
-	] raise: JRPCInvalidParameters.
-	
-	"The two next will not raise error."
-	server
-		checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
-		andRequest: (JRPCRequestObject new params: #(1); yourself).
-		
-	server
-		checkParamsMatchingForHandler: (JRPCBlockHandler methodName: 'test' block: [ :x | ])
-		andRequest: (JRPCRequestObject new params: { #x -> 1 } asDictionary; yourself)
-]
-
-{ #category : #tests }
 JRPCServerTest >> testHandleJRPCRequestObject [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'setUpHandler'.

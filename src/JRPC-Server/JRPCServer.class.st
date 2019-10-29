@@ -58,21 +58,6 @@ JRPCServer >> addHandlersFromPragmasIn: anObject [
 										yourself) ]
 ]
 
-{ #category : #checking }
-JRPCServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject [
-	aJRPCRequestObject params
-		ifNil: [ 
-			handler parametersCount = 0
-				ifFalse: [ JRPCInvalidParameters signal ] ].
-	
-	(aJRPCRequestObject params ifNil: [ #() ]) size = handler parametersCount
-		ifFalse: [ JRPCInvalidParameters signal ].
-		
-	(aJRPCRequestObject params isDictionary
-		and: [ ((aJRPCRequestObject params keys union: handler parametersNames) size ~= handler parametersCount) ])
-			ifTrue: [ JRPCInvalidParameters signal ]
-]
-
 { #category : #'handling - jrpc' }
 JRPCServer >> handleJRPCNotificationObject: aJRPCNotificationObject [
 	"A Notification is a Request object without an 'id' member.
@@ -106,7 +91,7 @@ JRPCServer >> handleJRPCNotificationObject: aJRPCNotificationObject [
 JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 	[ | handler result |
 		handler := self handlerForName: aJRPCRequestObject method.
-		self checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject.
+		handler checkParametersForRequest: aJRPCRequestObject.
 		result := handler executeWithArguments: aJRPCRequestObject params.
 		^ JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
 	] on: Error

@@ -23,6 +23,21 @@ JRPCAbstractHandler class >> defaultMethodName [
 	^ self subclassResponsibility
 ]
 
+{ #category : #'parameters-checking' }
+JRPCAbstractHandler >> checkParametersForRequest: aJRPCRequestObject [
+	aJRPCRequestObject params
+		ifNil: [ 
+			self parametersCount = 0
+				ifFalse: [ JRPCInvalidParameters signal ] ].
+	
+	(aJRPCRequestObject params ifNil: [ #() ]) size = self parametersCount
+		ifFalse: [ JRPCInvalidParameters signal ].
+		
+	(aJRPCRequestObject params isDictionary
+		and: [ ((aJRPCRequestObject params keys union: self parametersNames) size ~= self parametersCount) ])
+			ifTrue: [ JRPCInvalidParameters signal ]
+]
+
 { #category : #accessing }
 JRPCAbstractHandler >> defaultMethodName [
 	^ self class defaultMethodName
