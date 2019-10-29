@@ -27,32 +27,72 @@ JRPCServer class >> tcp [
 ]
 
 { #category : #'handlers management' }
-JRPCServer >> addHandlerNamed: aString block: aBlock [
+JRPCServer >> addHandler: aJRPCHandler [
+
 	namesToHandlersDict
-		at: aString put: aBlock
+		at: aJRPCHandler procedureName
+		ifPresent: [ JRPCNameOfHandlerIsAlreadyTaken signalForHandler: aJRPCHandler ].
+
+	namesToHandlersDict
+		at: aJRPCHandler procedureName put: aJRPCHandler.
+		
+	aJRPCHandler server: self
 ]
 
-{ #category : #checking }
-JRPCServer >> checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject [
-	aJRPCRequestObject params
-		ifNil: [ 
-			handler jrpcParametersCount = 0
-				ifFalse: [ JRPCInvalidParameters signal ] ].
+{ #category : #'handlers management' }
+JRPCServer >> addHandlerNamed: aString block: aBlock [
+	self addHandler: (JRPCBlockHandler new
+								procedureName: aString;
+								block: aBlock;
+								yourself)
+]
+
+{ #category : #'handlers management' }
+JRPCServer >> addHandlersFromPragmasIn: anObject [
+	(Pragma allNamed: #jrpc: in: anObject class)
+		do: [ :pragma |
+			self addHandler: (JRPCMessageSendHandler new
+										receiver: anObject;
+										procedureName: pragma arguments first;
+										messageSelector: pragma methodSelector;
+										yourself) ]
+]
+
+{ #category : #'handling - jrpc' }
+JRPCServer >> handleJRPCNotificationObject: aJRPCNotificationObject [
+	"A Notification is a Request object without an 'id' member.
+	 A Request object that is a Notification signifies the Client's
+	 lack of interest in the corresponding Response object, and as
+	 such no Response object needs to be returned to the client.
+	 The Server MUST NOT reply to a Notification, including those
+	 that are within a batch request.
+
+	 Notifications are not confirmable by definition, since they do
+	 not have a Response object to be returned. As such, the Client
+	 would not be aware of any errors (like e.g. 'Invalid params'
+	 'Internal error').
+	"
+	|response |
+	response := self handleJRPCRequestObject: aJRPCNotificationObject.
 	
-	(aJRPCRequestObject params ifNil: [ #() ]) size = handler jrpcParametersCount
-		ifFalse: [ JRPCInvalidParameters signal ].
-		
-	(aJRPCRequestObject params isDictionary
-		and: [ ((aJRPCRequestObject params keys union: handler jrpcParametersNames) size ~= handler jrpcParametersCount) ])
-			ifTrue: [ JRPCInvalidParameters signal ]
+	"In case the request is invalid, an error is returned to the client
+	 even though what is described in the above comment.
+	 The idea is that, if what was sent by the client is invalid, we are
+	 not sure if it was really a notification or if it was a request.
+	 Thus, an error is returned.
+	"
+	(response isError and: [ response isInvalidRequest ])
+		ifTrue: [ ^ response ].
+
+	^ JRPCEmptyResponseObject new
 ]
 
 { #category : #'handling - jrpc' }
 JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 	[ | handler result |
 		handler := self handlerForName: aJRPCRequestObject method.
-		self checkParamsMatchingForHandler: handler andRequest: aJRPCRequestObject.
-		result := handler jrpcExecuteWithParameters: aJRPCRequestObject params.
+		handler checkParametersForRequest: aJRPCRequestObject.
+		result := handler executeWithArguments: aJRPCRequestObject params.
 		^ JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
 	] on: Error
 	do: [ :jrpcError |

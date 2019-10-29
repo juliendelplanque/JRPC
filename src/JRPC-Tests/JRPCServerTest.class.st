@@ -19,51 +19,49 @@ JRPCServerTest >> setUp [
 		addHandlerNamed: 'setUpHandler' block: [ 42 ]
 ]
 
-{ #category : #tests }
-JRPCServerTest >> testAddHandlerNamedBlock [
+{ #category : #test }
+JRPCServerTest >> testAddHandler [
 	| handler |
 	self assert: server namesToHandlersDict size equals: 1.
-	handler := [ :x | x ].
-	server addHandlerNamed: 'test' block: handler.
+	
+	handler := JRPCMockHandler new.
+	server addHandler: handler.
 	
 	self assert: server namesToHandlersDict size equals: 2.
-	self assert: (server namesToHandlersDict at: 'test') equals: handler
+	self assert: (server namesToHandlersDict at: 'mock') equals: handler.
+]
+
+{ #category : #test }
+JRPCServerTest >> testAddHandlerDuplicated [
+	| handler |
+	handler := JRPCMockHandler new.
+	server addHandler: handler.
+	
+	self should: [ server addHandler: handler ] raise: JRPCNameOfHandlerIsAlreadyTaken withExceptionDo: [ :error | self assert: error handler equals: handler ]
 ]
 
 { #category : #tests }
-JRPCServerTest >> testCheckParamsMatchingForHandlerAndRequest [
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: [ :x | ]
-			andRequest: (JRPCRequestObject new)
-	] raise: JRPCInvalidParameters.
+JRPCServerTest >> testAddHandlerNamedBlock [
+	| block |
+	self assert: server namesToHandlersDict size equals: 1.
+	block := [ :x | x ].
+	server addHandlerNamed: 'test' block: block.
 	
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: [ :x | ]
-			andRequest: (JRPCRequestObject new params: #(1 2); yourself)
-	] raise: JRPCInvalidParameters.
+	self assert: server namesToHandlersDict size equals: 2.
+	self assert: (server namesToHandlersDict at: 'test') procedureName equals: 'test'.
+	self assert: (server namesToHandlersDict at: 'test') block equals: block
+]
 
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: [ :x | ]
-			andRequest: (JRPCRequestObject new params: { #x -> 1 . #y -> 2 } asDictionary; yourself)
-	] raise: JRPCInvalidParameters.
+{ #category : #test }
+JRPCServerTest >> testAddHandlersFromPragmasIn [
+	| exampleStack |
+	self assert: server namesToHandlersDict size equals: 1.
 	
-	self should: [ 
-		server
-			checkParamsMatchingForHandler: [ :x | ]
-			andRequest: (JRPCRequestObject new params: { #y -> 1 } asDictionary; yourself)
-	] raise: JRPCInvalidParameters.
+	exampleStack := JRPCExampleStack new.
+	server addHandlersFromPragmasIn: exampleStack.
 	
-	"The two next will not raise error."
-	server
-		checkParamsMatchingForHandler: [ :x | ]
-		andRequest: (JRPCRequestObject new params: #(1); yourself).
-		
-	server
-		checkParamsMatchingForHandler: [ :x | ]
-		andRequest: (JRPCRequestObject new params: { #x -> 1 } asDictionary; yourself)
+	self assert: server namesToHandlersDict size equals: 4.
+	self assert: (server namesToHandlersDict keys includesAll: #('stack_top' 'stack_pop' 'stack_push'))
 ]
 
 { #category : #tests }
@@ -194,15 +192,17 @@ JRPCServerTest >> testHandleJSON [
 
 { #category : #tests }
 JRPCServerTest >> testHandlerForName [
-	| handler |
+	| block handler |
 	
 	self should: [ server handlerForName: 'powerOf2' ] raise: JRPCNonExistentHandler.
 	
-	handler := [ :anInteger | anInteger ** 2 ].
+	block := [ :anInteger | anInteger ** 2 ].
 	
-	server addHandlerNamed: 'powerOf2' block: handler.
+	server addHandlerNamed: 'powerOf2' block: block.
+	handler := server handlerForName: 'powerOf2'.
 	
-	self assert: (server handlerForName: 'powerOf2') equals: handler
+	self assert: handler procedureName equals: 'powerOf2'.
+	self assert: handler block equals: block
 ]
 
 { #category : #tests }
