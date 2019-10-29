@@ -12,7 +12,7 @@ Class {
 		'serverLoop',
 		'process'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Core'
 }
 
 { #category : #defaults }

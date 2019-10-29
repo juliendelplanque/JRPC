@@ -13,7 +13,7 @@ Class {
 	#instVars : [
 		'namesToHandlersDict'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Core'
 }
 
 { #category : #'instance creation' }

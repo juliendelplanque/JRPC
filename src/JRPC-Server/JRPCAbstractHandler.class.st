@@ -14,7 +14,7 @@ Class {
 		'server',
 		'procedureName'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Handlers'
 }
 
 { #category : #accessing }

@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'block'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Handlers'
 }
 
 { #category : #accessing }

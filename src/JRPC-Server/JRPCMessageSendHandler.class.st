@@ -18,7 +18,7 @@ Class {
 		'receiver',
 		'messageSelector'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Handlers'
 }
 
 { #category : #evaluation }
