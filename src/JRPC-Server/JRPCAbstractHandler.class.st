@@ -11,7 +11,6 @@ Class {
 	#name : #JRPCAbstractHandler,
 	#superclass : #Object,
 	#instVars : [
-		'server',
 		'methodName'
 	],
 	#category : #'JRPC-Server'
@@ -68,14 +67,4 @@ JRPCAbstractHandler >> parametersCount [
 JRPCAbstractHandler >> parametersNames [
 	"Returns the names of the parameters expected by the handler as a collection."
 	^ self subclassResponsibility
-]
-
-{ #category : #accessing }
-JRPCAbstractHandler >> server [
-	^ server
-]
-
-{ #category : #accessing }
-JRPCAbstractHandler >> server: anObject [
-	server := anObject
 ]

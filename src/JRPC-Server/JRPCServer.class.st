@@ -43,12 +43,6 @@ JRPCServer >> addHandlersFromPragmasIn: anObject [
 ]
 
 { #category : #'handling - jrpc' }
-JRPCServer >> handleJRPCNotificationObject: aJRPCNotificationObject [
-
-	^ messageProcessor handleJRPCNotificationObject: aJRPCNotificationObject
-]
-
-{ #category : #'handling - jrpc' }
 JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 
 	^ messageProcessor handleJRPCRequestObject: aJRPCRequestObject
