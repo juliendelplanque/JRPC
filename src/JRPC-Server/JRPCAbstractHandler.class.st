@@ -12,7 +12,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'server',
-		'procedureName'
+		'methodName'
 	],
 	#category : #'JRPC-Server'
 }
@@ -49,6 +49,16 @@ JRPCAbstractHandler >> executeWithArguments: anArrayOrDictionary [
 ]
 
 { #category : #accessing }
+JRPCAbstractHandler >> methodName [
+	^ methodName ifNil: [ methodName := self defaultMethodName ]
+]
+
+{ #category : #accessing }
+JRPCAbstractHandler >> methodName: anObject [
+	methodName := anObject
+]
+
+{ #category : #accessing }
 JRPCAbstractHandler >> parametersCount [
 	"Returns the number of parameters expected by the handler."
 	^ self parametersNames size
@@ -58,16 +68,6 @@ JRPCAbstractHandler >> parametersCount [
 JRPCAbstractHandler >> parametersNames [
 	"Returns the names of the parameters expected by the handler as a collection."
 	^ self subclassResponsibility
-]
-
-{ #category : #accessing }
-JRPCAbstractHandler >> procedureName [
-	^ procedureName ifNil: [ procedureName := self defaultMethodName ]
-]
-
-{ #category : #accessing }
-JRPCAbstractHandler >> procedureName: anObject [
-	procedureName := anObject
 ]
 
 { #category : #accessing }
