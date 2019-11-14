@@ -10,6 +10,12 @@ Class {
 	#category : #'JRPC-Tests'
 }
 
+{ #category : #test }
+JRPCServerTest >> messageProcessor [
+
+	^ server messageProcessor
+]
+
 { #category : #running }
 JRPCServerTest >> setUp [
 	super setUp.
@@ -21,47 +27,63 @@ JRPCServerTest >> setUp [
 
 { #category : #test }
 JRPCServerTest >> testAddHandler [
+
 	| handler |
-	self assert: server namesToHandlersDict size equals: 1.
-	
+
+	self
+		assert: self messageProcessor handledMethodsCount equals: 1;
+		deny: ( self messageProcessor canHandleMethodNamed: 'mock' ).
+
 	handler := JRPCMockHandler new.
 	server addHandler: handler.
-	
-	self assert: server namesToHandlersDict size equals: 2.
-	self assert: (server namesToHandlersDict at: 'mock') equals: handler.
+
+	self
+		assert: self messageProcessor handledMethodsCount equals: 2;
+		assert: ( self messageProcessor canHandleMethodNamed: 'mock' )
 ]
 
 { #category : #test }
 JRPCServerTest >> testAddHandlerDuplicated [
+
 	| handler |
+
 	handler := JRPCMockHandler new.
 	server addHandler: handler.
-	
-	self should: [ server addHandler: handler ] raise: JRPCNameOfHandlerIsAlreadyTaken withExceptionDo: [ :error | self assert: error handler equals: handler ]
+
+	self
+		should: [ server addHandler: handler ]
+		raise: JRPCNameOfHandlerIsAlreadyTaken
+		withExceptionDo: [ :error | self assert: error handler equals: handler ]
 ]
 
 { #category : #tests }
 JRPCServerTest >> testAddHandlerNamedBlock [
+
 	| block |
-	self assert: server namesToHandlersDict size equals: 1.
+
+	self assert: self messageProcessor handledMethodsCount equals: 1.
 	block := [ :x | x ].
 	server addHandlerNamed: 'test' block: block.
-	
-	self assert: server namesToHandlersDict size equals: 2.
-	self assert: (server namesToHandlersDict at: 'test') methodName equals: 'test'.
-	self assert: (server namesToHandlersDict at: 'test') block equals: block
+
+	self assert: self messageProcessor handledMethodsCount equals: 2.
+	self assert: ( self messageProcessor canHandleMethodNamed: 'test' )
 ]
 
 { #category : #test }
 JRPCServerTest >> testAddHandlersFromPragmasIn [
+
 	| exampleStack |
-	self assert: server namesToHandlersDict size equals: 1.
-	
+
+	self assert: self messageProcessor handledMethodsCount equals: 1.
+
 	exampleStack := JRPCExampleStack new.
 	server addHandlersFromPragmasIn: exampleStack.
-	
-	self assert: server namesToHandlersDict size equals: 4.
-	self assert: (server namesToHandlersDict keys includesAll: #('stack_top' 'stack_pop' 'stack_push'))
+
+	self
+		assert: self messageProcessor handledMethodsCount equals: 4;
+		assert: ( self messageProcessor canHandleMethodNamed: 'stack_top' );
+		assert: ( self messageProcessor canHandleMethodNamed: 'stack_pop' );
+		assert: ( self messageProcessor canHandleMethodNamed: 'stack_push' )
 ]
 
 { #category : #tests }
@@ -191,21 +213,6 @@ JRPCServerTest >> testHandleJSON [
 ]
 
 { #category : #tests }
-JRPCServerTest >> testHandlerForName [
-	| block handler |
-	
-	self should: [ server handlerForName: 'powerOf2' ] raise: JRPCNonExistentHandler.
-	
-	block := [ :anInteger | anInteger ** 2 ].
-	
-	server addHandlerNamed: 'powerOf2' block: block.
-	handler := server handlerForName: 'powerOf2'.
-	
-	self assert: handler methodName equals: 'powerOf2'.
-	self assert: handler block equals: block
-]
-
-{ #category : #tests }
 JRPCServerTest >> testInternalError [
 	| requestForInternalError response data |
 	server addHandlerNamed: 'divide' block: [ :x :y | x / y ].
@@ -231,10 +238,12 @@ JRPCServerTest >> testInternalError [
 
 { #category : #tests }
 JRPCServerTest >> testRemoveHandlerNamed [
-	self assert: server namesToHandlersDict size equals: 1.
-	self assert: server namesToHandlersDict keys first equals: 'setUpHandler'.
-	
+
+	self
+		assert: self messageProcessor handledMethodsCount equals: 1;
+		assert: ( self messageProcessor canHandleMethodNamed: 'setUpHandler' ).
+
 	server removeHandlerNamed: 'setUpHandler'.
-	
-	self assert: server namesToHandlersDict isEmpty.
+
+	self assert: self messageProcessor handledMethodsCount equals: 0
 ]

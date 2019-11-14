@@ -14,7 +14,9 @@ JRPCEmptyResponseObject >> asJRPCJSON [
 ]
 
 { #category : #'server conversion' }
-JRPCEmptyResponseObject >> beConvertedBy: aJRPCServer [
+JRPCEmptyResponseObject >> beConvertedBy: aJRPCMessageProcessor [
+
 	"Nothing should be returned by the server."
+
 	^ ''
 ]
