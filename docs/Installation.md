@@ -41,22 +41,24 @@ baseline: spec
 			spec package: 'My-Package' with: [ spec requires: #('JRPC') ] ]
 ```
 
-## Version management 
+## Version management
 
-This project use semantic versioning to define the releases. This means that each stable release of the project will be assigned a version number of the form `vX.Y.Z`. 
+This project use semantic versioning to define the releases. This means that each stable release of the project will be assigned a version number of the form `vX.Y.Z`.
 
 - **X** defines the major version number
-- **Y** defines the minor version number 
+- **Y** defines the minor version number
 - **Z** defines the patch version number
 
-When a release contains only bug fixes, the patch number increases. When the release contains new features that are backward compatible, the minor version increases. When the release contains breaking changes, the major version increases. 
+When a release contains only bug fixes, the patch number increases. When the release contains new features that are backward compatible, the minor version increases. When the release contains breaking changes, the major version increases.
 
 Thus, it should be safe to depend on a fixed major version and moving minor version of this project.
 
 ## Provided groups
-- `Server-Deployment` will load all the packages needed to deploy a JSON RPC Server
+- `Server-Deployment` will load all the packages needed to deploy a JSON RPC Message Processor
+- `HTTP-Transport` will load all the packages needed to deploy an HTTP based JSON RPC Server
+- `TCP-Transport` will load all the packages needed to deploy a TCP based JSON RPC Server
 - `Client-Deployment` will load all the packages needed to deploy a JSON RPC Client
-- `Deployment` will load all the packages needed to deploy both a JSON RPC Client and Server
+- `Deployment` will load all the packages needed to deploy both a JSON RPC Client and Server including HTTP and TCP transports
 - `Tests` will load the test cases
 - `CI` is the group loaded in the continuous integration setup
 - `Development` will load all the needed packages to develop and contribute to the project
