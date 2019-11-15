@@ -1,8 +1,9 @@
 Extension { #name : #JRPCNotificationObject }
 
 { #category : #'*JRPC-Server' }
-JRPCNotificationObject >> beHandledByServer: aJRPCServer [
-	^ aJRPCServer handleJRPCNotificationObject: self
+JRPCNotificationObject >> beHandledBy: aJRPCMessageProcessor [
+
+	^ aJRPCMessageProcessor handleJRPCNotificationObject: self
 ]
 
 { #category : #'*JRPC-Server' }

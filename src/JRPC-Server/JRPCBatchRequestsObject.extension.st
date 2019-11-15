@@ -1,9 +1,9 @@
 Extension { #name : #JRPCBatchRequestsObject }
 
 { #category : #'*JRPC-Server' }
-JRPCBatchRequestsObject >> beHandledByServer: aJRPCServer [
+JRPCBatchRequestsObject >> beHandledBy: aJRPCMessageProcessor [
+
 	^ JRPCBatchResponseObject new
-		responses: (self requests collect: [ :req |
-						req beHandledByServer: aJRPCServer ]);
+		responses: ( self requests collect: [ :req | req beHandledBy: aJRPCMessageProcessor ] );
 		yourself
 ]

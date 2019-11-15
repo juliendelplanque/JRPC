@@ -1,8 +1,9 @@
 Extension { #name : #JRPCRequestObject }
 
 { #category : #'*JRPC-Server' }
-JRPCRequestObject >> beHandledByServer: aJRPCServer [
-	^ aJRPCServer handleJRPCRequestObject: self
+JRPCRequestObject >> beHandledBy: aJRPCMessageProcessor [
+
+	^ aJRPCMessageProcessor handleJRPCRequestObject: self
 ]
 
 { #category : #'*JRPC-Server' }

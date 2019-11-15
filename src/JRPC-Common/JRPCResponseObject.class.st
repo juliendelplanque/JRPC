@@ -8,8 +8,9 @@ Class {
 }
 
 { #category : #'server conversion' }
-JRPCResponseObject >> beConvertedBy: aJRPCServer [
-	^ aJRPCServer convertJRPCJsonableObjectToJSON: self asJRPCJSON
+JRPCResponseObject >> beConvertedBy: aJRPCMessageProcessor [
+
+	^ aJRPCMessageProcessor convertJRPCJsonableObjectToJSON: self asJRPCJSON
 ]
 
 { #category : #testing }
