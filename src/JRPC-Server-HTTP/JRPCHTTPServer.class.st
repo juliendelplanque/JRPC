@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'server'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-HTTP'
 }
 
 { #category : #defaults }

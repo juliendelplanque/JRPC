@@ -1,9 +1,8 @@
 "
 I am an abstract server for JSON-RPC 2.0.
-
-My subclasses define how to handle JSON-RPC objects coming from a client.
-
-To define that, #sendRequest: message should be overriden by my subclasses.
+My subclasses define how to handle JSON-RPC objects coming from a client resolving 
+the transport specific details and delegating later to the messageProcessor the processing
+of the incoming message.
 "
 Class {
 	#name : #JRPCServer,
@@ -11,18 +10,8 @@ Class {
 	#instVars : [
 		'messageProcessor'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Core-JRPC-Server-Core'
 }
-
-{ #category : #'instance creation' }
-JRPCServer class >> http [
-	^ JRPCHTTPServer new
-]
-
-{ #category : #'instance creation' }
-JRPCServer class >> tcp [
-	^ JRPCTCPServer new
-]
 
 { #category : #'handlers management' }
 JRPCServer >> addHandler: aJRPCHandler [

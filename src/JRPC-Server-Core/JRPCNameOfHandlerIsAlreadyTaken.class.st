@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'handler'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Core-JRPC-Server-Core'
 }
 
 { #category : #'instance creation' }
