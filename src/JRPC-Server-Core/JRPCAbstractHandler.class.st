@@ -13,7 +13,7 @@ Class {
 	#instVars : [
 		'methodName'
 	],
-	#category : #'JRPC-Server-Core-JRPC-Server-Core'
+	#category : #'JRPC-Server-Core'
 }
 
 { #category : #accessing }

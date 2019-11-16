@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'messageProcessor'
 	],
-	#category : #'JRPC-Server-Core-JRPC-Server-Core'
+	#category : #'JRPC-Server-Core'
 }
 
 { #category : #'handlers management' }
