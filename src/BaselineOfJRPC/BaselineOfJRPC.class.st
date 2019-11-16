@@ -24,26 +24,48 @@ BaselineOfJRPC >> projectClass [
 ]
 
 { #category : #baselines }
+BaselineOfJRPC >> setUpClientDeploymentPackages: spec [
+
+	spec
+		package: 'JRPC-Client' with: [ spec requires: 'JRPC-Common' ];
+		group: 'Client-Deployment' with: 'JRPC-Client'.
+]
+
+{ #category : #baselines }
 BaselineOfJRPC >> setUpPackages: spec [
 
 	spec package: 'JRPC-Common'.
+	self
+		setUpServerDeploymentPackages: spec;
+		setUpClientDeploymentPackages: spec.
+
 	spec
-		package: 'JRPC-Server' with: [ spec requires: 'JRPC-Common' ];
-		group: 'Server-Deployment' with: 'JRPC-Server'.
+		group: 'Deployment'
+		with: #('Server-Deployment' 'HTTP-Transport' 'TCP-Transport' 'Client-Deployment').
+
+	spec
+		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
+		group: 'Tests' with: 'JRPC-Tests'
+]
+
+{ #category : #baselines }
+BaselineOfJRPC >> setUpServerDeploymentPackages: spec [
+
 	spec
 		for: #'pharo6.x'
 		do: [ spec
 				package: 'JRPC-Server-Pharo6';
 				group: 'Server-Deployment' with: 'JRPC-Server-Pharo6'
-	].	
+			].
 	spec
-		package: 'JRPC-Client' with: [ spec requires: 'JRPC-Common' ];
-		group: 'Client-Deployment' with: 'JRPC-Client'.
-	spec group: 'Deployment' with: #('Server-Deployment' 'Client-Deployment').
+		package: 'JRPC-Server-Core' with: [ spec requires: 'JRPC-Common' ];
+		group: 'Server-Deployment' with: 'JRPC-Server-Core'.
 
 	spec
-		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
-		group: 'Tests' with: 'JRPC-Tests'.
-		
+		package: 'JRPC-Server-HTTP' with: [ spec requires: 'JRPC-Server-Core' ];
+		group: 'HTTP-Transport' with: 'JRPC-Server-HTTP'.
 
+	spec
+		package: 'JRPC-Server-TCP' with: [ spec requires: 'JRPC-Server-Core' ];
+		group: 'TCP-Transport' with: 'JRPC-Server-TCP'
 ]

@@ -13,7 +13,7 @@ Class {
 	#instVars : [
 		'handlersByName'
 	],
-	#category : #'JRPC-Server'
+	#category : #'JRPC-Server-Core-JRPC-Server-Core'
 }
 
 { #category : #'handlers management' }

@@ -40,6 +40,12 @@ JRPCAbstractServerTest >> tearDown [
 ]
 
 { #category : #accessing }
+JRPCAbstractServerTest >> testDefaultPort [
+
+	self assert: server defaultPort equals: 4000
+]
+
+{ #category : #accessing }
 JRPCAbstractServerTest >> testNotification [
 
 	| notificationCount |

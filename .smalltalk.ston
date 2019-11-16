@@ -9,7 +9,7 @@ SmalltalkCISpec {
   ],
   #testing : {
     #coverage : {
-       #packages : [ 'JRPC-Client' , 'JRPC-Server' , 'JRPC-Tests' ]
+       #packages : [ 'JRPC-Client' , 'JRPC-Server*' , 'JRPC-Tests' ]
     }
   }
 }

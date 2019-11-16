@@ -1,6 +1,6 @@
 Extension { #name : #JRPCBatchRequestsObject }
 
-{ #category : #'*JRPC-Server' }
+{ #category : #'*JRPC-Server-Core' }
 JRPCBatchRequestsObject >> beHandledBy: aJRPCMessageProcessor [
 
 	^ JRPCBatchResponseObject new
