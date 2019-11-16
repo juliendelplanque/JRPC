@@ -8,7 +8,7 @@ If no method or multiple methods have <jrpc> pragma, an error is raised.
 Class {
 	#name : #JRPCPragmaHandler,
 	#superclass : #JRPCMessageSendHandler,
-	#category : #'JRPC-Server-Core-JRPC-Server-Core'
+	#category : #'JRPC-Server-Core'
 }
 
 { #category : #private }
