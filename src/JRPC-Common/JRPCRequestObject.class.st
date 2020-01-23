@@ -52,6 +52,11 @@ JRPCRequestObject >> asJRPCJSON [
 	^ dict
 ]
 
+{ #category : #testing }
+JRPCRequestObject >> isRequest [
+	^ true
+]
+
 { #category : #accessing }
 JRPCRequestObject >> method [
 	^ method

@@ -25,10 +25,28 @@ JRPCNotificationObject class >> fromJRPCJSONObject: aDictionary [
 		yourself
 ]
 
+{ #category : #accessing }
+JRPCNotificationObject class >> method: aString [
+	^ self new
+		method: aString;
+		params: nil;
+		yourself
+]
+
 { #category : #converting }
 JRPCNotificationObject >> asJRPCJSON [
 	| dict |
 	dict := super asJRPCJSON.
 	dict removeKey: 'id'.
 	^ dict
+]
+
+{ #category : #testing }
+JRPCNotificationObject >> isNotification [
+	^ true
+]
+
+{ #category : #testing }
+JRPCNotificationObject >> isRequest [
+	^ false
 ]
