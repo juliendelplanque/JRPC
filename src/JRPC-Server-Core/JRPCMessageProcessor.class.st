@@ -93,7 +93,7 @@ JRPCMessageProcessor >> handleJRPCRequestObject: aJRPCRequestObject [
 
 	^ [ | handler result |
 
-	handler := self handlerForName: aJRPCRequestObject method.
+	handler := self handlerFor: aJRPCRequestObject.
 	handler checkParametersForRequest: aJRPCRequestObject.
 	result := handler executeWithArguments: aJRPCRequestObject params.
 	JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
@@ -123,12 +123,17 @@ JRPCMessageProcessor >> handledMethodsCount [
 ]
 
 { #category : #accessing }
-JRPCMessageProcessor >> handlerForName: methodName [
-
-	methodName isString
+JRPCMessageProcessor >> handlerFor: requestOrNotification [
+	| candidateHandler |
+	requestOrNotification method isString
 		ifFalse: [ JRPCIncorrectJSON signal ].
 
-	^ handlersByName at: methodName ifAbsent: [ JRPCNonExistentHandler signal: methodName ]
+	candidateHandler := handlersByName at: requestOrNotification method ifAbsent: [ JRPCNonExistentHandler signal: requestOrNotification method ].
+	
+	(candidateHandler canHandle: requestOrNotification)
+		ifFalse: [ JRPCNonExistentHandler signal: requestOrNotification method ].
+	
+	^ candidateHandler
 ]
 
 { #category : #initialization }

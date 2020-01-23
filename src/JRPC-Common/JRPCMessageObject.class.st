@@ -84,6 +84,16 @@ JRPCMessageObject >> initialize [
 	jsonrpc := JSONRPC
 ]
 
+{ #category : #testing }
+JRPCMessageObject >> isNotification [
+	^ false
+]
+
+{ #category : #testing }
+JRPCMessageObject >> isRequest [
+	^ false
+]
+
 { #category : #accessing }
 JRPCMessageObject >> jsonrpc [
 	^ jsonrpc

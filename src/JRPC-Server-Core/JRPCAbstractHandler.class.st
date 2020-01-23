@@ -11,7 +11,9 @@ Class {
 	#name : #JRPCAbstractHandler,
 	#superclass : #Object,
 	#instVars : [
-		'methodName'
+		'methodName',
+		'isForNotification',
+		'isForRequest'
 	],
 	#category : #'JRPC-Server-Core'
 }
@@ -20,6 +22,12 @@ Class {
 JRPCAbstractHandler class >> defaultMethodName [
 	"Returns the method name that will be set to the handler instance by default."
 	^ self subclassResponsibility
+]
+
+{ #category : #testing }
+JRPCAbstractHandler >> canHandle: aRequestOrNotification [
+	^ (self isForRequest and: [ aRequestOrNotification isRequest ])
+		or: [ self isForNotification and: [ aRequestOrNotification isNotification ] ]
 ]
 
 { #category : #'parameters-checking' }
@@ -45,6 +53,33 @@ JRPCAbstractHandler >> defaultMethodName [
 { #category : #evaluation }
 JRPCAbstractHandler >> executeWithArguments: anArrayOrDictionary [
 	^ self subclassResponsibility
+]
+
+{ #category : #initialization }
+JRPCAbstractHandler >> initialize [
+	super initialize.
+	self isForRequest: true.
+	self isForNotification: true
+]
+
+{ #category : #accessing }
+JRPCAbstractHandler >> isForNotification [
+	^ isForNotification
+]
+
+{ #category : #accessing }
+JRPCAbstractHandler >> isForNotification: anObject [
+	isForNotification := anObject
+]
+
+{ #category : #accessing }
+JRPCAbstractHandler >> isForRequest [
+	^ isForRequest
+]
+
+{ #category : #accessing }
+JRPCAbstractHandler >> isForRequest: anObject [
+	isForRequest := anObject
 ]
 
 { #category : #accessing }
