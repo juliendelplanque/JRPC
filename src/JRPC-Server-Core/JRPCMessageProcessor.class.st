@@ -11,7 +11,8 @@ Class {
 	#traits : 'JRPCParser',
 	#classTraits : 'JRPCParser classTrait',
 	#instVars : [
-		'handlersByName'
+		'handlersByName',
+		'debugMode'
 	],
 	#category : #'JRPC-Server-Core'
 }
@@ -59,6 +60,16 @@ JRPCMessageProcessor >> canHandleMethodNamed: methodName [
 	^ handlersByName includesKey: methodName
 ]
 
+{ #category : #accessing }
+JRPCMessageProcessor >> debugMode [
+	^ debugMode
+]
+
+{ #category : #accessing }
+JRPCMessageProcessor >> debugMode: anObject [
+	debugMode := anObject
+]
+
 { #category : #'handling - jrpc' }
 JRPCMessageProcessor >> handleJRPCNotificationObject: aJRPCNotificationObject [
 	"A Notification is a Request object without an 'id' member.
@@ -99,19 +110,26 @@ JRPCMessageProcessor >> handleJRPCRequestObject: aJRPCRequestObject [
 	JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
 	]
 		on: Error
-		do: [ :jrpcError | jrpcError return: ( aJRPCRequestObject convertErrorToResponse: jrpcError ) ]
+		do: [ :jrpcError | 
+			self debugMode
+				ifTrue: [ jrpcError pass ]
+				ifFalse: [ jrpcError return: ( aJRPCRequestObject convertErrorToResponse: jrpcError ) ] ]
 ]
 
 { #category : #'handling - json' }
 JRPCMessageProcessor >> handleJSON: aJSONString [
-
-	"Gets aJSONString as input and returns a JSON string."
+	"Gets aJSONString being a request or notification serialized in JSON format as input
+	 and returns a JSON string being the answer serialized in JSON format.
+	"
 
 	| jrpcResponse |
 
 	jrpcResponse := [ ( self parseSupposedJRPCMessageObjectFromString: aJSONString ) beHandledBy: self ]
 		on: Error
-		do: [ :error | error return: error asJRPCResponse ].
+		do: [ :error | 
+			self debugMode
+				ifTrue: [ error pass ]
+				ifFalse: [ error return: error asJRPCResponse ] ].
 
 	^ jrpcResponse beConvertedBy: self
 ]
@@ -140,7 +158,8 @@ JRPCMessageProcessor >> handlerFor: requestOrNotification [
 JRPCMessageProcessor >> initialize [
 
 	super initialize.
-	handlersByName := Dictionary new
+	handlersByName := Dictionary new.
+	self debugMode: false
 ]
 
 { #category : #testing }

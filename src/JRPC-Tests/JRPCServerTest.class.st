@@ -86,6 +86,17 @@ JRPCServerTest >> testAddHandlersFromPragmasIn [
 		assert: ( self messageProcessor canHandleMethodNamed: 'stack_push' )
 ]
 
+{ #category : #test }
+JRPCServerTest >> testDebugMode [
+	self deny: server debugMode.
+	self deny: server messageProcessor debugMode.
+	
+	server debugMode: true.
+	
+	self assert: server debugMode.
+	self assert: server messageProcessor debugMode
+]
+
 { #category : #tests }
 JRPCServerTest >> testHandleJRPCRequestObject [
 	| requestForNonExistentHandler response |
