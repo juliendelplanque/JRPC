@@ -41,7 +41,7 @@ BaselineOfJRPC >> setUpPackages: spec [
 
 	spec
 		group: 'Deployment'
-		with: #('Server-Deployment' 'HTTP-Transport' 'TCP-Transport' 'Client-Deployment').
+		with: #('Server-Deployment' 'HTTP-Transport' 'TCP-Transport' 'Client-Deployment' 'JRPC-Server-Deprecated').
 
 	spec
 		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
@@ -67,5 +67,8 @@ BaselineOfJRPC >> setUpServerDeploymentPackages: spec [
 
 	spec
 		package: 'JRPC-Server-TCP' with: [ spec requires: 'JRPC-Server-Core' ];
-		group: 'TCP-Transport' with: 'JRPC-Server-TCP'
+		group: 'TCP-Transport' with: 'JRPC-Server-TCP'.
+		
+	spec
+		package: 'JRPC-Server-Deprecated' with: [ spec requires: 'JRPC-Server-Core' ]
 ]
