@@ -7,7 +7,7 @@ A JSON RPC server must solve the specific transport details and handle to me the
 "
 Class {
 	#name : #JRPCMessageProcessor,
-	#superclass : #Object,
+	#superclass : #JRPCAbstractMessageProcessor,
 	#traits : 'JRPCParser',
 	#classTraits : 'JRPCParser classTrait',
 	#instVars : [
