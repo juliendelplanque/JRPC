@@ -46,7 +46,7 @@ JRPCHTTPServer >> initialize [
 			( ZnDispatcherDelegate new
 				map: '/'
 				to:
-					[ :request :response | response entity: ( ZnEntity json: ( messageProcessor handleJSON: request contents ) ) ] )
+					[ :request :response | response entity: ( ZnEntity json: ( self handleJSON: request contents ) ) ] )
 ]
 
 { #category : #accessing }
