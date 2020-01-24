@@ -19,13 +19,13 @@ JRPCHTTPServer class >> defaultPort [
 
 { #category : #accessing }
 JRPCHTTPServer >> debugMode [
-
-	^ server debugMode
+	
+	^ super debugMode and: [ server debugMode ]
 ]
 
 { #category : #accessing }
 JRPCHTTPServer >> debugMode: boolean [
-
+	super debugMode: boolean.
 	server debugMode: boolean
 ]
 
