@@ -8,6 +8,35 @@ Class {
 }
 
 { #category : #test }
+JRPCMessageProcessorTest >> testDebugMode [
+	| messageProcessor |
+	messageProcessor := JRPCMessageProcessor new.
+	
+	self deny: messageProcessor debugMode.
+	
+	messageProcessor debugMode: true.
+	
+	self assert: messageProcessor debugMode.
+]
+
+{ #category : #test }
+JRPCMessageProcessorTest >> testDebugModeDoNotCatchError [
+	| messageProcessor |
+	messageProcessor := JRPCMessageProcessor new.
+	messageProcessor debugMode: true.
+	
+	messageProcessor addHandlerNamed: 'error' block: [ Error signal ].
+	
+	self should: [ (JRPCRequestObject id: 1 method: 'error') beHandledBy: messageProcessor ]
+		raise: Error.
+		
+	messageProcessor debugMode: false.
+	
+	self shouldnt: [ (JRPCRequestObject id: 1 method: 'error') beHandledBy: messageProcessor ]
+		raise: Error.
+]
+
+{ #category : #test }
 JRPCMessageProcessorTest >> testHandlerFor [
 	| messageProcessor block handler |
 

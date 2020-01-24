@@ -31,6 +31,16 @@ JRPCServer >> addHandlersFromPragmasIn: anObject [
 	messageProcessor addHandlersFromPragmasIn: anObject
 ]
 
+{ #category : #accessing }
+JRPCServer >> debugMode [
+	^ self messageProcessor debugMode
+]
+
+{ #category : #accessing }
+JRPCServer >> debugMode: aBoolean [
+	^ self messageProcessor debugMode: aBoolean
+]
+
 { #category : #'handling - jrpc' }
 JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 
