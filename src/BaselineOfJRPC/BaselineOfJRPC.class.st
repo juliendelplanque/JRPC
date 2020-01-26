@@ -49,7 +49,7 @@ BaselineOfJRPC >> setUpPackages: spec [
 
 	spec
 		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
-		package: 'JRPC-Server-Logging-Tests'  with: [ spec requires: 'Deployment' ];
+		package: 'JRPC-Server-Logging-Tests'  with: [ spec requires: 'Development' ];
 		group: 'Tests' with: #('JRPC-Tests' 'JRPC-Server-Logging-Tests')
 ]
 
