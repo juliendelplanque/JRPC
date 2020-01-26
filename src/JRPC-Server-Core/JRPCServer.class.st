@@ -16,19 +16,19 @@ Class {
 { #category : #'handlers management' }
 JRPCServer >> addHandler: aJRPCHandler [
 
-	messageProcessor addHandler: aJRPCHandler
+	self messageProcessor addHandler: aJRPCHandler
 ]
 
 { #category : #'handlers management' }
 JRPCServer >> addHandlerNamed: aString block: aBlock [
 
-	messageProcessor addHandlerNamed: aString block: aBlock
+	self messageProcessor addHandlerNamed: aString block: aBlock
 ]
 
 { #category : #'handlers management' }
 JRPCServer >> addHandlersFromPragmasIn: anObject [
 
-	messageProcessor addHandlersFromPragmasIn: anObject
+	self messageProcessor addHandlersFromPragmasIn: anObject
 ]
 
 { #category : #accessing }
@@ -44,13 +44,13 @@ JRPCServer >> debugMode: aBoolean [
 { #category : #'handling - jrpc' }
 JRPCServer >> handleJRPCRequestObject: aJRPCRequestObject [
 
-	^ messageProcessor handleJRPCRequestObject: aJRPCRequestObject
+	^ self messageProcessor handleJRPCRequestObject: aJRPCRequestObject
 ]
 
 { #category : #'handling - json' }
 JRPCServer >> handleJSON: aJSONString [
 
-	^ messageProcessor handleJSON: aJSONString
+	^ self messageProcessor handleJSON: aJSONString
 ]
 
 { #category : #initialization }
@@ -69,7 +69,7 @@ JRPCServer >> messageProcessor [
 { #category : #'handlers management' }
 JRPCServer >> removeHandlerNamed: aString [
 
-	messageProcessor removeHandlerNamed: aString
+	self messageProcessor removeHandlerNamed: aString
 ]
 
 { #category : #starting }

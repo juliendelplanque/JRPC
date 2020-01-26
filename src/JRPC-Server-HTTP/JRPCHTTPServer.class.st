@@ -19,13 +19,11 @@ JRPCHTTPServer class >> defaultPort [
 
 { #category : #accessing }
 JRPCHTTPServer >> debugMode [
-
 	^ server debugMode
 ]
 
 { #category : #accessing }
 JRPCHTTPServer >> debugMode: boolean [
-
 	server debugMode: boolean
 ]
 
@@ -46,7 +44,7 @@ JRPCHTTPServer >> initialize [
 			( ZnDispatcherDelegate new
 				map: '/'
 				to:
-					[ :request :response | response entity: ( ZnEntity json: ( messageProcessor handleJSON: request contents ) ) ] )
+					[ :request :response | response entity: ( ZnEntity json: ( self handleJSON: request contents ) ) ] )
 ]
 
 { #category : #accessing }

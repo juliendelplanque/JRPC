@@ -42,10 +42,15 @@ BaselineOfJRPC >> setUpPackages: spec [
 	spec
 		group: 'Deployment'
 		with: #('Server-Deployment' 'HTTP-Transport' 'TCP-Transport' 'Client-Deployment' 'JRPC-Server-Deprecated').
+		
+	spec
+		group: 'Development'
+		with: #('Deployment' 'Server-Logging').
 
 	spec
 		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
-		group: 'Tests' with: 'JRPC-Tests'
+		package: 'JRPC-Server-Logging-Tests'  with: [ spec requires: 'Development' ];
+		group: 'Tests' with: #('JRPC-Tests' 'JRPC-Server-Logging-Tests')
 ]
 
 { #category : #baselines }
@@ -68,6 +73,10 @@ BaselineOfJRPC >> setUpServerDeploymentPackages: spec [
 	spec
 		package: 'JRPC-Server-TCP' with: [ spec requires: 'JRPC-Server-Core' ];
 		group: 'TCP-Transport' with: 'JRPC-Server-TCP'.
+		
+	spec
+		package: 'JRPC-Server-Logging' with: [ spec requires: 'JRPC-Server-Core' ];
+		group: 'Server-Logging' with: 'JRPC-Server-Logging'.
 		
 	spec
 		package: 'JRPC-Server-Deprecated' with: [ spec requires: 'JRPC-Server-Core' ]
