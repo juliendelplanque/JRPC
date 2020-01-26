@@ -49,7 +49,8 @@ BaselineOfJRPC >> setUpPackages: spec [
 
 	spec
 		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
-		group: 'Tests' with: 'JRPC-Tests'
+		package: 'JRPC-Server-Logging-Tests'  with: [ spec requires: 'Deployment' ];
+		group: 'Tests' with: #('JRPC-Tests' 'JRPC-Server-Logging-Tests')
 ]
 
 { #category : #baselines }

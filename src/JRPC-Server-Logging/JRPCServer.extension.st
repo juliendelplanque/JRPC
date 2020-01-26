@@ -12,3 +12,8 @@ JRPCServer >> enableLogging: aBoolean [
 		ifTrue: [ messageProcessor := (JRPCMessageProcessorLogger decorate: self messageProcessor) ]
 		ifFalse: [ messageProcessor := self messageProcessor decoratedMessageProcessor ]
 ]
+
+{ #category : #'*JRPC-Server-Logging' }
+JRPCServer >> isLoggingEnabled [
+	^ self messageProcessor isLogger
+]
