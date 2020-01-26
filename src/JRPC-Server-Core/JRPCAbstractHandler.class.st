@@ -68,8 +68,11 @@ JRPCAbstractHandler >> isForNotification [
 ]
 
 { #category : #accessing }
-JRPCAbstractHandler >> isForNotification: anObject [
-	isForNotification := anObject
+JRPCAbstractHandler >> isForNotification: aBoolean [
+	(aBoolean not and: [ self isForRequest not ])
+		ifTrue: [ self error: 'A handler must be for notification or for request. It can not refuse both!' ].
+		
+	isForNotification := aBoolean
 ]
 
 { #category : #accessing }
@@ -78,8 +81,11 @@ JRPCAbstractHandler >> isForRequest [
 ]
 
 { #category : #accessing }
-JRPCAbstractHandler >> isForRequest: anObject [
-	isForRequest := anObject
+JRPCAbstractHandler >> isForRequest: aBoolean [
+	(aBoolean not and: [ self isForNotification not ])
+		ifTrue: [ self error: 'A handler must be for notification or for request. It can not refuse both!' ].
+	
+	isForRequest := aBoolean
 ]
 
 { #category : #accessing }

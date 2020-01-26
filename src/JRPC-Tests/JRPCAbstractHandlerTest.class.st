@@ -32,3 +32,28 @@ JRPCAbstractHandlerTest >> testCheckParametersForRequest [
 		
 	handler checkParametersForRequest: (JRPCRequestObject new params: { #x -> 1 } asDictionary; yourself)
 ]
+
+{ #category : #test }
+JRPCAbstractHandlerTest >> testIsForRequestAndIsForNotificationSetters [
+	| handler |
+	handler := JRPCBlockHandler methodName: 'test' block: [ :x | ].
+	
+	self assert: handler isForNotification.
+	self assert: handler isForRequest.
+	
+	handler isForNotification: false.
+	self deny: handler isForNotification.
+	self assert: handler isForRequest.
+	
+	self should: [ handler isForRequest: false ] raise: Error.
+	
+	handler isForNotification: true.
+	self assert: handler isForNotification.
+	self assert: handler isForRequest.
+	
+	handler isForRequest: false.
+	self assert: handler isForNotification.
+	self deny: handler isForRequest.
+	
+	self should: [ handler isForNotification: false ] raise: Error.
+]
