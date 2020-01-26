@@ -28,32 +28,6 @@ JRPCMessageProcessor >> addHandler: aJRPCHandler [
 		at: aJRPCHandler methodName put: aJRPCHandler.
 ]
 
-{ #category : #'handlers management' }
-JRPCMessageProcessor >> addHandlerNamed: aString block: aBlock [
-
-	self
-		addHandler:
-			( JRPCBlockHandler new
-				methodName: aString;
-				block: aBlock;
-				yourself )
-]
-
-{ #category : #'handlers management' }
-JRPCMessageProcessor >> addHandlersFromPragmasIn: anObject [
-
-	( Pragma allNamed: #jrpc: in: anObject class )
-		do: [ :pragma | 
-			self
-				addHandler:
-					( JRPCMessageSendHandler new
-						receiver: anObject;
-						methodName: pragma arguments first;
-						messageSelector: pragma methodSelector;
-						yourself )
-			]
-]
-
 { #category : #testing }
 JRPCMessageProcessor >> canHandleMethodNamed: methodName [
 

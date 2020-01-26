@@ -21,6 +21,16 @@ JRPCMessageProcessorDecorator class >> decorate: aMessageProcessor [
 		yourself
 ]
 
+{ #category : #adding }
+JRPCMessageProcessorDecorator >> addHandler: aJRPCHandler [
+	self decoratedMessageProcessor addHandler: aJRPCHandler
+]
+
+{ #category : #testing }
+JRPCMessageProcessorDecorator >> canHandleMethodNamed: methodName [
+	^ self decoratedMessageProcessor canHandleMethodNamed: methodName
+]
+
 { #category : #'handling - json' }
 JRPCMessageProcessorDecorator >> debugMode [
 	^ self decoratedMessageProcessor debugMode
@@ -47,4 +57,14 @@ JRPCMessageProcessorDecorator >> handleJSON: aJSONString [
 	 and returns a JSON string being the answer serialized in JSON format.
 	"
 	^ self decoratedMessageProcessor handleJSON: aJSONString
+]
+
+{ #category : #accessing }
+JRPCMessageProcessorDecorator >> handledMethodsCount [
+	^ self decoratedMessageProcessor handledMethodsCount
+]
+
+{ #category : #removing }
+JRPCMessageProcessorDecorator >> removeHandlerNamed: aString [
+	^ self decoratedMessageProcessor removeHandlerNamed: aString
 ]
