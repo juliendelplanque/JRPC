@@ -21,6 +21,21 @@ Class {
 	#category : #'JRPC-Server-Core'
 }
 
+{ #category : #'parameters-checking' }
+JRPCMessageSendHandler >> checkParametersForRequest: aJRPCRequestObject [
+	aJRPCRequestObject params
+		ifNil: [ 
+			self parametersCount = 0
+				ifFalse: [ JRPCInvalidParameters signal ] ].
+	
+	(aJRPCRequestObject params ifNil: [ #() ]) size = self parametersCount
+		ifFalse: [ JRPCInvalidParameters signal ].
+		
+	(aJRPCRequestObject params isDictionary
+		and: [ ((aJRPCRequestObject params keys union: self parametersNames) size ~= self parametersCount) ])
+			ifTrue: [ JRPCInvalidParameters signal ]
+]
+
 { #category : #evaluation }
 JRPCMessageSendHandler >> executeWithArguments: anArrayOrDictionary [
 	| arguments |
@@ -46,6 +61,12 @@ JRPCMessageSendHandler >> messageSelector [
 { #category : #accessing }
 JRPCMessageSendHandler >> messageSelector: anObject [
 	messageSelector := anObject
+]
+
+{ #category : #accessing }
+JRPCMessageSendHandler >> parametersCount [
+	"Returns the number of parameters expected by the handler."
+	^ self parametersNames size
 ]
 
 { #category : #accessing }
