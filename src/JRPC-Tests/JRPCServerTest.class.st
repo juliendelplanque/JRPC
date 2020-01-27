@@ -246,15 +246,3 @@ JRPCServerTest >> testInternalError [
 		'signalerContext' -> 'SmallInteger>>/'
 	} asDictionary
 ]
-
-{ #category : #tests }
-JRPCServerTest >> testRemoveHandlerNamed [
-
-	self
-		assert: self messageProcessor handledMethodsCount equals: 1;
-		assert: ( self messageProcessor canHandleMethodNamed: 'setUpHandler' ).
-
-	server removeHandlerNamed: 'setUpHandler'.
-
-	self assert: self messageProcessor handledMethodsCount equals: 0
-]

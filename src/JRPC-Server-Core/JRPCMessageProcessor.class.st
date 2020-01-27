@@ -11,7 +11,7 @@ Class {
 	#traits : 'JRPCParser',
 	#classTraits : 'JRPCParser classTrait',
 	#instVars : [
-		'handlersByName',
+		'handlers',
 		'debugMode'
 	],
 	#category : #'JRPC-Server-Core'
@@ -140,10 +140,4 @@ JRPCMessageProcessor >> initialize [
 JRPCMessageProcessor >> isClient [
 
 	^ false
-]
-
-{ #category : #'handlers management' }
-JRPCMessageProcessor >> removeHandlerNamed: aString [
-
-	handlersByName removeKey: aString ifAbsent: [ self error: 'Inexistant handler.' ]
 ]

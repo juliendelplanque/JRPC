@@ -77,9 +77,3 @@ JRPCAbstractMessageProcessor >> handledMethodsCount [
 JRPCAbstractMessageProcessor >> isLogger [
 	^ false
 ]
-
-{ #category : #removing }
-JRPCAbstractMessageProcessor >> removeHandlerNamed: aString [
-	"Removes the handler that as aString as name."
-	^ self subclassResponsibility
-]
