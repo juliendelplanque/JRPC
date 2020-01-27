@@ -24,6 +24,19 @@ JRPCAbstractHandler class >> defaultMethodName [
 	^ self subclassResponsibility
 ]
 
+{ #category : #comparing }
+JRPCAbstractHandler >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject
+		ifTrue: [ ^ true ].
+	self class = anObject class
+		ifFalse: [ ^ false ].
+	^ self methodName = anObject methodName
+		and: [ self isForNotification = anObject isForNotification
+			and: [ self isForRequest = anObject isForRequest ] ]
+]
+
 { #category : #testing }
 JRPCAbstractHandler >> canHandle: aRequestOrNotification [
 	^ (self isForRequest and: [ aRequestOrNotification isRequest ])
@@ -55,6 +68,14 @@ JRPCAbstractHandler >> executeWithArguments: anArrayOrDictionary [
 	^ self subclassResponsibility
 ]
 
+{ #category : #comparing }
+JRPCAbstractHandler >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
+
+	^ self isForNotification hash
+		bitXor: (self isForRequest hash bitXor: self methodName hash)
+]
+
 { #category : #initialization }
 JRPCAbstractHandler >> initialize [
 	super initialize.
@@ -68,8 +89,11 @@ JRPCAbstractHandler >> isForNotification [
 ]
 
 { #category : #accessing }
-JRPCAbstractHandler >> isForNotification: anObject [
-	isForNotification := anObject
+JRPCAbstractHandler >> isForNotification: aBoolean [
+	(aBoolean not and: [ self isForRequest not ])
+		ifTrue: [ self error: 'A handler must be for notification or for request. It can not refuse both!' ].
+		
+	isForNotification := aBoolean
 ]
 
 { #category : #accessing }
@@ -78,8 +102,11 @@ JRPCAbstractHandler >> isForRequest [
 ]
 
 { #category : #accessing }
-JRPCAbstractHandler >> isForRequest: anObject [
-	isForRequest := anObject
+JRPCAbstractHandler >> isForRequest: aBoolean [
+	(aBoolean not and: [ self isForNotification not ])
+		ifTrue: [ self error: 'A handler must be for notification or for request. It can not refuse both!' ].
+	
+	isForRequest := aBoolean
 ]
 
 { #category : #accessing }

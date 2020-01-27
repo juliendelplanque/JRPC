@@ -31,15 +31,15 @@ JRPCServerTest >> testAddHandler [
 	| handler |
 
 	self
-		assert: self messageProcessor handledMethodsCount equals: 1;
-		deny: ( self messageProcessor canHandleMethodNamed: 'mock' ).
+		assert: self messageProcessor handlersCount equals: 1;
+		should: [ self messageProcessor handlersDetect: [ :h | h methodName = 'mock' ] ] raise: NotFound.
 
 	handler := JRPCMockHandler new.
 	server addHandler: handler.
 
 	self
-		assert: self messageProcessor handledMethodsCount equals: 2;
-		assert: ( self messageProcessor canHandleMethodNamed: 'mock' )
+		assert: self messageProcessor handlersCount equals: 2;
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'mock' ] ] raise: NotFound
 ]
 
 { #category : #test }
@@ -52,7 +52,7 @@ JRPCServerTest >> testAddHandlerDuplicated [
 
 	self
 		should: [ server addHandler: handler ]
-		raise: JRPCNameOfHandlerIsAlreadyTaken
+		raise: JRPCDuplicatedHandlerError
 		withExceptionDo: [ :error | self assert: error handler equals: handler ]
 ]
 
@@ -61,12 +61,12 @@ JRPCServerTest >> testAddHandlerNamedBlock [
 
 	| block |
 
-	self assert: self messageProcessor handledMethodsCount equals: 1.
+	self assert: self messageProcessor handlersCount equals: 1.
 	block := [ :x | x ].
 	server addHandlerNamed: 'test' block: block.
 
-	self assert: self messageProcessor handledMethodsCount equals: 2.
-	self assert: ( self messageProcessor canHandleMethodNamed: 'test' )
+	self assert: self messageProcessor handlersCount equals: 2.
+	self shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'test' ] ] raise: NotFound.
 ]
 
 { #category : #test }
@@ -74,16 +74,16 @@ JRPCServerTest >> testAddHandlersFromPragmasIn [
 
 	| exampleStack |
 
-	self assert: self messageProcessor handledMethodsCount equals: 1.
+	self assert: self messageProcessor handlersCount equals: 1.
 
 	exampleStack := JRPCExampleStack new.
 	server addHandlersFromPragmasIn: exampleStack.
 
 	self
-		assert: self messageProcessor handledMethodsCount equals: 4;
-		assert: ( self messageProcessor canHandleMethodNamed: 'stack_top' );
-		assert: ( self messageProcessor canHandleMethodNamed: 'stack_pop' );
-		assert: ( self messageProcessor canHandleMethodNamed: 'stack_push' )
+		assert: self messageProcessor handlersCount equals: 4;
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_top' ] ] raise: NotFound;
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_pop' ] ] raise: NotFound;
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_push' ] ] raise: NotFound
 ]
 
 { #category : #test }
@@ -245,16 +245,4 @@ JRPCServerTest >> testInternalError [
 		'signaler' -> '1'.
 		'signalerContext' -> 'SmallInteger>>/'
 	} asDictionary
-]
-
-{ #category : #tests }
-JRPCServerTest >> testRemoveHandlerNamed [
-
-	self
-		assert: self messageProcessor handledMethodsCount equals: 1;
-		assert: ( self messageProcessor canHandleMethodNamed: 'setUpHandler' ).
-
-	server removeHandlerNamed: 'setUpHandler'.
-
-	self assert: self messageProcessor handledMethodsCount equals: 0
 ]

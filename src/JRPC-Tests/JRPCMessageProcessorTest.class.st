@@ -8,6 +8,85 @@ Class {
 }
 
 { #category : #test }
+JRPCMessageProcessorTest >> testAddHandler [
+	| messageProcessor handler |
+	messageProcessor := JRPCMessageProcessor new.
+	
+	self assert: messageProcessor handlers size equals: 0.
+	
+	handler := JRPCBlockHandler new
+					methodName: 'powerOf2';
+					block: [ :x | x ** 2 ];
+					yourself.
+	messageProcessor addHandler: handler.
+	
+	self assert: messageProcessor handlers size equals: 1.
+	self assert: messageProcessor handlers first == handler.
+]
+
+{ #category : #test }
+JRPCMessageProcessorTest >> testAddHandler2 [
+	| messageProcessor handler |
+	messageProcessor := JRPCMessageProcessor new.
+	
+	self assert: messageProcessor handlers size equals: 0.
+	
+	handler := JRPCBlockHandler new
+					methodName: 'powerOf2';
+					block: [ :x | x ** 2 ];
+					yourself.
+	messageProcessor addHandler: handler.
+	
+	self should: [ messageProcessor addHandler: handler ] raise: JRPCDuplicatedHandlerError.
+]
+
+{ #category : #test }
+JRPCMessageProcessorTest >> testAddHandler3 [
+	| messageProcessor handler handler2 |
+	messageProcessor := JRPCMessageProcessor new.
+	
+	self assert: messageProcessor handlers size equals: 0.
+	
+	handler := JRPCBlockHandler new
+					methodName: 'powerOf2';
+					block: [ :x | x ** 2 ];
+					yourself.
+	messageProcessor addHandler: handler.
+	
+	"Different handler with same name"
+	handler2 := JRPCBlockHandler new
+					methodName: 'powerOf2';
+					block: [ :x | x ** 2 ];
+					yourself.
+	
+	self should: [ messageProcessor addHandler: handler2 ] raise: JRPCDuplicatedHandlerError.
+]
+
+{ #category : #test }
+JRPCMessageProcessorTest >> testAddHandler4 [
+	| messageProcessor handler handler2 |
+	messageProcessor := JRPCMessageProcessor new.
+	
+	self assert: messageProcessor handlers size equals: 0.
+	
+	handler := JRPCBlockHandler new
+					methodName: 'foo';
+					block: [ :x | x ** 2 ];
+					isForRequest: false;
+					yourself.
+	messageProcessor addHandler: handler.
+	
+	"Different handler with same name"
+	handler2 := JRPCBlockHandler new
+					methodName: 'foo';
+					block: [ :x | x ** 2 ];
+					isForNotification: false;
+					yourself.
+	
+	self shouldnt: [ messageProcessor addHandler: handler2 ] raise: JRPCDuplicatedHandlerError.
+]
+
+{ #category : #test }
 JRPCMessageProcessorTest >> testDebugMode [
 	| messageProcessor |
 	messageProcessor := JRPCMessageProcessor new.
@@ -98,4 +177,22 @@ JRPCMessageProcessorTest >> testHandlerForHandlerThatDealWithRequestOnly [
 		assert: handler block equals: block.
 		
 	self should: [ messageProcessor handlerFor: (JRPCNotificationObject method: 'powerOf2') ] raise: JRPCNonExistentHandler.
+]
+
+{ #category : #test }
+JRPCMessageProcessorTest >> testRemoveHandler [
+	| messageProcessor handler |
+	messageProcessor := JRPCMessageProcessor new.
+	handler := JRPCBlockHandler new
+					methodName: 'powerOf2';
+					block: [ :x | x ** 2 ];
+					yourself.
+	messageProcessor addHandler: handler.
+	
+	self assert: messageProcessor handlers size equals: 1.
+	
+	messageProcessor removeHandler: handler.
+	
+	self assert: messageProcessor handlers size equals: 0.
+	
 ]

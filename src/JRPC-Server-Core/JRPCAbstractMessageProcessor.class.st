@@ -9,7 +9,7 @@ Class {
 	#category : #'JRPC-Server-Core'
 }
 
-{ #category : #adding }
+{ #category : #'handlers management' }
 JRPCAbstractMessageProcessor >> addHandler: aJRPCHandler [
 	"Adds aJRPCHandler to the list of available handlers."
 	self subclassResponsibility
@@ -41,14 +41,6 @@ JRPCAbstractMessageProcessor >> addHandlersFromPragmasIn: anObject [
 			]
 ]
 
-{ #category : #testing }
-JRPCAbstractMessageProcessor >> canHandleMethodNamed: methodName [
-	"Returns true if the message processor can handle the method named methodName.
-	 Else returns false.
-	"
-	^ self subclassResponsibility
-]
-
 { #category : #'handling - json' }
 JRPCAbstractMessageProcessor >> debugMode [
 	^ self subclassResponsibility
@@ -68,9 +60,20 @@ JRPCAbstractMessageProcessor >> handleJSON: aJSONString [
 ]
 
 { #category : #accessing }
-JRPCAbstractMessageProcessor >> handledMethodsCount [
-	"Returns the number of handled methods."
+JRPCAbstractMessageProcessor >> handlers [
+	"Returns the collection of handlers managed by myself."
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+JRPCAbstractMessageProcessor >> handlersCount [
+	"Returns the number of handlers managed by myself."
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+JRPCAbstractMessageProcessor >> handlersDetect: aBlock [
+	^ self handlers detect: aBlock
 ]
 
 { #category : #testing }
@@ -78,8 +81,8 @@ JRPCAbstractMessageProcessor >> isLogger [
 	^ false
 ]
 
-{ #category : #removing }
-JRPCAbstractMessageProcessor >> removeHandlerNamed: aString [
-	"Removes the handler that as aString as name."
-	^ self subclassResponsibility
+{ #category : #'handlers management' }
+JRPCAbstractMessageProcessor >> removeHandler: aJRPCHandler [
+	"Removes aJRPCHandler from the collection of managed handlers."
+	self subclassResponsibility
 ]

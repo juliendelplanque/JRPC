@@ -26,11 +26,6 @@ JRPCMessageProcessorDecorator >> addHandler: aJRPCHandler [
 	self decoratedMessageProcessor addHandler: aJRPCHandler
 ]
 
-{ #category : #testing }
-JRPCMessageProcessorDecorator >> canHandleMethodNamed: methodName [
-	^ self decoratedMessageProcessor canHandleMethodNamed: methodName
-]
-
 { #category : #'handling - json' }
 JRPCMessageProcessorDecorator >> debugMode [
 	^ self decoratedMessageProcessor debugMode
@@ -60,8 +55,18 @@ JRPCMessageProcessorDecorator >> handleJSON: aJSONString [
 ]
 
 { #category : #accessing }
-JRPCMessageProcessorDecorator >> handledMethodsCount [
-	^ self decoratedMessageProcessor handledMethodsCount
+JRPCMessageProcessorDecorator >> handlers [
+	^ self decoratedMessageProcessor handlers
+]
+
+{ #category : #accessing }
+JRPCMessageProcessorDecorator >> handlersCount [
+	^ self decoratedMessageProcessor handlersCount
+]
+
+{ #category : #'handlers management' }
+JRPCMessageProcessorDecorator >> removeHandler: aJRPCHandler [
+	self decoratedMessageProcessor removeHandler: aJRPCHandler
 ]
 
 { #category : #removing }

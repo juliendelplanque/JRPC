@@ -11,7 +11,7 @@ Class {
 	#traits : 'JRPCParser',
 	#classTraits : 'JRPCParser classTrait',
 	#instVars : [
-		'handlersByName',
+		'handlers',
 		'debugMode'
 	],
 	#category : #'JRPC-Server-Core'
@@ -20,18 +20,10 @@ Class {
 { #category : #'handlers management' }
 JRPCMessageProcessor >> addHandler: aJRPCHandler [
 
-	handlersByName
-		at: aJRPCHandler methodName
-		ifPresent: [ JRPCNameOfHandlerIsAlreadyTaken signalForHandler: aJRPCHandler ].
+	(self handlers includes: aJRPCHandler)
+		ifTrue: [ JRPCDuplicatedHandlerError signalForHandler: aJRPCHandler ].
 
-	handlersByName
-		at: aJRPCHandler methodName put: aJRPCHandler.
-]
-
-{ #category : #testing }
-JRPCMessageProcessor >> canHandleMethodNamed: methodName [
-
-	^ handlersByName includesKey: methodName
+	handlers add: aJRPCHandler
 ]
 
 { #category : #accessing }
@@ -109,30 +101,33 @@ JRPCMessageProcessor >> handleJSON: aJSONString [
 ]
 
 { #category : #accessing }
-JRPCMessageProcessor >> handledMethodsCount [
-
-	^ handlersByName size
-]
-
-{ #category : #accessing }
 JRPCMessageProcessor >> handlerFor: requestOrNotification [
-	| candidateHandler |
 	requestOrNotification method isString
 		ifFalse: [ JRPCIncorrectJSON signal ].
 
-	candidateHandler := handlersByName at: requestOrNotification method ifAbsent: [ JRPCNonExistentHandler signal: requestOrNotification method ].
-	
-	(candidateHandler canHandle: requestOrNotification)
-		ifFalse: [ JRPCNonExistentHandler signal: requestOrNotification method ].
-	
-	^ candidateHandler
+	^ handlers
+		detect: [ :handler | 
+			handler methodName = requestOrNotification method
+				and: [ handler canHandle: requestOrNotification ] ]
+		ifNone: [ JRPCNonExistentHandler signal: requestOrNotification method ]
+]
+
+{ #category : #'handlers management' }
+JRPCMessageProcessor >> handlers [
+	^ handlers
+]
+
+{ #category : #accessing }
+JRPCMessageProcessor >> handlersCount [
+
+	^ handlers size
 ]
 
 { #category : #initialization }
 JRPCMessageProcessor >> initialize [
 
 	super initialize.
-	handlersByName := Dictionary new.
+	handlers := OrderedCollection new.
 	self debugMode: false
 ]
 
@@ -143,7 +138,6 @@ JRPCMessageProcessor >> isClient [
 ]
 
 { #category : #'handlers management' }
-JRPCMessageProcessor >> removeHandlerNamed: aString [
-
-	handlersByName removeKey: aString ifAbsent: [ self error: 'Inexistant handler.' ]
+JRPCMessageProcessor >> removeHandler: aJRPCHandler [
+	handlers remove: aJRPCHandler
 ]
