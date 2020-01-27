@@ -20,12 +20,8 @@ Class {
 { #category : #'handlers management' }
 JRPCMessageProcessor >> addHandler: aJRPCHandler [
 
-	handlers
-		detect: [ :handler | 
-			handler methodName = aJRPCHandler methodName
-				and: [ handler isForRequest = aJRPCHandler isForRequest
-					and: [ handler isForNotification = aJRPCHandler isForNotification ] ] ]
-		ifFound: [ JRPCNameOfHandlerIsAlreadyTaken signalForHandler: aJRPCHandler ].
+	(self handlers includes: aJRPCHandler)
+		ifTrue: [ JRPCDuplicatedHandlerError signalForHandler: aJRPCHandler ].
 
 	handlers add: aJRPCHandler
 ]
