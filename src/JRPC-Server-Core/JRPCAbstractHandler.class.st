@@ -45,17 +45,10 @@ JRPCAbstractHandler >> canHandle: aRequestOrNotification [
 
 { #category : #'parameters-checking' }
 JRPCAbstractHandler >> checkParametersForRequest: aJRPCRequestObject [
-	aJRPCRequestObject params
-		ifNil: [ 
-			self parametersCount = 0
-				ifFalse: [ JRPCInvalidParameters signal ] ].
-	
-	(aJRPCRequestObject params ifNil: [ #() ]) size = self parametersCount
-		ifFalse: [ JRPCInvalidParameters signal ].
-		
-	(aJRPCRequestObject params isDictionary
-		and: [ ((aJRPCRequestObject params keys union: self parametersNames) size ~= self parametersCount) ])
-			ifTrue: [ JRPCInvalidParameters signal ]
+	"By default, no check is done.
+	 Subclasses should raise a JRPCInvalidParameters error if the params object of
+	 aJRPCRequestObject is invalid.
+	"
 ]
 
 { #category : #accessing }
@@ -117,16 +110,4 @@ JRPCAbstractHandler >> methodName [
 { #category : #accessing }
 JRPCAbstractHandler >> methodName: anObject [
 	methodName := anObject
-]
-
-{ #category : #accessing }
-JRPCAbstractHandler >> parametersCount [
-	"Returns the number of parameters expected by the handler."
-	^ self parametersNames size
-]
-
-{ #category : #accessing }
-JRPCAbstractHandler >> parametersNames [
-	"Returns the names of the parameters expected by the handler as a collection."
-	^ self subclassResponsibility
 ]
