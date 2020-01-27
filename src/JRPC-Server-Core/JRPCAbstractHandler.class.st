@@ -24,6 +24,19 @@ JRPCAbstractHandler class >> defaultMethodName [
 	^ self subclassResponsibility
 ]
 
+{ #category : #comparing }
+JRPCAbstractHandler >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject
+		ifTrue: [ ^ true ].
+	self class = anObject class
+		ifFalse: [ ^ false ].
+	^ self methodName = anObject methodName
+		and: [ self isForNotification = anObject isForNotification
+			and: [ self isForRequest = anObject isForRequest ] ]
+]
+
 { #category : #testing }
 JRPCAbstractHandler >> canHandle: aRequestOrNotification [
 	^ (self isForRequest and: [ aRequestOrNotification isRequest ])
@@ -53,6 +66,14 @@ JRPCAbstractHandler >> defaultMethodName [
 { #category : #evaluation }
 JRPCAbstractHandler >> executeWithArguments: anArrayOrDictionary [
 	^ self subclassResponsibility
+]
+
+{ #category : #comparing }
+JRPCAbstractHandler >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
+
+	^ self isForNotification hash
+		bitXor: (self isForRequest hash bitXor: self methodName hash)
 ]
 
 { #category : #initialization }
