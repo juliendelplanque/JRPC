@@ -31,14 +31,14 @@ JRPCServerTest >> testAddHandler [
 	| handler |
 
 	self
-		assert: self messageProcessor handledMethodsCount equals: 1;
+		assert: self messageProcessor handlersCount equals: 1;
 		should: [ self messageProcessor handlersDetect: [ :h | h methodName = 'mock' ] ] raise: NotFound.
 
 	handler := JRPCMockHandler new.
 	server addHandler: handler.
 
 	self
-		assert: self messageProcessor handledMethodsCount equals: 2;
+		assert: self messageProcessor handlersCount equals: 2;
 		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'mock' ] ] raise: NotFound
 ]
 
@@ -61,11 +61,11 @@ JRPCServerTest >> testAddHandlerNamedBlock [
 
 	| block |
 
-	self assert: self messageProcessor handledMethodsCount equals: 1.
+	self assert: self messageProcessor handlersCount equals: 1.
 	block := [ :x | x ].
 	server addHandlerNamed: 'test' block: block.
 
-	self assert: self messageProcessor handledMethodsCount equals: 2.
+	self assert: self messageProcessor handlersCount equals: 2.
 	self shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'test' ] ] raise: NotFound.
 ]
 
@@ -74,13 +74,13 @@ JRPCServerTest >> testAddHandlersFromPragmasIn [
 
 	| exampleStack |
 
-	self assert: self messageProcessor handledMethodsCount equals: 1.
+	self assert: self messageProcessor handlersCount equals: 1.
 
 	exampleStack := JRPCExampleStack new.
 	server addHandlersFromPragmasIn: exampleStack.
 
 	self
-		assert: self messageProcessor handledMethodsCount equals: 4;
+		assert: self messageProcessor handlersCount equals: 4;
 		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_top' ] ] raise: NotFound;
 		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_pop' ] ] raise: NotFound;
 		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_push' ] ] raise: NotFound

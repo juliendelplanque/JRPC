@@ -55,13 +55,13 @@ JRPCMessageProcessorDecorator >> handleJSON: aJSONString [
 ]
 
 { #category : #accessing }
-JRPCMessageProcessorDecorator >> handledMethodsCount [
-	^ self decoratedMessageProcessor handledMethodsCount
+JRPCMessageProcessorDecorator >> handlers [
+	^ self decoratedMessageProcessor handlers
 ]
 
 { #category : #accessing }
-JRPCMessageProcessorDecorator >> handlers [
-	^ self decoratedMessageProcessor handlers
+JRPCMessageProcessorDecorator >> handlersCount [
+	^ self decoratedMessageProcessor handlersCount
 ]
 
 { #category : #'handlers management' }

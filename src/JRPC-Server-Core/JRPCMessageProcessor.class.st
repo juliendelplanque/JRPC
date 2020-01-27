@@ -105,12 +105,6 @@ JRPCMessageProcessor >> handleJSON: aJSONString [
 ]
 
 { #category : #accessing }
-JRPCMessageProcessor >> handledMethodsCount [
-
-	^ handlers size
-]
-
-{ #category : #accessing }
 JRPCMessageProcessor >> handlerFor: requestOrNotification [
 	requestOrNotification method isString
 		ifFalse: [ JRPCIncorrectJSON signal ].
@@ -125,6 +119,12 @@ JRPCMessageProcessor >> handlerFor: requestOrNotification [
 { #category : #'handlers management' }
 JRPCMessageProcessor >> handlers [
 	^ handlers
+]
+
+{ #category : #accessing }
+JRPCMessageProcessor >> handlersCount [
+
+	^ handlers size
 ]
 
 { #category : #initialization }

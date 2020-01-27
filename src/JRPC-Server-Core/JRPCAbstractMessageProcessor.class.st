@@ -60,14 +60,14 @@ JRPCAbstractMessageProcessor >> handleJSON: aJSONString [
 ]
 
 { #category : #accessing }
-JRPCAbstractMessageProcessor >> handledMethodsCount [
-	"Returns the number of handled methods."
+JRPCAbstractMessageProcessor >> handlers [
+	"Returns the collection of handlers managed by myself."
 	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
-JRPCAbstractMessageProcessor >> handlers [
-	"Returns the collection of handlers managed by myself."
+JRPCAbstractMessageProcessor >> handlersCount [
+	"Returns the number of handlers managed by myself."
 	^ self subclassResponsibility
 ]
 
