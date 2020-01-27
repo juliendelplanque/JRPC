@@ -20,18 +20,14 @@ Class {
 { #category : #'handlers management' }
 JRPCMessageProcessor >> addHandler: aJRPCHandler [
 
-	handlersByName
-		at: aJRPCHandler methodName
-		ifPresent: [ JRPCNameOfHandlerIsAlreadyTaken signalForHandler: aJRPCHandler ].
+	handlers
+		detect: [ :handler | 
+			handler methodName = aJRPCHandler methodName
+				and: [ handler isForRequest = aJRPCHandler isForRequest
+					and: [ handler isForNotification = aJRPCHandler isForNotification ] ] ]
+		ifFound: [ JRPCNameOfHandlerIsAlreadyTaken signalForHandler: aJRPCHandler ].
 
-	handlersByName
-		at: aJRPCHandler methodName put: aJRPCHandler.
-]
-
-{ #category : #testing }
-JRPCMessageProcessor >> canHandleMethodNamed: methodName [
-
-	^ handlersByName includesKey: methodName
+	handlers add: aJRPCHandler
 ]
 
 { #category : #accessing }
@@ -111,28 +107,31 @@ JRPCMessageProcessor >> handleJSON: aJSONString [
 { #category : #accessing }
 JRPCMessageProcessor >> handledMethodsCount [
 
-	^ handlersByName size
+	^ handlers size
 ]
 
 { #category : #accessing }
 JRPCMessageProcessor >> handlerFor: requestOrNotification [
-	| candidateHandler |
 	requestOrNotification method isString
 		ifFalse: [ JRPCIncorrectJSON signal ].
 
-	candidateHandler := handlersByName at: requestOrNotification method ifAbsent: [ JRPCNonExistentHandler signal: requestOrNotification method ].
-	
-	(candidateHandler canHandle: requestOrNotification)
-		ifFalse: [ JRPCNonExistentHandler signal: requestOrNotification method ].
-	
-	^ candidateHandler
+	^ handlers
+		detect: [ :handler | 
+			handler methodName = requestOrNotification method
+				and: [ handler canHandle: requestOrNotification ] ]
+		ifNone: [ JRPCNonExistentHandler signal: requestOrNotification method ]
+]
+
+{ #category : #'handlers management' }
+JRPCMessageProcessor >> handlers [
+	^ handlers
 ]
 
 { #category : #initialization }
 JRPCMessageProcessor >> initialize [
 
 	super initialize.
-	handlersByName := Dictionary new.
+	handlers := OrderedCollection new.
 	self debugMode: false
 ]
 
@@ -140,4 +139,9 @@ JRPCMessageProcessor >> initialize [
 JRPCMessageProcessor >> isClient [
 
 	^ false
+]
+
+{ #category : #'handlers management' }
+JRPCMessageProcessor >> removeHandler: aJRPCHandler [
+	handlers remove: aJRPCHandler
 ]

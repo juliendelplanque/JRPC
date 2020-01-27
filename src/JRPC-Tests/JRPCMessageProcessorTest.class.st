@@ -8,6 +8,23 @@ Class {
 }
 
 { #category : #test }
+JRPCMessageProcessorTest >> testAddHandler [
+	| messageProcessor handler |
+	messageProcessor := JRPCMessageProcessor new.
+	
+	self assert: messageProcessor handlers size equals: 0.
+	
+	handler := JRPCBlockHandler new
+					methodName: 'powerOf2';
+					block: [ :x | x ** 2 ];
+					yourself.
+	messageProcessor addHandler: handler.
+	
+	self assert: messageProcessor handlers size equals: 1.
+	self assert: messageProcessor handlers first == handler.
+]
+
+{ #category : #test }
 JRPCMessageProcessorTest >> testDebugMode [
 	| messageProcessor |
 	messageProcessor := JRPCMessageProcessor new.
@@ -98,4 +115,22 @@ JRPCMessageProcessorTest >> testHandlerForHandlerThatDealWithRequestOnly [
 		assert: handler block equals: block.
 		
 	self should: [ messageProcessor handlerFor: (JRPCNotificationObject method: 'powerOf2') ] raise: JRPCNonExistentHandler.
+]
+
+{ #category : #test }
+JRPCMessageProcessorTest >> testRemoveHandler [
+	| messageProcessor handler |
+	messageProcessor := JRPCMessageProcessor new.
+	handler := JRPCBlockHandler new
+					methodName: 'powerOf2';
+					block: [ :x | x ** 2 ];
+					yourself.
+	messageProcessor addHandler: handler.
+	
+	self assert: messageProcessor handlers size equals: 1.
+	
+	messageProcessor removeHandler: handler.
+	
+	self assert: messageProcessor handlers size equals: 0.
+	
 ]

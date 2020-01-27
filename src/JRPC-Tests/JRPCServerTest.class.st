@@ -32,14 +32,14 @@ JRPCServerTest >> testAddHandler [
 
 	self
 		assert: self messageProcessor handledMethodsCount equals: 1;
-		deny: ( self messageProcessor canHandleMethodNamed: 'mock' ).
+		should: [ self messageProcessor handlersDetect: [ :h | h methodName = 'mock' ] ] raise: NotFound.
 
 	handler := JRPCMockHandler new.
 	server addHandler: handler.
 
 	self
 		assert: self messageProcessor handledMethodsCount equals: 2;
-		assert: ( self messageProcessor canHandleMethodNamed: 'mock' )
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'mock' ] ] raise: NotFound
 ]
 
 { #category : #test }
@@ -66,7 +66,7 @@ JRPCServerTest >> testAddHandlerNamedBlock [
 	server addHandlerNamed: 'test' block: block.
 
 	self assert: self messageProcessor handledMethodsCount equals: 2.
-	self assert: ( self messageProcessor canHandleMethodNamed: 'test' )
+	self shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'test' ] ] raise: NotFound.
 ]
 
 { #category : #test }
@@ -81,9 +81,9 @@ JRPCServerTest >> testAddHandlersFromPragmasIn [
 
 	self
 		assert: self messageProcessor handledMethodsCount equals: 4;
-		assert: ( self messageProcessor canHandleMethodNamed: 'stack_top' );
-		assert: ( self messageProcessor canHandleMethodNamed: 'stack_pop' );
-		assert: ( self messageProcessor canHandleMethodNamed: 'stack_push' )
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_top' ] ] raise: NotFound;
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_pop' ] ] raise: NotFound;
+		shouldnt: [ self messageProcessor handlersDetect: [ :h | h methodName = 'stack_push' ] ] raise: NotFound
 ]
 
 { #category : #test }
