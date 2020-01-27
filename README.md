@@ -36,7 +36,7 @@ To load the project in a Pharo image or declare it as a dependency of your proje
 
 ## Comparison with other JSON RPC implementations
 
-| Property     | JSONRPC            | LtJsonRpc          | NeoJSONRPC         |
+| Property     | JRPC               | LtJsonRpc          | NeoJSONRPC         |
 |--------------|--------------------|--------------------|--------------------|
 | Server       | :white_check_mark: | :white_check_mark: | :x:                |
 | Client       | :white_check_mark: | :white_check_mark: | :white_check_mark: |
