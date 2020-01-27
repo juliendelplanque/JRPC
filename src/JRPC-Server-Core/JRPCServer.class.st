@@ -66,6 +66,11 @@ JRPCServer >> messageProcessor [
 	^ messageProcessor
 ]
 
+{ #category : #accessing }
+JRPCServer >> messageProcessor: anObject [
+	messageProcessor := anObject
+]
+
 { #category : #'handlers management' }
 JRPCServer >> removeHandlerNamed: aString [
 
