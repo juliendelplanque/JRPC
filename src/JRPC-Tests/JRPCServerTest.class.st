@@ -52,7 +52,7 @@ JRPCServerTest >> testAddHandlerDuplicated [
 
 	self
 		should: [ server addHandler: handler ]
-		raise: JRPCNameOfHandlerIsAlreadyTaken
+		raise: JRPCDuplicatedHandlerError
 		withExceptionDo: [ :error | self assert: error handler equals: handler ]
 ]
 
