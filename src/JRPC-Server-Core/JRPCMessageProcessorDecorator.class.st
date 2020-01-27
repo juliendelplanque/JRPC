@@ -64,6 +64,11 @@ JRPCMessageProcessorDecorator >> handlers [
 	^ self decoratedMessageProcessor handlers
 ]
 
+{ #category : #'handlers management' }
+JRPCMessageProcessorDecorator >> removeHandler: aJRPCHandler [
+	self decoratedMessageProcessor removeHandler: aJRPCHandler
+]
+
 { #category : #removing }
 JRPCMessageProcessorDecorator >> removeHandlerNamed: aString [
 	^ self decoratedMessageProcessor removeHandlerNamed: aString
