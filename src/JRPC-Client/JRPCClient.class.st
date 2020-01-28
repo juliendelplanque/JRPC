@@ -82,11 +82,21 @@ JRPCClient >> sendNotification: aJRPCNotificationObject [
 
 { #category : #'private - sending' }
 JRPCClient >> sendRequest: aJRPCRequestObject [
-	"To be implemented by concrete subclasses.
-	 Sends aJRPCRequestObject to the server to which the client is connected.
+	"Sends aJRPCRequestObject to the server to which the client is connected.
 	 Returns a JRPCSuccessResponseObject if everything goes well.
 	 Returns a JRPCErrorResponse if something went wrong.
 	"
 	
+	| rawResult |
+	rawResult := self sendRequestContent: ( self convertJRPCJsonableObjectToJSON: aJRPCRequestObject asJRPCJSON ).
+	^ self parseSupposedJRPCMessageObjectFromString: rawResult
+]
+
+{ #category : #'private - sending' }
+JRPCClient >> sendRequestContent: aString [
+	"To be implemented by concrete subclasses.
+	 Sends aString (containing an encoded JRPC object) to the server to which the client is connected.
+	 Returns the String returned by the server.
+	"
 	^ self subclassResponsibility
 ]
