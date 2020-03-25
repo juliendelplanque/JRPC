@@ -6,11 +6,15 @@ Class {
 
 { #category : #baselines }
 BaselineOfJRPC >> baseline: spec [
+
 	<baseline>
 	spec
 		for: #pharo
 		do: [ self setUpPackages: spec.
-			spec group: 'CI' with: 'Tests' ]
+			spec
+				group: 'CI' with: 'Tests';
+				group: 'Development' with: 'Tests'
+			]
 ]
 
 { #category : #accessing }
@@ -40,12 +44,8 @@ BaselineOfJRPC >> setUpPackages: spec [
 		with: #('Server-Deployment' 'HTTP-Transport' 'TCP-Transport' 'Client-Deployment' 'JRPC-Server-Deprecated').
 		
 	spec
-		group: 'Development'
-		with: #('Deployment' 'Server-Logging').
-
-	spec
 		package: 'JRPC-Tests' with: [ spec requires: 'Deployment' ];
-		package: 'JRPC-Server-Logging-Tests'  with: [ spec requires: 'Development' ];
+		package: 'JRPC-Server-Logging-Tests'  with: [ spec requires: #('Deployment' 'Server-Logging') ];
 		group: 'Tests' with: #('JRPC-Tests' 'JRPC-Server-Logging-Tests')
 ]
 
