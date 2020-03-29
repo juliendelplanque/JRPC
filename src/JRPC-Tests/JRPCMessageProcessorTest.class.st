@@ -11,17 +11,17 @@ Class {
 JRPCMessageProcessorTest >> testAddHandler [
 	| messageProcessor handler |
 	messageProcessor := JRPCMessageProcessor new.
-	
+
 	self assert: messageProcessor handlers size equals: 0.
-	
+
 	handler := JRPCBlockHandler new
-					methodName: 'powerOf2';
-					block: [ :x | x ** 2 ];
-					yourself.
+		methodName: 'powerOf2';
+		block: [ :x | x ** 2 ];
+		yourself.
 	messageProcessor addHandler: handler.
-	
+
 	self assert: messageProcessor handlers size equals: 1.
-	self assert: messageProcessor handlers first == handler.
+	self assert: messageProcessor handlers first identicalTo: handler
 ]
 
 { #category : #test }

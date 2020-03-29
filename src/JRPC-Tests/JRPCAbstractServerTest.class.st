@@ -39,13 +39,13 @@ JRPCAbstractServerTest >> tearDown [
 	super tearDown
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 JRPCAbstractServerTest >> testDefaultPort [
 
 	self assert: server defaultPort equals: 4000
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 JRPCAbstractServerTest >> testNotification [
 
 	| notificationCount |
@@ -58,7 +58,7 @@ JRPCAbstractServerTest >> testNotification [
 	self assert: notificationCount equals: 1
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 JRPCAbstractServerTest >> testNotificationWithInvalidMethod [
 
 	| notificationCount |
@@ -71,7 +71,7 @@ JRPCAbstractServerTest >> testNotificationWithInvalidMethod [
 	self assert: notificationCount equals: 0
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 JRPCAbstractServerTest >> testRequestOnInvalidEndpoint [
 
 	| httpClient failed |
@@ -90,7 +90,7 @@ JRPCAbstractServerTest >> testRequestOnInvalidEndpoint [
 		assert: failed
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 JRPCAbstractServerTest >> testRequestWithoutParameters [
 
 	server addHandlerNamed: 'zero' block: [ 0 ].
@@ -98,7 +98,7 @@ JRPCAbstractServerTest >> testRequestWithoutParameters [
 	self assert: ( self newJRPCClient callMethod: 'zero' withId: 3 ) result equals: 0
 ]
 
-{ #category : #accessing }
+{ #category : #tests }
 JRPCAbstractServerTest >> testValidRequest [
 
 	server addHandlerNamed: 'sum' block: [ :a :b | a + b ].
