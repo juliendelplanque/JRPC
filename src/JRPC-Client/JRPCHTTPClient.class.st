@@ -42,6 +42,7 @@ JRPCHTTPClient >> sendRequest: aJRPCRequestObject [
 
 	result := httpClient
 		contents: ( self convertJRPCJsonableObjectToJSON: aJRPCRequestObject asJRPCJSON );
+		contentType: ZnMimeType applicationJson;
 		post.
 
 	^ self parseSupposedJRPCMessageObjectFromString: ( result ifNil: [ '' ] ifNotNil: #contents )
