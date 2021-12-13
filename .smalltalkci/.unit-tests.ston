@@ -2,14 +2,15 @@ SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
       #baseline : 'JRPC',
-      #directory : 'src',
+      #directory : '../src',
       #load : [ 'CI' ],
-      #platforms : [ #pharo ]
+      #platforms : [  #pharo ]
     }
   ],
   #testing : {
     #coverage : {
-       #packages : [ 'JRPC-Client' , 'JRPC-Server*' , 'JRPC-Tests' ]
+      #packages : [ 'JRPC*' ],
+      #format: #lcov
     }
   }
 }

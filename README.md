@@ -1,6 +1,9 @@
 # JRPC
-[![Build Status](https://travis-ci.org/juliendelplanque/JRPC.svg?branch=master)](https://travis-ci.org/juliendelplanque/JRPC)
-[![Coverage Status](https://coveralls.io/repos/github/juliendelplanque/JRPC/badge.svg?branch=master)](https://coveralls.io/github/juliendelplanque/JRPC?branch=master)
+
+[![Unit Tests](https://github.com/juliendelplanque/JRPC/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/juliendelplanque/JRPC/actions/workflows/unit-tests.yml)
+[![Coverage Status](https://codecov.io/github/juliendelplanque/JRPC/coverage.svg?branch=release-candidate)](https://codecov.io/gh/juliendelplanque/JRPC/branch/release-candidate)
+[![Baseline Groups](https://github.com/juliendelplanque/JRPC/actions/workflows/loading-groups.yml/badge.svg)](https://github.com/juliendelplanque/JRPC/actions/workflows/loading-groups.yml)
+
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Pharo version](https://img.shields.io/badge/Pharo-6.1-%23aac9ff.svg)](https://pharo.org/download)
 [![Pharo version](https://img.shields.io/badge/Pharo-7.0-%23aac9ff.svg)](https://pharo.org/download)
