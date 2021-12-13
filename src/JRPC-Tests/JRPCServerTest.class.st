@@ -98,6 +98,26 @@ JRPCServerTest >> testDebugMode [
 ]
 
 { #category : #tests }
+JRPCServerTest >> testErrorHandling [
+
+	| requestForInternalError errorWasRaised response |
+
+	errorWasRaised := false.
+
+	server
+		addHandlerNamed: 'divide' block: [ :x :y | x / y ];
+		addErrorHandler: [:error | errorWasRaised := true].
+
+	requestForInternalError := JRPCRequestObject id: 1 method: 'divide' params: #(1 0).
+	
+	response := server handleJRPCRequestObject: requestForInternalError.
+
+	self
+		assert: response isError;
+		assert: errorWasRaised
+]
+
+{ #category : #tests }
 JRPCServerTest >> testHandleJRPCRequestObject [
 	| requestForNonExistentHandler response |
 	requestForNonExistentHandler := JRPCRequestObject id: 1 method: 'setUpHandler'.

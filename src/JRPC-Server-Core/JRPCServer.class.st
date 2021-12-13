@@ -14,6 +14,12 @@ Class {
 }
 
 { #category : #'handlers management' }
+JRPCServer >> addErrorHandler: anErrorHandler [ 
+
+	self messageProcessor addErrorHandler: anErrorHandler 
+]
+
+{ #category : #'handlers management' }
 JRPCServer >> addHandler: aJRPCHandler [
 
 	self messageProcessor addHandler: aJRPCHandler

@@ -22,6 +22,12 @@ JRPCMessageProcessorDecorator class >> decorate: aMessageProcessor [
 ]
 
 { #category : #adding }
+JRPCMessageProcessorDecorator >> addErrorHandler: aBlock [
+
+	self decoratedMessageProcessor addErrorHandler: aBlock
+]
+
+{ #category : #adding }
 JRPCMessageProcessorDecorator >> addHandler: aJRPCHandler [
 	self decoratedMessageProcessor addHandler: aJRPCHandler
 ]
