@@ -1,7 +1,7 @@
 # JRPC
 
 [![Unit Tests](https://github.com/juliendelplanque/JRPC/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/juliendelplanque/JRPC/actions/workflows/unit-tests.yml)
-[![Coverage Status](https://codecov.io/github/juliendelplanque/JRPC/coverage.svg?branch=release-candidate)](https://codecov.io/gh/juliendelplanque/JRPC/branch/release-candidate)
+[![Coverage Status](https://codecov.io/github/juliendelplanque/JRPC/coverage.svg?branch=master)](https://codecov.io/gh/juliendelplanque/JRPC/branch/release-candidate)
 [![Baseline Groups](https://github.com/juliendelplanque/JRPC/actions/workflows/loading-groups.yml/badge.svg)](https://github.com/juliendelplanque/JRPC/actions/workflows/loading-groups.yml)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
