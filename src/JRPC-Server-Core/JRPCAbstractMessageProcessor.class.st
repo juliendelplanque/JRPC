@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #'handlers management' }
+JRPCAbstractMessageProcessor >> addErrorHandler: aBlock [
+
+	self subclassResponsibility
+]
+
+{ #category : #'handlers management' }
 JRPCAbstractMessageProcessor >> addHandler: aJRPCHandler [
 	"Adds aJRPCHandler to the list of available handlers."
 	self subclassResponsibility

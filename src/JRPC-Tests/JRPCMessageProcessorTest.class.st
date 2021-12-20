@@ -115,6 +115,65 @@ JRPCMessageProcessorTest >> testDebugModeDoNotCatchError [
 		raise: Error.
 ]
 
+{ #category : #'tests - error handlers' }
+JRPCMessageProcessorTest >> testErrorHandlersAreNotEvaluatedOnSuccess [
+
+	| messageProcessor response |
+	messageProcessor := JRPCMessageProcessor new.
+	messageProcessor
+		addHandlerNamed: 'success' block: [ 'Sucess!' ];
+		addErrorHandler: [ :error | self fail ].
+
+	response := messageProcessor handleJRPCRequestObject:
+		            (JRPCRequestObject new
+			             id: 1;
+			             method: 'success';
+			             yourself).
+
+	self deny: response isError
+]
+
+{ #category : #'tests - error handlers' }
+JRPCMessageProcessorTest >> testErrorHandlersAreNotEvaluatedWhenDebugModeIsEnabled [
+
+	| messageProcessor |
+	messageProcessor := JRPCMessageProcessor new.
+	messageProcessor
+		debugMode: true;
+		addHandlerNamed: 'error' block: [ 1 / 0 ];
+		addErrorHandler: [ :error | self fail ].
+
+	self
+		should: [ 
+			messageProcessor handleJRPCRequestObject: (JRPCRequestObject new
+					 id: 1;
+					 method: 'error';
+					 yourself) ]
+		raise: ZeroDivide
+]
+
+{ #category : #'tests - error handlers' }
+JRPCMessageProcessorTest >> testErrorHandling [
+
+	| messageProcessor errorWasRaised response |
+	errorWasRaised := false.
+
+	messageProcessor := JRPCMessageProcessor new.
+	messageProcessor
+		addHandlerNamed: 'error' block: [ Error signal ];
+		addErrorHandler: [ :error | errorWasRaised := true ].
+
+	response := messageProcessor handleJRPCRequestObject:
+		            (JRPCRequestObject new
+			             id: 1;
+			             method: 'error';
+			             yourself).
+
+	self
+		assert: response isError;
+		assert: errorWasRaised
+]
+
 { #category : #test }
 JRPCMessageProcessorTest >> testHandlerFor [
 	| messageProcessor block handler |
@@ -195,4 +254,27 @@ JRPCMessageProcessorTest >> testRemoveHandler [
 	
 	self assert: messageProcessor handlers size equals: 0.
 	
+]
+
+{ #category : #'tests - error handlers' }
+JRPCMessageProcessorTest >> testSeveralErrorHandlers [
+
+	| messageProcessor response errorCount |
+	errorCount := 0.
+
+	messageProcessor := JRPCMessageProcessor new.
+	messageProcessor
+		addHandlerNamed: 'error' block: [ Error signal ];
+		addErrorHandler: [ :error | errorCount := errorCount + 1 ];
+		addErrorHandler: [ :error | errorCount := errorCount + 1 ].
+
+	response := messageProcessor handleJRPCRequestObject:
+		            (JRPCRequestObject new
+			             id: 1;
+			             method: 'error';
+			             yourself).
+
+	self
+		assert: response isError;
+		assert: errorCount equals: 2
 ]

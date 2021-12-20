@@ -12,10 +12,17 @@ Class {
 	#classTraits : 'JRPCParser classTrait',
 	#instVars : [
 		'handlers',
-		'debugMode'
+		'debugMode',
+		'errorHandlers'
 	],
 	#category : #'JRPC-Server-Core'
 }
+
+{ #category : #'handlers management' }
+JRPCMessageProcessor >> addErrorHandler: aBlock [
+
+	errorHandlers add: aBlock
+]
 
 { #category : #'handlers management' }
 JRPCMessageProcessor >> addHandler: aJRPCHandler [
@@ -32,8 +39,22 @@ JRPCMessageProcessor >> debugMode [
 ]
 
 { #category : #accessing }
-JRPCMessageProcessor >> debugMode: anObject [
-	debugMode := anObject
+JRPCMessageProcessor >> debugMode: aBoolean [
+	debugMode := aBoolean
+]
+
+{ #category : #private }
+JRPCMessageProcessor >> handleErrorsDuring: aBlock for: aJRPCRequestObject [
+
+	^ self debugMode
+		  ifTrue: aBlock
+		  ifFalse: [ 
+			  aBlock
+				  on: Error
+				  do: [ :jrpcError | 
+					  errorHandlers do: [ :handler | handler cull: jrpcError ].
+					  jrpcError return:
+						  (aJRPCRequestObject convertErrorToResponse: jrpcError) ] ]
 ]
 
 { #category : #'handling - jrpc' }
@@ -68,18 +89,16 @@ JRPCMessageProcessor >> handleJRPCNotificationObject: aJRPCNotificationObject [
 { #category : #'handling - jrpc' }
 JRPCMessageProcessor >> handleJRPCRequestObject: aJRPCRequestObject [
 
-	^ [ | handler result |
-
-	handler := self handlerFor: aJRPCRequestObject.
-	handler checkParametersForRequest: aJRPCRequestObject.
-	result := handler executeWithArguments: aJRPCRequestObject params.
-	JRPCSuccessResponseObject id: aJRPCRequestObject id result: result
-	]
-		on: Error
-		do: [ :jrpcError | 
-			self debugMode
-				ifTrue: [ jrpcError pass ]
-				ifFalse: [ jrpcError return: ( aJRPCRequestObject convertErrorToResponse: jrpcError ) ] ]
+	^ self
+		  handleErrorsDuring: [ 
+			  | handler result |
+			  handler := self handlerFor: aJRPCRequestObject.
+			  handler checkParametersForRequest: aJRPCRequestObject.
+			  result := handler executeWithArguments: aJRPCRequestObject params.
+			  JRPCSuccessResponseObject
+				  id: aJRPCRequestObject id
+				  result: result ]
+		  for: aJRPCRequestObject
 ]
 
 { #category : #'handling - json' }
@@ -128,6 +147,7 @@ JRPCMessageProcessor >> initialize [
 
 	super initialize.
 	handlers := OrderedCollection new.
+	errorHandlers := OrderedCollection new.
 	self debugMode: false
 ]
 
