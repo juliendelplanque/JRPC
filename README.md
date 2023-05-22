@@ -10,8 +10,10 @@
 [![Pharo version](https://img.shields.io/badge/Pharo-8.0-%23aac9ff.svg)](https://pharo.org/download)
 [![Pharo version](https://img.shields.io/badge/Pharo-9.0-%23aac9ff.svg)](https://pharo.org/download)
 [![Pharo 10](https://img.shields.io/badge/Pharo-10-%23aac9ff.svg)](https://pharo.org/download)
+[![Pharo 11](https://img.shields.io/badge/Pharo-11-%23aac9ff.svg)](https://pharo.org/download)
 
-Yet another [JSON-RPC 2.0](https://www.jsonrpc.org/specification) implementation for Pharo Smalltalk
+Yet another [JSON-RPC 2.0](https://www.jsonrpc.org/specification) implementation
+for [Pharo Smalltalk](https://www.pharo.org)
 
 - [Features](#features)
 - [Installation](#installation)
@@ -20,15 +22,16 @@ Yet another [JSON-RPC 2.0](https://www.jsonrpc.org/specification) implementation
 - [Contributing](#contributing)
 
 ## Features
+
 - Client and Server support for JSON-RPC 2.0.
-- Only depends on Pharo's built-in packages.
-- Uses STONJSON to parse JSON internally.
+- Only depend on Pharo's built-in packages.
+- Uses `STONJSON` to parse JSON internally.
 - Transport agnostic (like JSON-RPC 2.0 spec claims).
 - Can currently be used over
   - HTTP
   - TCP
 - It is easy to add other transport layers.
-- Additional `data` when an error occured in the `error` object.
+- Additional `data` when an error occurred in the `error` object.
 
 ## Examples
 
