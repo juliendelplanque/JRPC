@@ -15,7 +15,7 @@ Ids allow to map responses returned by the server to requests sent by the client
 Ids are managed by the developer using the client.
 
 ## Server
-To create a server using HTTP protocol, listening on port 4000 and defining an handler for `'sqrt'` which computes the square-root of its single paramter, one can write the following:
+To create a server using HTTP protocol, listening on port 4000 and defining an handler for `'sqrt'` which computes the square-root of its single parameter, one can write the following:
 
 ```Smalltalk
 server := JRPCServer http
