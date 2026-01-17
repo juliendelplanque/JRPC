@@ -17,3 +17,7 @@ Message handlers are responsible of executing the code related to a JRPC method.
 
 - `JRPCBlockHandler` instances are created with a block closure that will be evaluated to compute the method. The parameter names are taken from the block parameters names.
 - `JRPCPragmaHandler` instances will search for methods with the `<jrpc>` pragma. Subclasses must define `defaultMethodName` returning the name of the remote method to execute, and the code to be executed is the one in the method including the pragma. The parameter names are taken from the method including the pragma.
+
+This is the UML sequence diagram of how a JSON-RPC server processes a message: 
+
+<img width="1380" height="997" alt="UML sequence diagram for processing a JRCP request" src="pharo-jrcp-uml.png" />

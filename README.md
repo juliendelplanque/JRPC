@@ -30,13 +30,17 @@ Yet another [JSON-RPC 2.0](https://www.jsonrpc.org/specification) implementation
 - It is easy to add other transport layers.
 - Additional `data` when an error occured in the `error` object.
 
+## Installation
+
+To load the project in a Pharo image or declare it as a dependency of your project follow this [instructions](docs/Installation.md).
+
 ## Examples
 
 Explore the [documentation](docs/Examples.md)
 
-## Installation
+## Implementation details
 
-To load the project in a Pharo image or declare it as a dependency of your project follow this [instructions](docs/Installation.md).
+See how [message processing](docs/MessageProcessing.md) works in detail.
 
 ## Comparison with other JSON RPC implementations
 
