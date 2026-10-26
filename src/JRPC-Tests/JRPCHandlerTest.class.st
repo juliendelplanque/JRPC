@@ -43,3 +43,15 @@ JRPCHandlerTest >> testParametersNames [
 	
 	self assertCollection: handler parametersNames equals: #(#x #y)
 ]
+
+{ #category : #test }
+JRPCHandlerTest >> testParametersNamesOfInheritedMethod [
+	| handler |
+	handler := JRPCMessageSendHandler new
+						methodName: 'between';
+						messageSelector: #between:and:;
+						receiver: 1;
+						yourself.
+						
+	self assertCollection: handler parametersNames equals: #(#min #max)
+]

@@ -71,7 +71,7 @@ JRPCMessageSendHandler >> parametersCount [
 
 { #category : #accessing }
 JRPCMessageSendHandler >> parametersNames [
-	^ (self receiver class >> self messageSelector) argumentNames
+	^ (self receiver class lookupSelector: self messageSelector) argumentNames
 ]
 
 { #category : #accessing }
